@@ -76,6 +76,10 @@
   th,td{border-bottom:1px solid var(--line);padding:6px 8px;text-align:left}
   tr.sel{background:rgba(47,158,91,.12);font-weight:700}
   .note{color:var(--warn);font-size:.85rem}
+  .about{background:var(--panel);border:1px solid var(--line);border-left:4px solid var(--acc);border-radius:10px;padding:10px 16px;margin:0 0 14px}
+  .about h2{font-size:1.05rem;margin:2px 0 6px}
+  .about p{margin:4px 0;font-size:.9rem}
+  .about .sub{color:var(--mut);font-size:.82rem}
   .bars{position:relative;display:flex;gap:4px;height:90px;align-items:flex-end}
   .bars div{flex:1;height:100%;display:flex;flex-direction:column;justify-content:flex-end;align-items:center}
   .bars span{width:100%;background:var(--blue);border-radius:3px 3px 0 0;min-height:1px}
@@ -127,8 +131,27 @@
       </div>
     </aside>
   </div>
-  <div id="view-fax" class="page" hidden><div id="fax"></div></div>
-  <div id="view-eval" class="page" hidden><div id="eval"></div></div>
+  <div id="view-fax" class="page" hidden>
+    <div class="about">
+      <h2>📠 발송 기록 — 거래처로 실제로 나간 발주서</h2>
+      <p>에이전트가 <b>되돌릴 수 없는 일</b>(발주서 팩스 발송)을 한 기록입니다. 🤖 <b>자동</b>은 승인 기준에 걸리지 않아 사람을 거치지 않고 나간 건,
+         👤 <b>팀장</b>은 결재함에서 멈췄다가 내가 승인·수정해서 나간 건입니다. 수정 승인이면 AI가 정한 원래 수량을 괄호로 보여 줍니다.</p>
+      <p class="sub">위에서 고른 주(<b id="fax-week"></b>)의 기록 중, 사무실 장면에서 <b>팩스 탁자에 도착한 서류만</b> 보입니다 — 재연이 진행되면 한 줄씩 늘어납니다.
+         반려한 건은 나가지 않았으므로 여기에 없습니다.</p>
+    </div>
+    <div id="fax"></div>
+  </div>
+  <div id="view-eval" class="page" hidden>
+    <div class="about">
+      <h2>📊 기준 검증 — 승인 기준을 왜 이렇게 정했나</h2>
+      <p>플레이와 상관없는 <b>고정된 실험 결과</b>입니다. 실제 gpt-4.1-mini 판단 1,000회(개발 주 3회 반복 · 검증 주 2개)를
+         <b>실제 다음 주 판매량</b>과 비교해, 기준마다 사람이 몇 건을 봐야 하고(개입률) 무엇을 놓치는지 셌습니다.</p>
+      <p class="sub"><b>놓침</b> = 사람이 봤어야 하는데 자동으로 나간 건(가장 비싼 실수) · <b>헛멈춤</b> = 안 봐도 되는데 멈춘 건.
+         기준은 <b>실행 전에 정한 규칙</b>(개입률 25% 이하 중 놓친 손해가 가장 작은 것)으로 개발 주에서 고르고, 검증 주에는 그대로 적용했습니다.
+         강조된 줄이 지금 사무실에서 쓰는 기준입니다.</p>
+    </div>
+    <div id="eval"></div>
+  </div>
 </main>
 <dialog id="modal"><form method="dialog" class="x"><button aria-label="닫기">✕</button></form><div id="detail"></div></dialog>
 <script type="module" src="src/main.js"></script>

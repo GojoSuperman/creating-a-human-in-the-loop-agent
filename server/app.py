@@ -187,8 +187,11 @@ def create_app(store_url_=None, checkpoint_url_=None, runs_dir=RUNS, weeks_dir=D
             raise HTTPException(400, str(e))
 
     @app.get("/api/faxlog")
-    def faxlog(x_session: str | None = Header(None)):
-        return {"items": store.fax_list(need_session(x_session))}
+    def faxlog(week: str | None = None, x_session: str | None = Header(None)):
+        items = store.fax_list(need_session(x_session))
+        for it in items:                      # thread_id = <세션>:<주>:<상품코드>
+            _, it["week"], it["code"] = it["thread_id"].split(":", 2)
+        return {"items": [it for it in items if week is None or it["week"] == week]}
 
     @app.get("/api/eval")
     def eval_doc():

@@ -125,3 +125,12 @@ def test_session_info(client):
     s = session(client)
     assert client.get("/api/session-info", headers=h(s)).json()["weeks"] == [W]
     assert client.get("/api/session-info").status_code == 401
+
+
+def test_faxlog_filters_by_week(client):
+    s = session(client)
+    client.post("/api/run", json={"week": W}, headers=h(s))
+    assert len(client.get(f"/api/faxlog?week={W}", headers=h(s)).json()["items"]) == 1
+    assert client.get("/api/faxlog?week=1999-01-04", headers=h(s)).json()["items"] == []
+    it = client.get(f"/api/faxlog?week={W}", headers=h(s)).json()["items"][0]
+    assert it["code"] == "70001"

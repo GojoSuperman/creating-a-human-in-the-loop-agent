@@ -34,6 +34,7 @@ export class Office {
   log(t) { this.last = t; }
   // 결재함 탁자에 실제로 놓여 있는가 — 재연 기록이 없는 서류(새로고침한 세션)는 있다고 본다
   inTray(code) { const d = this.docs.get(code); return d ? !!d.inTray : true; }
+  atFax(code) { const d = this.docs.get(code); return d ? !!d.atFax : true; }     // 팩스 탁자에 놓였는가
 
   // 설명란 — 지금 어느 단계가 돌고 있는지 (화면 왼쪽 위)
   status() {
@@ -109,7 +110,7 @@ export class Office {
                       { drop: () => {
                           d.stage = "done";
                           if (stop) { this.counts.pending++; d.inTray = true; this.log(`최 검사관: 「${d.name}」 ${d.branch.failed ? "판단 실패" : d.branch.texts.join(", ")} → 결재함 (멈춤)`); }
-                          else { this.counts.sent++; this.autoSent++; this.log(`최 검사관: 「${d.name}」 기준 통과 → 팩스 자동 발송`); }
+                          else { this.counts.sent++; this.autoSent++; d.atFax = true; this.log(`최 검사관: 「${d.name}」 기준 통과 → 팩스 자동 발송`); }
                         } },
                       { walk: insp.home });
       }
@@ -125,7 +126,7 @@ export class Office {
         boss.ops.push({ say: j.say, state: j.to === "trash" ? "waiting" : "done" }, { walk: WALK[j.to] },
                       { drop: () => {
                           this.log(`팀장(나): 「${d.name}」 ${j.say.split("\n")[0]}`);
-                          if (j.to === "fax") this.counts.sent++;
+                          if (j.to === "fax") { this.counts.sent++; d.atFax = true; }
                           else if (j.to === "trash") this.counts.rejected++;
                           else { d.stage = "atInsp"; d.branch = null; }     // 다시 판정 — 검사관이 새 결과로 다시 본다
                         } },

@@ -76,7 +76,8 @@ export async function renderDetail(el, tid, onDone) {
 }
 
 export function renderFax(el, items) {
-  el.innerHTML = `<table><tr><th>시각</th><th>상품</th><th>수량</th><th>금액</th><th>누가</th><th>상태</th></tr>${
+  if (!items.length) { el.innerHTML = `<p class="empty">아직 팩스 탁자에 도착한 발주서가 없습니다.</p>`; return; }
+  el.innerHTML = `<p class="sub">${items.length}건 · 🤖 자동 ${items.filter(f => f.po.by === "auto").length} · 👤 팀장 ${items.filter(f => f.po.by !== "auto").length}</p><table><tr><th>시각</th><th>상품</th><th>수량</th><th>금액</th><th>누가</th><th>상태</th></tr>${
     items.slice().reverse().map(f => `<tr><td>${new Date(f.sent_at * 1000).toLocaleTimeString()}</td>
       <td>${esc(f.po.name_ko || f.po.name_en)}</td>
       <td>${f.po.qty.toLocaleString()}${f.po.ai_qty !== f.po.qty ? ` <small>(AI ${f.po.ai_qty})</small>` : ""}</td>

@@ -138,3 +138,14 @@ function run(n, stopEvery, human = []) {
   assert.equal(o.counts.rejected, 1); assert.ok(atHome());
   console.log("ok 9 — 누르면 집어 오고, 닫으면 도로 두고, 결재하면 나르고 자리로");
 }
+// 10) 발송 기록은 팩스 탁자에 '실제로 놓인' 서류만
+{
+  const o = new Office();
+  for (let i = 0; i < 8; i++) { o.push({ type: "judged", code: "X" + i, name: "x", qty: 1 }); o.push({ type: "sent", code: "X" + i, by: "auto" }); }
+  for (let t = 0; t < 15000; t += 50) o.tick(50);
+  const arrived = [0,1,2,3,4,5,6,7].filter(i => o.atFax("X" + i)).length;
+  assert.equal(arrived, o.status().stage.auto, "팩스에 놓인 수 = 자동 발송 수");
+  assert.ok(arrived < 8, `아직 다 도착하지 않았다 (${arrived})`);
+  assert.ok(o.atFax("UNKNOWN"), "재연 기록이 없는 서류는 도착한 것으로 본다");
+  console.log(`ok 10 — 팩스 도착 ${arrived}건`);
+}

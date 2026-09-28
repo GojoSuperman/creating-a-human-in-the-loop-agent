@@ -68,7 +68,7 @@ async function refresh() {
   office.setCounts({ pending: sm.pending, sent: (sm.counts.auto_sent || 0) + (sm.counts.approved || 0) + (sm.counts.edited || 0),
                      rejected: sm.counts.rejected || 0, auto: sm.counts.auto_sent || 0 });
   renderPanel();
-  if ($("#tab-fax").classList.contains("on")) renderFax($("#fax"), (await api("/api/faxlog")).items);
+  if ($("#tab-fax").classList.contains("on")) await showFax();
 }
 
 // 설명란 — 에이전트의 다섯 단계와 지금 하는 일 (교재 개념과 함께)
@@ -96,6 +96,14 @@ function renderStatus() {
   </ol>${st.doing.length || st.last ? `<div class="doing">${st.doing.map(d => `<p>▶ ${d}</p>`).join("")}${st.last ? `<p class="last">방금: ${st.last}</p>` : ""}</div>` : ""}`;
 }
 
+// 발송 기록 — 고른 주 중 장면에서 팩스 탁자에 도착한 서류만
+async function showFax() {
+  $("#fax-week").textContent = week || "-";
+  if (!week) return renderFax($("#fax"), []);
+  const r = await api(`/api/faxlog?week=${week}`);
+  renderFax($("#fax"), r.items.filter(it => office.atFax(it.code)));
+}
+
 let pending = null;
 const soon = () => { clearTimeout(pending); pending = setTimeout(refresh, 400); };
 
@@ -104,7 +112,7 @@ function tab(name) {
     $(`#tab-${t}`).classList.toggle("on", t === name);
     $(`#view-${t}`).hidden = t !== name;
   }
-  if (name === "fax") api("/api/faxlog").then(r => renderFax($("#fax"), r.items));
+  if (name === "fax") showFax();
   if (name === "eval") renderEval($("#eval"), evalDoc);
 }
 
@@ -162,7 +170,12 @@ async function main() {
   if (location.hash.includes("fax")) tab("fax");
   renderStatus(); setInterval(renderStatus, 250);
   let trayN = -1;
-  setInterval(() => { const n = office.counts.pending; if (n !== trayN) { trayN = n; soon(); } }, 300);   // 탁자 도착 → 패널 갱신
+  let faxN = -1;
+  setInterval(() => {
+    const n = office.counts.pending; if (n !== trayN) { trayN = n; soon(); }          // 결재함 도착 → 패널 갱신
+    const f = office.counts.sent;                                                    // 팩스 도착 → 발송 기록 갱신
+    if (f !== faxN) { faxN = f; if ($("#tab-fax").classList.contains("on")) showFax(); }
+  }, 300);
   let last = performance.now();
   (function loop(t) { office.tick(t - last); last = t; draw(canvas, { ...view(), frame: office.frame(), grid }); requestAnimationFrame(loop); })(last);
 }

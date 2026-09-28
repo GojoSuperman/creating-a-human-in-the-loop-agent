@@ -32,8 +32,9 @@ export const STATIONS = {
 
 export const PROPS = [
   ...DESK_X.flatMap(c => [
-    { col: c, row: 2.6, sprite: "desk" },
-    { col: c, row: 2.6, sprite: "computerScreen", layer: 1.2, dy: DESK_TOP - 8, dx: 68, mirror: true },
+    // 서랍 면이 캐릭터(오른쪽 아래)를 보게 제자리 뒤집기 — 사용자 배치안과 겹쳐 재서 맞춘 값
+    { col: c + 0.57, row: 2.75, sprite: "desk", mirror: true },
+    { col: c + 0.33, row: 2.88, sprite: "computerScreen", layer: 1.2, dy: DESK_TOP - 8, dx: 68, mirror: true },
     { col: c + 0.8, row: 3.0, sprite: "trashcan" },
   ]),
   // 팀장 코너책상 + 모니터 + 작은 화분 + 휴지통

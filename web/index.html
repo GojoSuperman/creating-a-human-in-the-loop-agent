@@ -23,6 +23,10 @@
   button.on{background:var(--acc);color:#fff;border-color:var(--acc)}
   .tabs{display:flex;gap:4px}
   #combo{color:var(--mut);font-size:.8rem}
+  #modebar{padding:6px 16px;font-size:.8rem;border-bottom:1px solid var(--line);color:var(--mut)}
+  #modebar b{color:var(--fg)}
+  #modebar.live{background:rgba(47,158,91,.12);color:var(--fg)}
+  #modebar.live b{color:var(--go)}
   #summary{display:flex;gap:6px;flex-wrap:wrap;padding:6px 16px;border-bottom:1px solid var(--line)}
   .chip{border:1px solid var(--line);border-radius:999px;padding:1px 10px;font-size:.85rem;background:var(--panel)}
   .chip b{font-size:1rem}.chip-auto b{color:var(--go)}.chip-wait b{color:var(--no)}.chip-rej b{color:var(--mut)}
@@ -102,12 +106,16 @@
     <button id="tab-eval">📊 기준 검증</button>
   </div>
   <select id="week" aria-label="주"></select>
+  <select id="mode" aria-label="판단 방식" title="녹화: 미리 돌려 둔 판단 재생 · 라이브: 내 키로 지금 새로 판단">
+    <option value="replay">🎞 녹화 재생</option><option value="live">🟢 라이브</option>
+  </select>
   <button id="run">▶ 이번 주 처리</button>
   <button data-speed="1" class="on">1×</button><button data-speed="4">4×</button><button data-speed="10">10×</button><button data-speed="skip">⏭ 건너뛰기</button>
   <button id="reset">↺ 처음부터</button>
   <button id="key">🔑 내 키</button>
   <span id="combo" title="적용 중인 승인 기준"></span>
 </header>
+<div id="modebar"></div>
 <div id="summary"></div>
 <main>
   <div id="view-office">

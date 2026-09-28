@@ -134,3 +134,19 @@ def test_faxlog_filters_by_week(client):
     assert client.get("/api/faxlog?week=1999-01-04", headers=h(s)).json()["items"] == []
     it = client.get(f"/api/faxlog?week={W}", headers=h(s)).json()["items"][0]
     assert it["code"] == "70001"
+
+
+def test_live_run_judges_with_visitor_key(client, monkeypatch):
+    from tests.helpers import FakeLLM
+    made = []
+
+    def fake_llm(key, model=None):
+        made.append(key)
+        return FakeLLM([mk_j(10)])            # 전부 평소 수량 → 자동 발송
+    monkeypatch.setattr("server.app.OpenAILLM", fake_llm)
+    s = session(client)
+    r = client.post("/api/run", json={"week": W, "live": True}, headers=h(s, "sk-test-visitor"))
+    assert r.status_code == 202
+    assert "sk-test-visitor" in made
+    sm = client.get(f"/api/summary?week={W}", headers=h(s)).json()
+    assert sm["total"] == 3 and sm["counts"].get("auto_sent") == 3     # 녹화본(1자동·2대기)과 다른 결과

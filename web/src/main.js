@@ -84,8 +84,8 @@ function renderChips() {                         // 자동 발송·대기는 장
 function renderStatus() {
   renderChips();
   const st = office.status(), on = k => (st.active.includes(k) ? "on" : "");
-  $("#st-wave").textContent = st.waves ? `묶음 ${st.wave} / ${st.waves} (5건씩)`
-    : lastTotal ? `— 이번 주 처리 완료 (${lastTotal}건)` : "— ▶ 이번 주 처리를 누르세요";
+  $("#st-wave").textContent = (st.waves && liveRun ? "🟢 라이브 · " : st.waves ? "🎞 녹화 · " : "") + (st.waves ? `묶음 ${st.wave} / ${st.waves} (5건씩)`
+    : lastTotal ? `— 이번 주 처리 완료 (${lastTotal}건)` : "— ▶ 이번 주 처리를 누르세요");
   const row = (k, no, name, desc, n) => `<li class="${on(k)}"><span class="no">${no}</span><b>${name}</b><span>${desc}</span><span class="n">${n}</span></li>`;
   $("#st-body").innerHTML = `<ol>
     ${row("door", "1", "입고", "문 앞에 묶음 도착", st.stage.door ? `${st.stage.door}건` : "")}
@@ -102,6 +102,22 @@ async function showFax() {
   if (!week) return renderFax($("#fax"), []);
   const r = await api(`/api/faxlog?week=${week}`);
   renderFax($("#fax"), r.items.filter(it => office.atFax(it.code)));
+}
+
+// 판단 방식 — 녹화 재생 / 라이브 (내 키로 지금 새로 판단)
+let liveRun = false;
+function renderMode() {
+  const opt = $("#mode option[value=live]");
+  opt.disabled = !S.key; opt.textContent = S.key ? "🟢 라이브" : "🟢 라이브 (🔑 키 필요)";
+  if (!S.key && $("#mode").value === "live") $("#mode").value = "replay";
+  const live = $("#mode").value === "live", bar = $("#modebar");
+  bar.classList.toggle("live", live);
+  bar.innerHTML = live
+    ? `<b>🟢 라이브</b> — ▶ 이번 주 처리를 누르면 <b>내 OpenAI 키</b>로 gpt-4.1-mini가 200건을 <b>지금 새로</b> 판단합니다.
+       같은 주라도 녹화본과 발주량·이유가 달라질 수 있어(LLM은 확률적) 멈추는 건도 바뀝니다.
+       약 200회 호출 · 약 $0.05 · 키는 이 브라우저에만 저장되고 서버에 남지 않습니다. 이미 처리한 주는 ↺ 처음부터 후 실행하세요.`
+    : `<b>🎞 녹화 재생</b> — 미리 돌려 둔 <b>실제 gpt-4.1-mini 판단</b>(runs/)을 재생합니다. 비용 없음 · 누구나 같은 결과.
+       ${S.key ? "라이브로 새로 판단하려면 위에서 🟢 라이브를 고르세요." : "🔑 내 키를 넣으면 🟢 라이브(지금 새로 판단)와 🔁 다시 판정을 쓸 수 있습니다."}`;
 }
 
 let pending = null;
@@ -124,12 +140,15 @@ async function main() {
   sel.onchange = () => { week = sel.value; refresh(); };
   $("#combo").textContent = `승인 기준: ${(info.combo || []).join(" · ")}`;
   ruleText = (info.combo || []).map(ruleKo).join(" 또는 ");
+  $("#mode").onchange = renderMode;
   $("#run").onclick = async () => {
-    try { await api("/api/run", { method: "POST", body: JSON.stringify({ week }) }); }
+    const live = $("#mode").value === "live";
+    if (live && !confirm(`🟢 라이브로 ${week} 주 200건을 새로 판단합니다.\n\n· gpt-4.1-mini 약 200회 호출 · 예상 약 $0.05\n· 내 OpenAI 키로 청구됩니다\n· 판단이 녹화본과 다를 수 있습니다 (LLM은 확률적)\n\n진행할까요?`)) return;
+    try { await api("/api/run", { method: "POST", body: JSON.stringify({ week, live }) }); liveRun = live; renderMode(); }
     catch (e) { alert(e.message); }
   };
   $("#reset").onclick = async () => { await api("/api/reset", { method: "POST" }); location.reload(); };
-  const keyLabel = () => ($("#key").textContent = S.key ? "🔑 키 있음" : "🔑 내 키");
+  const keyLabel = () => { $("#key").textContent = S.key ? "🔑 키 있음" : "🔑 내 키"; renderMode(); };
   $("#key").onclick = () => {
     const k = prompt("OpenAI 키 (이 브라우저에만 저장, 서버에 저장하지 않음). 비우면 삭제", S.key || "");
     if (k !== null) setKey(k.trim());

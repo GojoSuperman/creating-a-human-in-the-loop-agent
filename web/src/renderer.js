@@ -1,5 +1,5 @@
 // 렌더러 — 바닥·벽·가구·캐릭터·서류. 스프라이트 로딩·잘라내기·바닥 굽기는 Deep-research-agent 에서 가져왔다.
-import { GRID, PROPS, STATIONS, WALL, ASSETS, ASSET_V, FURN, FACE, LAYER, TONE, TILE, PROP_SCALE, ACTOR_SCALE } from "./config.js";
+import { GRID, PROPS, STATIONS, WALL, ASSETS, ASSET_V, FURN, FACE, LAYER, TONE, TILE, PROP_SCALE, ACTOR_SCALE, TEXT_SCALE } from "./config.js";
 import { foot, spriteTopLeft, depth, sceneBox } from "./iso.js";
 import { allParts, drawActor, CAST } from "./actors.js";
 
@@ -103,6 +103,7 @@ function paper(ctx, x, y, tone) {
 }
 
 function tag(ctx, x, y, text, size = 23) {
+  size = Math.round(size * TEXT_SCALE);
   ctx.font = `bold ${size}px sans-serif`; ctx.textAlign = "center";
   ctx.lineWidth = 6; ctx.strokeStyle = "rgba(255,255,255,.92)"; ctx.strokeText(text, x, y);
   ctx.fillStyle = "#1a1a1a"; ctx.fillText(text, x, y);
@@ -110,15 +111,16 @@ function tag(ctx, x, y, text, size = 23) {
 
 // 말풍선 — 줄바꿈(\n)을 지키고, 가장 긴 줄에 폭을 맞춘다
 function bubble(ctx, x, y, text) {
-  ctx.save(); ctx.font = "22px sans-serif"; ctx.textAlign = "center";
-  const lines = String(text).split("\n").slice(0, 4), lh = 28, pad = 12;
+  const fs = Math.round(22 * TEXT_SCALE);
+  ctx.save(); ctx.font = `${fs}px sans-serif`; ctx.textAlign = "center";
+  const lines = String(text).split("\n").slice(0, 4), lh = Math.round(fs * 1.3), pad = 14;
   const w = Math.max(...lines.map(l => ctx.measureText(l).width)) + pad * 2, h = lines.length * lh + 12;
   const top = y - h - 10;
   ctx.fillStyle = "rgba(255,255,255,.96)"; ctx.strokeStyle = "rgba(0,0,0,.22)"; ctx.lineWidth = 1.5;
   ctx.beginPath(); ctx.roundRect(x - w / 2, top, w, h, 10); ctx.fill(); ctx.stroke();
   ctx.beginPath(); ctx.moveTo(x - 9, top + h); ctx.lineTo(x, top + h + 10); ctx.lineTo(x + 9, top + h); ctx.fill();  // 꼬리
   ctx.fillStyle = "#1a1a1a";
-  lines.forEach((l, i) => { ctx.font = i === 0 ? "bold 22px sans-serif" : "22px sans-serif"; ctx.fillText(l, x, top + 8 + lh * (i + 0.75)); });
+  lines.forEach((l, i) => { ctx.font = i === 0 ? `bold ${fs}px sans-serif` : `${fs}px sans-serif`; ctx.fillText(l, x, top + 8 + lh * (i + 0.75)); });
   ctx.restore();
 }
 
@@ -154,8 +156,8 @@ function paint(ctx, frame, res, props = true) {
   tag(ctx, cf.x, cf.y - 120, `보관 중 ${frame.cabinet}건`, 21);
   for (const a of frame.actors) {
     const f = foot(a.col, a.row, o);
-    tag(ctx, f.x, f.y - 122, CAST[a.role]?.label || a.role, 20);
-    if (a.say) bubble(ctx, f.x, f.y - 140, a.say);
+    tag(ctx, f.x, f.y - 128, CAST[a.role]?.label || a.role, 20);
+    if (a.say) bubble(ctx, f.x, f.y - 158, a.say);
   }
   return { box, missing: [...missing] };
 }

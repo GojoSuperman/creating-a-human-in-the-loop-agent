@@ -23,11 +23,11 @@ export const STATIONS = {
   a0:      { col: DESK_X[0], row: 2.6, lift: DESK_TOP },
   a1:      { col: DESK_X[1], row: 2.6, lift: DESK_TOP },
   a2:      { col: DESK_X[2], row: 2.6, lift: DESK_TOP },
-  inspect: { col: DESK_X[3], row: 2.6, lift: DESK_TOP, name: "🔍 검사" },
+  inspect: { col: DESK_X[3], row: 2.6, lift: DESK_TOP },
   tray:    { col: 7.98, row: 5.81, lift: -75,      name: "📥 결재함" },
   fax:     { col: 9.61, row: 5.78, lift: -75,      name: "📠 팩스 → 거래처" },
   cabinet: { col: -0.55, row: 3.97,  lift: -200,     name: "🗄️ 캐비닛" },
-  trash:   { col: 11.75, row: 2.8,  lift: -20,      name: "🗑️ 반려" },
+  trash:   { col: 11.75, row: 2.8,  lift: -20 },
 };
 
 export const PROPS = [
@@ -71,5 +71,6 @@ export const WALK = {
   fax:      { col: 9.7,  row: 4.8 },    // 팩스 탁자 옆
   trash:    { col: 11.6, row: 3.3 },    // 팀장 휴지통 옆
 };
+export const TEXT_SCALE = 1.4;          // 장면 글자 크기 배율
 export const WAVE = 5;                  // 한 번에 들어오는 서류 수
 export const REVIEW_AT = 5;             // 결재함에 이만큼 쌓이면 팀장이 보러 간다

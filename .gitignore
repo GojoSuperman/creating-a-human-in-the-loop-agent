@@ -28,3 +28,4 @@ data/raw/
 # 도구 상태·검토용 뷰어
 .bkit/
 .superpowers/
+state/

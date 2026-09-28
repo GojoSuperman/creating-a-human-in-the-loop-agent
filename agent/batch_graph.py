@@ -46,7 +46,7 @@ def judge_item_node(state, runtime: Runtime[BatchCtx]):
     samples = ctx.judge_fn(item)
     j = samples[0]                        # 말풍선용 — 분석가가 무엇을 판단했는지
     ctx.emit({"type": "judged", **ev, "name": j.get("name_ko") or item["name_en"], "qty": j.get("qty"),
-              "signal": j.get("demand_signal"), "reason": (j.get("reason_ko") or j.get("error") or "")[:60]})
+              "signal": j.get("demand_signal"), "reason": (j.get("reason_ko") or j.get("error") or "")[:140]})
     ctx.on_judged(item, samples)          # 판단이 끝난 건부터 바로 발주 건 스레드로
     return {"results": [{"code": item["code"], "samples": samples}]}
 

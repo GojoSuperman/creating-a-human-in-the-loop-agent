@@ -61,7 +61,7 @@ export class Office {
       if (!code) continue;
       const d = this.docs.get(code); d.stage = "judging";
       a.ops.push({ walk: WALK.door }, { pick: code, state: "reading" }, { walk: a.home },
-                 { say: `📦 ${cut(d.name, 16)}\n${d.qty ?? "?"}개 · ${d.signal ?? "판단 실패"}\n${cut(d.reason, 24)}`, state: "done" },
+                 { say: `📦 ${d.name}\n${d.qty ?? "?"}개 · ${d.signal ?? "판단 실패"}\n${d.reason || ""}`, state: "done", ms: SAY_MS * 1.6 },
                  { walk: WALK.inspHand }, { drop: () => (d.stage = "atInsp") }, { walk: a.home });
     }
     const insp = this.actors.insp;
@@ -70,7 +70,7 @@ export class Office {
       if (code) {
         const d = this.docs.get(code); d.stage = "inspecting";
         const stop = d.branch.kind === "stop";
-        const text = stop ? (d.branch.failed ? "판단 실패 —\n사람이 정해야 해요" : d.branch.texts.map(t => cut(t, 22)).join("\n")) : "기준 통과 ✓";
+        const text = stop ? (d.branch.failed ? "판단 실패 — 사람이 정해야 해요" : d.branch.texts.join("\n")) : "기준 통과 ✓";
         insp.ops.push({ pick: code, state: stop ? "alarm" : "done" }, { say: `${text}\n→ ${stop ? "결재함" : "팩스"}` },
                       { walk: stop ? WALK.tray : WALK.fax },
                       { drop: () => { d.stage = "done"; stop ? this.counts.pending++ : this.counts.sent++; } },
@@ -114,7 +114,7 @@ export class Office {
         if (dist <= can) { a.pos = { ...op.walk }; t -= (dist / TILES_PER_S) * 1000; a.ops.shift(); }
         else { a.pos.col += (dx / dist) * can; a.pos.row += (dy / dist) * can; t = 0; }
       } else if (op.say !== undefined) {
-        if (op.left === undefined) { op.left = SAY_MS; a.say = op.say; if (op.state) a.state = op.state; }
+        if (op.left === undefined) { op.left = op.ms || SAY_MS; a.say = op.say; if (op.state) a.state = op.state; }
         const use = Math.min(op.left, t); op.left -= use; t -= use;
         if (op.left <= 0) { a.ops.shift(); a.say = null; }
       } else if (op.pick) { a.carry = op.pick; if (op.state) a.state = op.state; op.fn?.(); a.ops.shift(); }

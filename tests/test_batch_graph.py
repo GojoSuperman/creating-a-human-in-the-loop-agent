@@ -77,3 +77,11 @@ def test_judged_event_carries_what_the_analyst_says():
     run_batch("w", ITEMS[:1], BatchCtx(judge_fn=lambda it: [mk_j(30, "급증", "재즈 주소록")], emit=events.append))
     e = next(e for e in events if e["type"] == "judged")
     assert e["name"] == "재즈 주소록" and e["qty"] == 30 and e["signal"] == "급증" and e["reason"]
+
+
+def test_judged_reason_is_not_cut_short_for_bubbles():
+    long = "최근 8주 평균 판매량이 약 12개이나 지난 2주 동안 판매가 줄어 다음 주에도 감소가 예상되어 평소보다 적게 들인다"
+    events = []
+    j = {**mk_j(12, "감소"), "reason_ko": long}
+    run_batch("w", ITEMS[:1], BatchCtx(judge_fn=lambda it: [j], emit=events.append))
+    assert next(e for e in events if e["type"] == "judged")["reason"] == long

@@ -109,18 +109,41 @@ function tag(ctx, x, y, text, size = 23, k = TEXT_SCALE) {
   ctx.fillStyle = "#1a1a1a"; ctx.fillText(text, x, y);
 }
 
-// 말풍선 — 줄바꿈(\n)을 지키고, 가장 긴 줄에 폭을 맞춘다
+// 말풍선 — 줄바꿈(\n)을 지키고, 최대 폭을 넘는 줄은 띄어쓰기에서(없으면 글자에서) 자동으로 줄을 바꾼다
+const BUBBLE_MAX_W = 520, BUBBLE_MAX_LINES = 7;
+function wrapLine(ctx, line, maxW) {
+  const out = []; let cur = "";
+  for (const word of line.split(/(\s+)/)) {
+    if (ctx.measureText(cur + word).width <= maxW) { cur += word; continue; }
+    if (cur.trim()) { out.push(cur.trimEnd()); cur = ""; }
+    let w = word.trimStart();
+    while (ctx.measureText(w).width > maxW) {          // 한 낱말이 폭보다 길면 글자 단위로 자른다
+      let n = w.length; while (n > 1 && ctx.measureText(w.slice(0, n)).width > maxW) n--;
+      out.push(w.slice(0, n)); w = w.slice(n);
+    }
+    cur = w;
+  }
+  if (cur.trim()) out.push(cur.trimEnd());
+  return out.length ? out : [""];
+}
 function bubble(ctx, x, y, text) {
   const fs = Math.round(22 * ACTOR_TEXT_SCALE);
   ctx.save(); ctx.font = `${fs}px sans-serif`; ctx.textAlign = "center";
-  const lines = String(text).split("\n").slice(0, 4), lh = Math.round(fs * 1.3), pad = 14;
-  const w = Math.max(...lines.map(l => ctx.measureText(l).width)) + pad * 2, h = lines.length * lh + 12;
-  const top = y - h - 10;
+  const maxW = BUBBLE_MAX_W * ACTOR_TEXT_SCALE / 1.9;
+  const rows = [];
+  String(text).split("\n").forEach((l, i) => {
+    ctx.font = i === 0 ? `bold ${fs}px sans-serif` : `${fs}px sans-serif`;
+    for (const w of wrapLine(ctx, l, maxW)) rows.push({ t: w, bold: i === 0 });
+  });
+  if (rows.length > BUBBLE_MAX_LINES) { rows.length = BUBBLE_MAX_LINES; rows[rows.length - 1].t += "…"; }
+  const lh = Math.round(fs * 1.3), pad = 14;
+  const w = Math.max(...rows.map(r => { ctx.font = `${r.bold ? "bold " : ""}${fs}px sans-serif`; return ctx.measureText(r.t).width; })) + pad * 2;
+  const h = rows.length * lh + 12, top = y - h - 10;
   ctx.fillStyle = "rgba(255,255,255,.96)"; ctx.strokeStyle = "rgba(0,0,0,.22)"; ctx.lineWidth = 1.5;
   ctx.beginPath(); ctx.roundRect(x - w / 2, top, w, h, 10); ctx.fill(); ctx.stroke();
   ctx.beginPath(); ctx.moveTo(x - 9, top + h); ctx.lineTo(x, top + h + 10); ctx.lineTo(x + 9, top + h); ctx.fill();  // 꼬리
   ctx.fillStyle = "#1a1a1a";
-  lines.forEach((l, i) => { ctx.font = i === 0 ? `bold ${fs}px sans-serif` : `${fs}px sans-serif`; ctx.fillText(l, x, top + 8 + lh * (i + 0.75)); });
+  rows.forEach((r, i) => { ctx.font = `${r.bold ? "bold " : ""}${fs}px sans-serif`; ctx.fillText(r.t, x, top + 8 + lh * (i + 0.75)); });
   ctx.restore();
 }
 

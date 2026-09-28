@@ -1,6 +1,7 @@
 <!doctype html><html lang="ko"><head><meta charset="utf-8"><title>재고 발주 결재실</title>
 <style>html,body{margin:0;height:100%;background:#f6f2ea}canvas{width:100vw;height:100vh;display:block}</style></head>
-<body><canvas id="c"></canvas><script type="module">
+<body><div style="position:fixed;top:0;left:0;right:0;padding:8px 16px;background:#fff3cd;color:#6b4e00;font:14px sans-serif;z-index:1">
+⚠ 배치 확인용 데모(가짜 서류 10건) — 결재 패널이 없습니다. 결재는 <a href="/">메인 화면</a>에서 하세요.</div><canvas id="c"></canvas><script type="module">
 import { preload, draw, fitView } from "./src/renderer.js";
 import { Office } from "./src/office.js";
 const c = document.getElementById("c"), office = new Office();

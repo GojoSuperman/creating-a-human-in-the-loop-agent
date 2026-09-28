@@ -5,6 +5,11 @@ LLM이 상품별 다음 주 **발주량**을 정하고, **위험한 발주만** 
 나머지는 사람을 거치지 않고 자동으로 발송합니다. 그 과정을 아이소메트릭 사무실에서 캐릭터들이 서류를 들고
 걸어 다니는 모습으로 보여 줍니다.
 
+## 🌐 라이브 데모 — **https://reorder-hitl.onrender.com**
+
+키 없이 바로 써 볼 수 있습니다(녹화된 실제 LLM 판단 재생). 무료 서버라 한동안 아무도 안 쓰면 잠들어 **첫 접속에 30~60초** 걸릴 수 있습니다 — "안 열린다"가 아니라 깨어나는 중입니다.
+방문자마다 결재함이 따로 있고 24시간 뒤 정리됩니다. 결재 대기 건은 Neon Postgres 체크포인터에 저장되어 **서버를 재시작해도 남습니다**(실측).
+
 > 모두의연구소 10강 「사람이 승인하는 에이전트 만들기 [프로젝트]」 과제.
 > **제출 보고서는 [REPORT.md](REPORT.md)** — 주제, 구조도, 승인 기준과 이유, 실행 결과, 화면 설계, 회고.
 
@@ -71,7 +76,7 @@ uv run python -m scripts.graph_mermaid                          # 구조도(Merm
 ## 테스트
 
 ```bash
-uv run pytest -q          # 94 passed
+uv run pytest -q          # 96 passed, 1 skipped (Postgres 테스트는 TEST_DATABASE_URL 이 있을 때만)
 ```
 
 | 파일 | 확인하는 것 |
@@ -112,6 +117,13 @@ docs/      superpowers/specs(설계 스펙) · plans(구현 계획) · captures(
 | POST | `/api/orders/{tid}/decision` | `approve` · `edit{qty}` · `reject{reason}` · `redo{instruction}` → `Command(resume)` |
 | GET | `/api/faxlog?week=` · `/api/eval` | 발송 기록 · 기준 검증 |
 | POST | `/api/reset` | 세션 초기화 |
+
+## 배포 (Render + Neon)
+
+- **Render**(웹 서버, 무료) — `render.yaml` 블루프린트, `region: singapore`. push 하면 자동 재배포.
+- **Neon**(Postgres, 무료) — 체크포인터·팩스 로그·세션. Render 무료 서버는 재시작하면 디스크가 지워지므로 저장은 서버 밖에 둔다.
+- 환경 변수 `DATABASE_URL` 에 Neon 연결 문자열(pooled). 로컬 통합 테스트는 `TEST_DATABASE_URL` 로 `tests/test_postgres.py`.
+- 배포하며 만난 두 문제(실측): ① Neon 이 유휴 연결을 닫아 모든 요청이 500 → 연결 풀로 교체 ② 서버(오리건)와 DB(싱가포르)가 달라 200건 중 88건에 407초 → 같은 지역으로 옮겨 **200건 33초**.
 
 ## 알려진 한계
 

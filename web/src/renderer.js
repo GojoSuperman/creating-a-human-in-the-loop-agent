@@ -138,9 +138,15 @@ function paint(ctx, frame, res, props = true) {
     if (n) tag(ctx, f.x + 40, f.y + s.lift - 40, String(n), 26);
   };
   pile("tray", frame.piles.tray, "stop"); pile("fax", frame.piles.fax, "auto"); pile("trash", frame.piles.trash, "stop");
+  if (frame.piles.inbox) pile("inbox", frame.piles.inbox, "plain");       // 문 앞에 들어온 이번 묶음
+  if (frame.piles.inspect) pile("inspect", frame.piles.inspect, "plain"); // 검사관 앞에 건네진 서류
 
   const cast = [...frame.actors].sort((a, b) => a.col + a.row - (b.col + b.row));
-  for (const a of cast) { const f = foot(a.col, a.row, o); drawActor(ctx, n => got(n, "characters"), a.role, a.state, f.x, f.y, ACTOR_SCALE); }
+  for (const a of cast) {
+    const f = foot(a.col, a.row, o);
+    drawActor(ctx, n => got(n, "characters"), a.role, a.state, f.x, f.y, ACTOR_SCALE);
+    if (a.carry) paper(ctx, f.x, f.y - 118 * ACTOR_SCALE, "plain");      // 머리 위로 든 서류
+  }
   for (const p of frame.papers) { const f = foot(p.col, p.row, o); paper(ctx, f.x, f.y + p.lift, p.tone); }
 
   for (const s of Object.values(STATIONS)) if (s.name) { const f = foot(s.col, s.row, o); tag(ctx, f.x, f.y - 150, s.name); }

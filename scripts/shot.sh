@@ -5,7 +5,7 @@ CHROME="/mnt/c/Program Files/Google/Chrome/Application/chrome.exe"
 TMP_WIN_DIR="/mnt/c/Users/minah/Downloads"
 TMP="$TMP_WIN_DIR/_hitl_shot_$$.png"
 timeout 100 "$CHROME" --headless=new --disable-gpu --hide-scrollbars --window-size="${3:-1440,900}" \
-  --virtual-time-budget=6000 --screenshot="$(wslpath -w "$TMP")" "$1" >/dev/null 2>&1 || true
+  --virtual-time-budget=${VT:-6000} --screenshot="$(wslpath -w "$TMP")" "$1" >/dev/null 2>&1 || true
 mkdir -p "$(dirname "$2")"
 mv "$TMP" "$2"
 ls -la "$2"

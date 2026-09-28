@@ -62,3 +62,13 @@ export const ACTORS = [
 ];
 
 export const TONE = { plain: "#ffffff", auto: "#3fae6e", stop: "#d9566c", fail: "#9aa0a6" };
+
+// 캐릭터가 서류를 들고 걸어가 서는 자리 (정거장 앞)
+export const WALK = {
+  door:     { col: 0.6,  row: 1.6 },    // 입고(문) 앞 — 분석가가 서류를 집는 곳
+  inspHand: { col: 7.9,  row: 3.75 },   // 검사관 책상 앞 — 분석가가 서류를 건네는 곳
+  tray:     { col: 8.1,  row: 4.9 },    // 결재함 탁자 옆
+  fax:      { col: 9.7,  row: 4.8 },    // 팩스 탁자 옆
+  trash:    { col: 11.6, row: 3.3 },    // 팀장 휴지통 옆
+};
+export const WAVE = 5;                  // 한 번에 들어오는 서류 수

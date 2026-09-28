@@ -70,3 +70,32 @@ function run(n, stopEvery, human = []) {
   for (let t = 0; t < 120_000 && !opened; t += 50) o.tick(50);
   assert.ok(opened); console.log("ok 5 — 지금 보러 가기");
 }
+// 6) 설명란용 상태 — 묶음 번호, 단계별 건수, 지금 하는 일, 방금 일어난 일
+{
+  const o = new Office();
+  for (let i = 0; i < 12; i++) {
+    const code = "P" + i;
+    o.push({ type: "judged", code, name: "상품" + i, qty: 1 });
+    o.push(i === 0 ? { type: "queued", code, flags: ["C2"], texts: ["발주량 > 2배"] } : { type: "sent", code, by: "auto" });
+  }
+  let st = o.status();
+  assert.equal(st.wave, 1); assert.equal(st.waves, 3); assert.equal(st.stage.door, 5);
+  for (let t = 0; t < 4000; t += 50) o.tick(50);
+  st = o.status();
+  assert.ok(st.active.includes("judge"), `판단 단계가 진행 중이어야 (${st.active})`);
+  assert.ok(st.doing.some(d => d.includes("분석가")), "누가 무엇을 하는지");
+  while (!o.flowDone()) o.tick(50);
+  for (let t = 0; t < 20000; t += 50) o.tick(50);
+  st = o.status();
+  assert.equal(st.stage.auto, 11); assert.equal(st.stage.human, 1);
+  assert.ok(st.last && st.last.length > 0, "방금 일어난 일");
+  console.log("ok 6 — 설명란 상태");
+}
+// 7) 새로고침한 세션 — 이벤트 없이 서버 집계만 받아도 설명란 숫자가 맞는다
+{
+  const o = new Office();
+  o.setCounts({ pending: 15, sent: 184, rejected: 1, auto: 182 });
+  const st = o.status();
+  assert.equal(st.stage.auto, 182); assert.equal(st.stage.human, 15);
+  console.log("ok 7 — 서버 집계로 설명란");
+}

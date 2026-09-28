@@ -55,12 +55,30 @@ function openDetail(tid) {
 async function refresh() {
   if (!week) return;
   const [sm, pend] = await Promise.all([api(`/api/summary?week=${week}`), api(`/api/pending?week=${week}`)]);
-  renderSummary($("#summary"), sm);
+  renderSummary($("#summary"), sm); lastTotal = sm.total;
   pendingItems = pend.items;
   office.setCounts({ pending: sm.pending, sent: (sm.counts.auto_sent || 0) + (sm.counts.approved || 0) + (sm.counts.edited || 0),
-                     rejected: sm.counts.rejected || 0 });
+                     rejected: sm.counts.rejected || 0, auto: sm.counts.auto_sent || 0 });
   renderPanel();
   if ($("#tab-fax").classList.contains("on")) renderFax($("#fax"), (await api("/api/faxlog")).items);
+}
+
+// 설명란 — 에이전트의 다섯 단계와 지금 하는 일 (교재 개념과 함께)
+let ruleText = "", lastTotal = 0;
+const RULE_KO = { C2: "평균의 2배 초과", C3: "판매 변동 큼", C4: "AI 신호 급증·감소", C5: "판단 흔들림", ALL: "전부" };
+const ruleKo = r => (r.startsWith("C1:") ? `발주액 > £${r.split(":")[1]}` : RULE_KO[r] || r);
+function renderStatus() {
+  const st = office.status(), on = k => (st.active.includes(k) ? "on" : "");
+  $("#st-wave").textContent = st.waves ? `묶음 ${st.wave} / ${st.waves} (5건씩)`
+    : lastTotal ? `— 이번 주 처리 완료 (${lastTotal}건)` : "— ▶ 이번 주 처리를 누르세요";
+  const row = (k, no, name, desc, n) => `<li class="${on(k)}"><span class="no">${no}</span><b>${name}</b><span>${desc}</span><span class="n">${n}</span></li>`;
+  $("#st-body").innerHTML = `<ol>
+    ${row("door", "①", "입고", "문 앞에 이번 묶음 도착", st.stage.door ? `${st.stage.door}건` : "")}
+    ${row("judge", "②", "AI 판단", "분석가(LLM)가 발주량·이유를 정함", st.stage.judge ? `${st.stage.judge}건` : "")}
+    ${row("check", "③", "기준 검사", `검사관이 승인 기준 확인 · ${ruleText}`, st.stage.check ? `${st.stage.check}건` : "")}
+    ${row("auto", "④", "자동 발송", "기준 통과 → 팩스 (사람 없이)", `${st.stage.auto}건`)}
+    ${row("human", "⑤", "사람 결재", "멈춤(interrupt) → 팀장(나)이 결재 → 이어서 실행(resume)", `대기 ${st.stage.human}건`)}
+  </ol>${st.doing.length || st.last ? `<div class="doing">${st.doing.map(d => `<p>▶ ${d}</p>`).join("")}${st.last ? `<p class="last">방금: ${st.last}</p>` : ""}</div>` : ""}`;
 }
 
 let pending = null;
@@ -82,6 +100,7 @@ async function main() {
   week = sel.value || null;
   sel.onchange = () => { week = sel.value; refresh(); };
   $("#combo").textContent = `승인 기준: ${(info.combo || []).join(" · ")}`;
+  ruleText = (info.combo || []).map(ruleKo).join(" 또는 ");
   $("#run").onclick = async () => {
     try { await api("/api/run", { method: "POST", body: JSON.stringify({ week }) }); }
     catch (e) { alert(e.message); }
@@ -122,6 +141,7 @@ async function main() {
   if (location.hash.includes("open") && pendingItems[0]) openDetail(pendingItems[0].thread_id);   // 캡처용
   if (location.hash.includes("eval")) tab("eval");
   if (location.hash.includes("fax")) tab("fax");
+  renderStatus(); setInterval(renderStatus, 250);
   let last = performance.now();
   (function loop(t) { office.tick(t - last); last = t; draw(canvas, { ...view(), frame: office.frame(), grid }); requestAnimationFrame(loop); })(last);
 }

@@ -30,6 +30,19 @@
   #view-office{flex:1;display:flex;min-width:0}
   #stage{flex:1;min-width:0;position:relative}
   #scene{width:100%;height:100%;display:block}
+  #status{position:absolute;left:12px;top:12px;max-width:min(560px,60%);background:var(--panel);border:1px solid var(--line);
+          border-radius:10px;padding:8px 12px;opacity:.95;font-size:.85rem;box-shadow:0 2px 10px rgba(0,0,0,.15)}
+  #status summary{cursor:pointer;font-weight:700}
+  #status summary span{font-weight:400;color:var(--mut);margin-left:6px}
+  #status ol{list-style:none;margin:6px 0 4px;padding:0}
+  #status li{display:grid;grid-template-columns:1.6em 5.2em 1fr auto;gap:6px;padding:3px 6px;border-radius:6px;color:var(--mut)}
+  #status li b{color:var(--fg)}
+  #status li.on{background:rgba(214,167,95,.18);color:var(--fg)}
+  #status li.on .no{color:var(--acc)}
+  #status li .n{font-weight:700;color:var(--fg)}
+  #status .doing{margin:4px 0 0;padding:6px 8px;border-top:1px solid var(--line);font-size:.8rem}
+  #status .doing p{margin:1px 0}
+  #status .last{color:var(--acc)}
   .cam{position:absolute;left:12px;bottom:12px;display:flex;gap:4px}
   .cam button{min-width:40px;background:var(--panel);opacity:.92}
   aside{width:340px;max-width:40vw;border-left:1px solid var(--line);overflow:auto;padding:10px;transition:width .25s}
@@ -94,6 +107,7 @@
   <div id="view-office">
     <div id="stage">
       <canvas id="scene" aria-label="발주 사무실 장면"></canvas>
+      <details id="status" open><summary>📍 지금 단계 <span id="st-wave"></span></summary><div id="st-body"></div></details>
       <div class="cam" title="휠: 확대·축소 · 드래그: 이동 · 더블클릭: 전체">
         <button id="zin" aria-label="확대">＋</button><button id="zout" aria-label="축소">－</button><button id="fit">⤢ 전체</button>
       </div>

@@ -7,11 +7,13 @@ const gbp = n => n == null ? "-" : `£${Number(n).toLocaleString(undefined, { ma
 const STATUS = { auto_sent: "자동 발송", pending: "대기", failed_to_human: "판단 실패", approved: "승인",
                  edited: "수정 승인", rejected: "반려", running: "처리 중" };
 
-export function renderSummary(el, sm) {
+// 현황판 — 전체·승인·수정·반려는 서버, 자동 발송·대기는 장면(재연)과 같은 숫자
+export function renderSummary(el, sm, scene) {
   const c = sm.counts || {};
-  const chip = (k, label, n) => `<span class="chip ${k}"><b>${n ?? 0}</b> ${label}</span>`;
-  el.innerHTML = chip("all", "전체", sm.total) + chip("auto", "자동 발송", c.auto_sent) + chip("wait", "대기", sm.pending)
-    + chip("ok", "승인", c.approved) + chip("edit", "수정 승인", c.edited) + chip("no", "반려", c.rejected);
+  const chip = (k, label, n) => `<span class="chip chip-${k}"><b>${n ?? 0}</b> ${label}</span>`;
+  el.innerHTML = chip("all", "전체", sm.total) + chip("auto", "자동 발송", scene ? scene.auto : c.auto_sent)
+    + chip("wait", "대기", scene ? scene.wait : sm.pending)
+    + chip("ok", "승인", c.approved) + chip("edit", "수정 승인", c.edited) + chip("rej", "반려", c.rejected);
 }
 
 export function renderInbox(el, items, selected, onPick) {

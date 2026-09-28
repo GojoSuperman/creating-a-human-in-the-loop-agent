@@ -62,7 +62,7 @@ function openDetail(tid, code) {
 async function refresh() {
   if (!week) return;
   const [sm, pend] = await Promise.all([api(`/api/summary?week=${week}`), api(`/api/pending?week=${week}`)]);
-  renderSummary($("#summary"), sm); lastTotal = sm.total;
+  lastSm = sm; lastTotal = sm.total; renderChips();
   // 장면의 결재함 탁자에 도착한 서류만 — 서버는 판단을 먼저 끝내므로 장면보다 앞서 있다
   pendingItems = pend.items.filter(it => office.inTray(it.code));
   office.setCounts({ pending: sm.pending, sent: (sm.counts.auto_sent || 0) + (sm.counts.approved || 0) + (sm.counts.edited || 0),
@@ -75,7 +75,14 @@ async function refresh() {
 let ruleText = "", lastTotal = 0;
 const RULE_KO = { C2: "평균의 2배 초과", C3: "판매 변동 큼", C4: "AI 신호 급증·감소", C5: "판단 흔들림", ALL: "전부" };
 const ruleKo = r => (r.startsWith("C1:") ? `발주액 > £${r.split(":")[1]}` : RULE_KO[r] || r);
+let lastSm = null;
+function renderChips() {                         // 자동 발송·대기는 장면 숫자로 (설명란·패널과 같게)
+  if (!lastSm) return;
+  const st = office.status(), holding = office.actors.boss.carry ? 1 : 0;
+  renderSummary($("#summary"), lastSm, { auto: st.stage.auto, wait: st.stage.human + holding });
+}
 function renderStatus() {
+  renderChips();
   const st = office.status(), on = k => (st.active.includes(k) ? "on" : "");
   $("#st-wave").textContent = st.waves ? `묶음 ${st.wave} / ${st.waves} (5건씩)`
     : lastTotal ? `— 이번 주 처리 완료 (${lastTotal}건)` : "— ▶ 이번 주 처리를 누르세요";

@@ -1,5 +1,5 @@
 // 렌더러 — 바닥·벽·가구·캐릭터·서류. 스프라이트 로딩·잘라내기·바닥 굽기는 Deep-research-agent 에서 가져왔다.
-import { GRID, PROPS, STATIONS, WALL, ASSETS, ASSET_V, FURN, FACE, LAYER, TONE, TILE, PROP_SCALE, ACTOR_SCALE, TEXT_SCALE } from "./config.js";
+import { GRID, PROPS, STATIONS, WALL, ASSETS, ASSET_V, FURN, FACE, LAYER, TONE, TILE, PROP_SCALE, ACTOR_SCALE, TEXT_SCALE, ACTOR_TEXT_SCALE } from "./config.js";
 import { foot, spriteTopLeft, depth, sceneBox } from "./iso.js";
 import { allParts, drawActor, CAST } from "./actors.js";
 
@@ -102,8 +102,8 @@ function paper(ctx, x, y, tone) {
   ctx.restore();
 }
 
-function tag(ctx, x, y, text, size = 23) {
-  size = Math.round(size * TEXT_SCALE);
+function tag(ctx, x, y, text, size = 23, k = TEXT_SCALE) {
+  size = Math.round(size * k);
   ctx.font = `bold ${size}px sans-serif`; ctx.textAlign = "center";
   ctx.lineWidth = 6; ctx.strokeStyle = "rgba(255,255,255,.92)"; ctx.strokeText(text, x, y);
   ctx.fillStyle = "#1a1a1a"; ctx.fillText(text, x, y);
@@ -111,7 +111,7 @@ function tag(ctx, x, y, text, size = 23) {
 
 // 말풍선 — 줄바꿈(\n)을 지키고, 가장 긴 줄에 폭을 맞춘다
 function bubble(ctx, x, y, text) {
-  const fs = Math.round(22 * TEXT_SCALE);
+  const fs = Math.round(22 * ACTOR_TEXT_SCALE);
   ctx.save(); ctx.font = `${fs}px sans-serif`; ctx.textAlign = "center";
   const lines = String(text).split("\n").slice(0, 4), lh = Math.round(fs * 1.3), pad = 14;
   const w = Math.max(...lines.map(l => ctx.measureText(l).width)) + pad * 2, h = lines.length * lh + 12;
@@ -156,8 +156,8 @@ function paint(ctx, frame, res, props = true) {
   tag(ctx, cf.x, cf.y - 120, `보관 중 ${frame.cabinet}건`, 21);
   for (const a of frame.actors) {
     const f = foot(a.col, a.row, o);
-    tag(ctx, f.x, f.y - 128, CAST[a.role]?.label || a.role, 20);
-    if (a.say) bubble(ctx, f.x, f.y - 158, a.say);
+    tag(ctx, f.x, f.y - 132, CAST[a.role]?.label || a.role, 20, ACTOR_TEXT_SCALE);
+    if (a.say) bubble(ctx, f.x, f.y - 175, a.say);
   }
   return { box, missing: [...missing] };
 }

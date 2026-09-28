@@ -7,6 +7,32 @@ const $ = s => document.querySelector(s);
 const canvas = $("#scene"), office = new Office();
 let week = null, evalDoc = null, grid = false, selected = null, pendingItems = [];
 
+// ── 카메라: 휠 확대·축소(커서 기준), 드래그 이동, 더블클릭·'전체' 로 되돌리기 ──
+let cam = null;                                   // null 이면 방 전체에 맞춤
+const view = () => cam || fitView(canvas);
+function zoomAt(px, py, factor) {
+  const v = view(), fit = fitView(canvas).scale;
+  const scale = Math.min(Math.max(v.scale * factor, fit * 0.5), fit * 6);
+  const k = scale / v.scale;                      // 커서 아래 점이 제자리에 있도록 이동량 보정
+  cam = { scale, pan: { x: px - (px - v.pan.x) * k, y: py - (py - v.pan.y) * k } };
+}
+function setupCamera() {
+  const pt = e => { const r = canvas.getBoundingClientRect(); return [e.clientX - r.left, e.clientY - r.top]; };
+  canvas.addEventListener("wheel", e => { e.preventDefault(); const [x, y] = pt(e); zoomAt(x, y, Math.exp(-e.deltaY * 0.0015)); }, { passive: false });
+  let drag = null;
+  canvas.addEventListener("pointerdown", e => { const v = view(); drag = { x: e.clientX, y: e.clientY, pan: { ...v.pan }, scale: v.scale };
+                                                canvas.setPointerCapture(e.pointerId); canvas.style.cursor = "grabbing"; });
+  canvas.addEventListener("pointermove", e => { if (!drag) return;
+    cam = { scale: drag.scale, pan: { x: drag.pan.x + e.clientX - drag.x, y: drag.pan.y + e.clientY - drag.y } }; });
+  const end = () => { drag = null; canvas.style.cursor = "grab"; };
+  canvas.addEventListener("pointerup", end); canvas.addEventListener("pointercancel", end);
+  canvas.addEventListener("dblclick", () => (cam = null));
+  canvas.style.cursor = "grab"; canvas.style.touchAction = "none";
+  $("#fit").onclick = () => (cam = null);
+  $("#zin").onclick = () => zoomAt(canvas.clientWidth / 2, canvas.clientHeight / 2, 1.25);
+  $("#zout").onclick = () => zoomAt(canvas.clientWidth / 2, canvas.clientHeight / 2, 0.8);
+}
+
 // 오른쪽 패널 — 팀장이 결재함 앞에 도착하면 열린다 (office.onOpen), 비면 닫힌다 (office.onClose)
 function renderPanel() {
   const open = office.reviewing;
@@ -74,6 +100,7 @@ async function main() {
     document.querySelectorAll("[data-speed]").forEach(x => x.classList.toggle("on", x === b && v !== "skip"));
   });
   for (const t of ["office", "fax", "eval"]) $(`#tab-${t}`).onclick = () => tab(t);
+  setupCamera();
   office.onOpen = () => { selected = null; renderPanel(); };
   office.onClose = () => { if ($("#modal").open) $("#modal").close(); renderPanel(); };
   $("#go-review").onclick = () => office.openNow();
@@ -96,6 +123,6 @@ async function main() {
   if (location.hash.includes("eval")) tab("eval");
   if (location.hash.includes("fax")) tab("fax");
   let last = performance.now();
-  (function loop(t) { office.tick(t - last); last = t; draw(canvas, { ...fitView(canvas), frame: office.frame(), grid }); requestAnimationFrame(loop); })(last);
+  (function loop(t) { office.tick(t - last); last = t; draw(canvas, { ...view(), frame: office.frame(), grid }); requestAnimationFrame(loop); })(last);
 }
 main().catch(e => { document.body.insertAdjacentHTML("afterbegin", `<p class="fatal">${e.message}</p>`); });

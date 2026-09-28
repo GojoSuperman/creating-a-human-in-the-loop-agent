@@ -28,7 +28,10 @@
   .chip b{font-size:1rem}.chip.auto b{color:var(--go)}.chip.wait b{color:var(--no)}
   main{flex:1;min-height:0;display:flex}
   #view-office{flex:1;display:flex;min-width:0}
-  #scene{flex:1;min-width:0;height:100%;display:block}
+  #stage{flex:1;min-width:0;position:relative}
+  #scene{width:100%;height:100%;display:block}
+  .cam{position:absolute;left:12px;bottom:12px;display:flex;gap:4px}
+  .cam button{min-width:40px;background:var(--panel);opacity:.92}
   aside{width:340px;max-width:40vw;border-left:1px solid var(--line);overflow:auto;padding:10px;transition:width .25s}
   aside.wide{width:400px;max-width:44vw}
   aside h2{font-size:.95rem;margin:4px 0 8px;display:flex;justify-content:space-between}
@@ -68,7 +71,7 @@
   .go{background:var(--go);color:#fff}.no{background:var(--no);color:#fff}.blue{background:var(--blue);color:#fff}.purple{background:var(--purple);color:#fff}
   .warn{color:var(--warn);font-weight:700}.err{color:var(--no);min-height:1.2em}
   .fatal{background:#fde2e6;color:#9b2336;padding:8px 16px;margin:0}
-  @media(max-width:760px){main{flex-direction:column}#view-office{flex-direction:column}#scene{height:50vh;flex:none}aside{width:auto;max-width:none;border-left:0;border-top:1px solid var(--line)}}
+  @media(max-width:760px){main{flex-direction:column}#view-office{flex-direction:column}#stage{height:50vh;flex:none}aside{width:auto;max-width:none;border-left:0;border-top:1px solid var(--line)}}
 </style>
 </head>
 <body>
@@ -89,7 +92,12 @@
 <div id="summary"></div>
 <main>
   <div id="view-office">
-    <canvas id="scene" aria-label="발주 사무실 장면"></canvas>
+    <div id="stage">
+      <canvas id="scene" aria-label="발주 사무실 장면"></canvas>
+      <div class="cam" title="휠: 확대·축소 · 드래그: 이동 · 더블클릭: 전체">
+        <button id="zin" aria-label="확대">＋</button><button id="zout" aria-label="축소">－</button><button id="fit">⤢ 전체</button>
+      </div>
+    </div>
     <aside id="aside">
       <div id="panel-closed">
         <h2>📥 결재함 <span class="n">대기 <b id="wait-n">0</b>건</span></h2>

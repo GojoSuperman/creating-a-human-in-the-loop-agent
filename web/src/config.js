@@ -72,5 +72,6 @@ export const WALK = {
   trash:    { col: 11.6, row: 3.3 },    // 팀장 휴지통 옆
 };
 export const TEXT_SCALE = 1.4;          // 장면 글자 크기 배율
+export const ACTOR_TEXT_SCALE = 1.9;    // 캐릭터 이름표·말풍선 글자 배율
 export const WAVE = 5;                  // 한 번에 들어오는 서류 수
 export const REVIEW_AT = 5;             // 결재함에 이만큼 쌓이면 팀장이 보러 간다

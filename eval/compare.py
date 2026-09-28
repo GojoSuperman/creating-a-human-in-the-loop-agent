@@ -64,7 +64,12 @@ def evaluate_all(weeks_dir=DATA_WEEKS, runs_dir=RUNS):
     for k, (name, _) in enumerate(COMBOS):
         spread[name] = {m: [min(t["rows"][k][m] for t in tables), max(t["rows"][k][m] for t in tables)]
                         for m in METRICS}
-    picked = select(tables[0]["rows"], MAX_RATE)
+    raw = select(tables[0]["rows"], MAX_RATE)
+    preregistered = {"name": raw["name"], "combo": raw["combo"], "fallback": raw["fallback"]}
+    # 보정(2026-09-28, 결과를 본 뒤): 과제 요건 "계산 가능한 기준 2가지 이상"을 사전 등록 규칙에
+    # 빠뜨렸다. 같은 규칙을 '내용 기준 2개 이상' 조합에만 다시 적용한다. 원래 결과는 preregistered 로 남긴다.
+    eligible = [r for r in tables[0]["rows"] if len(r["combo"]) >= 2 and "ALL" not in r["combo"]]
+    picked = select(eligible, MAX_RATE) if eligible else raw
     selected = {"name": picked["name"], "combo": picked["combo"], "fallback": picked["fallback"]}
     tests = []
     for week in TEST_WEEKS:
@@ -77,7 +82,10 @@ def evaluate_all(weeks_dir=DATA_WEEKS, runs_dir=RUNS):
     doc = {"model": jd["model"], "label_loss_gbp": LABEL_LOSS_GBP, "max_rate": MAX_RATE,
            "dev": {"week": DEV_WEEK, "samples": n, "tables": tables, "spread": spread,
                    "baseline": baseline(items, actual, jd["items"])},
-           "selected": selected, "tests": tests}
+           "preregistered": preregistered, "selected": selected,
+           "amendment": "과제 요건(기준 2가지 이상)을 사전 등록 규칙에 빠뜨려, 결과를 본 뒤 "
+                        "'내용 기준 2개 이상인 조합' 조건만 더해 같은 규칙을 다시 적용했다",
+           "tests": tests}
     Path(runs_dir).mkdir(parents=True, exist_ok=True)
     (Path(runs_dir) / "eval.json").write_text(json.dumps(doc, ensure_ascii=False, indent=1), encoding="utf-8")
     (Path(runs_dir) / "selected.json").write_text(json.dumps(selected, ensure_ascii=False, indent=1), encoding="utf-8")

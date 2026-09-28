@@ -1,0 +1,884 @@
+{
+ "model": "gpt-4.1-mini",
+ "label_loss_gbp": 100.0,
+ "max_rate": 0.25,
+ "dev": {
+  "week": "2011-06-06",
+  "samples": 3,
+  "tables": [
+   {
+    "rows": [
+     {
+      "name": "기준 없음",
+      "combo": [],
+      "n": 200,
+      "stopped": 0,
+      "rate": 0.0,
+      "missed": 33,
+      "missed_loss": 6675.94,
+      "false_stop": 0,
+      "false_ratio": 0.0
+     },
+     {
+      "name": "C1(£100)",
+      "combo": [
+       "C1:100"
+      ],
+      "n": 200,
+      "stopped": 51,
+      "rate": 0.255,
+      "missed": 11,
+      "missed_loss": 2164.79,
+      "false_stop": 29,
+      "false_ratio": 0.5686274509803921
+     },
+     {
+      "name": "C1(£200)",
+      "combo": [
+       "C1:200"
+      ],
+      "n": 200,
+      "stopped": 17,
+      "rate": 0.085,
+      "missed": 21,
+      "missed_loss": 3672.39,
+      "false_stop": 5,
+      "false_ratio": 0.29411764705882354
+     },
+     {
+      "name": "C1(£300)",
+      "combo": [
+       "C1:300"
+      ],
+      "n": 200,
+      "stopped": 10,
+      "rate": 0.05,
+      "missed": 27,
+      "missed_loss": 5034.69,
+      "false_stop": 4,
+      "false_ratio": 0.4
+     },
+     {
+      "name": "C1(£200)+C2",
+      "combo": [
+       "C1:200",
+       "C2"
+      ],
+      "n": 200,
+      "stopped": 18,
+      "rate": 0.09,
+      "missed": 21,
+      "missed_loss": 3672.39,
+      "false_stop": 6,
+      "false_ratio": 0.3333333333333333
+     },
+     {
+      "name": "C1(£200)+C2+C3",
+      "combo": [
+       "C1:200",
+       "C2",
+       "C3"
+      ],
+      "n": 200,
+      "stopped": 57,
+      "rate": 0.285,
+      "missed": 17,
+      "missed_loss": 2709.27,
+      "false_stop": 41,
+      "false_ratio": 0.7192982456140351
+     },
+     {
+      "name": "C1(£200)+C2+C4",
+      "combo": [
+       "C1:200",
+       "C2",
+       "C4"
+      ],
+      "n": 200,
+      "stopped": 63,
+      "rate": 0.315,
+      "missed": 14,
+      "missed_loss": 1954.29,
+      "false_stop": 44,
+      "false_ratio": 0.6984126984126984
+     },
+     {
+      "name": "C1(£200)+C2+C4+C5",
+      "combo": [
+       "C1:200",
+       "C2",
+       "C4",
+       "C5"
+      ],
+      "n": 200,
+      "stopped": 89,
+      "rate": 0.445,
+      "missed": 14,
+      "missed_loss": 1954.29,
+      "false_stop": 70,
+      "false_ratio": 0.7865168539325843
+     },
+     {
+      "name": "전부 멈춤",
+      "combo": [
+       "ALL"
+      ],
+      "n": 200,
+      "stopped": 200,
+      "rate": 1.0,
+      "missed": 0,
+      "missed_loss": 0,
+      "false_stop": 167,
+      "false_ratio": 0.835
+     }
+    ],
+    "failed": 0,
+    "positives": 33
+   },
+   {
+    "rows": [
+     {
+      "name": "기준 없음",
+      "combo": [],
+      "n": 200,
+      "stopped": 0,
+      "rate": 0.0,
+      "missed": 35,
+      "missed_loss": 7836.49,
+      "false_stop": 0,
+      "false_ratio": 0.0
+     },
+     {
+      "name": "C1(£100)",
+      "combo": [
+       "C1:100"
+      ],
+      "n": 200,
+      "stopped": 48,
+      "rate": 0.24,
+      "missed": 11,
+      "missed_loss": 2214.99,
+      "false_stop": 24,
+      "false_ratio": 0.5
+     },
+     {
+      "name": "C1(£200)",
+      "combo": [
+       "C1:200"
+      ],
+      "n": 200,
+      "stopped": 18,
+      "rate": 0.09,
+      "missed": 23,
+      "missed_loss": 4060.84,
+      "false_stop": 6,
+      "false_ratio": 0.3333333333333333
+     },
+     {
+      "name": "C1(£300)",
+      "combo": [
+       "C1:300"
+      ],
+      "n": 200,
+      "stopped": 10,
+      "rate": 0.05,
+      "missed": 29,
+      "missed_loss": 5324.74,
+      "false_stop": 4,
+      "false_ratio": 0.4
+     },
+     {
+      "name": "C1(£200)+C2",
+      "combo": [
+       "C1:200",
+       "C2"
+      ],
+      "n": 200,
+      "stopped": 21,
+      "rate": 0.105,
+      "missed": 22,
+      "missed_loss": 3958.84,
+      "false_stop": 8,
+      "false_ratio": 0.38095238095238093
+     },
+     {
+      "name": "C1(£200)+C2+C3",
+      "combo": [
+       "C1:200",
+       "C2",
+       "C3"
+      ],
+      "n": 200,
+      "stopped": 57,
+      "rate": 0.285,
+      "missed": 18,
+      "missed_loss": 2951.82,
+      "false_stop": 40,
+      "false_ratio": 0.7017543859649122
+     },
+     {
+      "name": "C1(£200)+C2+C4",
+      "combo": [
+       "C1:200",
+       "C2",
+       "C4"
+      ],
+      "n": 200,
+      "stopped": 67,
+      "rate": 0.335,
+      "missed": 14,
+      "missed_loss": 2252.49,
+      "false_stop": 46,
+      "false_ratio": 0.6865671641791045
+     },
+     {
+      "name": "C1(£200)+C2+C4+C5",
+      "combo": [
+       "C1:200",
+       "C2",
+       "C4",
+       "C5"
+      ],
+      "n": 200,
+      "stopped": 88,
+      "rate": 0.44,
+      "missed": 14,
+      "missed_loss": 2252.49,
+      "false_stop": 67,
+      "false_ratio": 0.7613636363636364
+     },
+     {
+      "name": "전부 멈춤",
+      "combo": [
+       "ALL"
+      ],
+      "n": 200,
+      "stopped": 200,
+      "rate": 1.0,
+      "missed": 0,
+      "missed_loss": 0,
+      "false_stop": 165,
+      "false_ratio": 0.825
+     }
+    ],
+    "failed": 0,
+    "positives": 35
+   },
+   {
+    "rows": [
+     {
+      "name": "기준 없음",
+      "combo": [],
+      "n": 200,
+      "stopped": 0,
+      "rate": 0.0,
+      "missed": 36,
+      "missed_loss": 7231.27,
+      "false_stop": 0,
+      "false_ratio": 0.0
+     },
+     {
+      "name": "C1(£100)",
+      "combo": [
+       "C1:100"
+      ],
+      "n": 200,
+      "stopped": 48,
+      "rate": 0.24,
+      "missed": 12,
+      "missed_loss": 2297.32,
+      "false_stop": 24,
+      "false_ratio": 0.5
+     },
+     {
+      "name": "C1(£200)",
+      "combo": [
+       "C1:200"
+      ],
+      "n": 200,
+      "stopped": 16,
+      "rate": 0.08,
+      "missed": 25,
+      "missed_loss": 4336.62,
+      "false_stop": 5,
+      "false_ratio": 0.3125
+     },
+     {
+      "name": "C1(£300)",
+      "combo": [
+       "C1:300"
+      ],
+      "n": 200,
+      "stopped": 10,
+      "rate": 0.05,
+      "missed": 29,
+      "missed_loss": 5341.17,
+      "false_stop": 3,
+      "false_ratio": 0.3
+     },
+     {
+      "name": "C1(£200)+C2",
+      "combo": [
+       "C1:200",
+       "C2"
+      ],
+      "n": 200,
+      "stopped": 22,
+      "rate": 0.11,
+      "missed": 24,
+      "missed_loss": 4234.62,
+      "false_stop": 10,
+      "false_ratio": 0.45454545454545453
+     },
+     {
+      "name": "C1(£200)+C2+C3",
+      "combo": [
+       "C1:200",
+       "C2",
+       "C3"
+      ],
+      "n": 200,
+      "stopped": 58,
+      "rate": 0.29,
+      "missed": 19,
+      "missed_loss": 3132.85,
+      "false_stop": 41,
+      "false_ratio": 0.7068965517241379
+     },
+     {
+      "name": "C1(£200)+C2+C4",
+      "combo": [
+       "C1:200",
+       "C2",
+       "C4"
+      ],
+      "n": 200,
+      "stopped": 73,
+      "rate": 0.365,
+      "missed": 13,
+      "missed_loss": 1957.97,
+      "false_stop": 50,
+      "false_ratio": 0.684931506849315
+     },
+     {
+      "name": "C1(£200)+C2+C4+C5",
+      "combo": [
+       "C1:200",
+       "C2",
+       "C4",
+       "C5"
+      ],
+      "n": 200,
+      "stopped": 93,
+      "rate": 0.465,
+      "missed": 13,
+      "missed_loss": 1957.97,
+      "false_stop": 70,
+      "false_ratio": 0.7526881720430108
+     },
+     {
+      "name": "전부 멈춤",
+      "combo": [
+       "ALL"
+      ],
+      "n": 200,
+      "stopped": 200,
+      "rate": 1.0,
+      "missed": 0,
+      "missed_loss": 0,
+      "false_stop": 164,
+      "false_ratio": 0.82
+     }
+    ],
+    "failed": 0,
+    "positives": 36
+   }
+  ],
+  "spread": {
+   "기준 없음": {
+    "rate": [
+     0.0,
+     0.0
+    ],
+    "missed": [
+     33,
+     36
+    ],
+    "missed_loss": [
+     6675.94,
+     7836.49
+    ],
+    "false_stop": [
+     0,
+     0
+    ]
+   },
+   "C1(£100)": {
+    "rate": [
+     0.24,
+     0.255
+    ],
+    "missed": [
+     11,
+     12
+    ],
+    "missed_loss": [
+     2164.79,
+     2297.32
+    ],
+    "false_stop": [
+     24,
+     29
+    ]
+   },
+   "C1(£200)": {
+    "rate": [
+     0.08,
+     0.09
+    ],
+    "missed": [
+     21,
+     25
+    ],
+    "missed_loss": [
+     3672.39,
+     4336.62
+    ],
+    "false_stop": [
+     5,
+     6
+    ]
+   },
+   "C1(£300)": {
+    "rate": [
+     0.05,
+     0.05
+    ],
+    "missed": [
+     27,
+     29
+    ],
+    "missed_loss": [
+     5034.69,
+     5341.17
+    ],
+    "false_stop": [
+     3,
+     4
+    ]
+   },
+   "C1(£200)+C2": {
+    "rate": [
+     0.09,
+     0.11
+    ],
+    "missed": [
+     21,
+     24
+    ],
+    "missed_loss": [
+     3672.39,
+     4234.62
+    ],
+    "false_stop": [
+     6,
+     10
+    ]
+   },
+   "C1(£200)+C2+C3": {
+    "rate": [
+     0.285,
+     0.29
+    ],
+    "missed": [
+     17,
+     19
+    ],
+    "missed_loss": [
+     2709.27,
+     3132.85
+    ],
+    "false_stop": [
+     40,
+     41
+    ]
+   },
+   "C1(£200)+C2+C4": {
+    "rate": [
+     0.315,
+     0.365
+    ],
+    "missed": [
+     13,
+     14
+    ],
+    "missed_loss": [
+     1954.29,
+     2252.49
+    ],
+    "false_stop": [
+     44,
+     50
+    ]
+   },
+   "C1(£200)+C2+C4+C5": {
+    "rate": [
+     0.44,
+     0.465
+    ],
+    "missed": [
+     13,
+     14
+    ],
+    "missed_loss": [
+     1954.29,
+     2252.49
+    ],
+    "false_stop": [
+     67,
+     70
+    ]
+   },
+   "전부 멈춤": {
+    "rate": [
+     1.0,
+     1.0
+    ],
+    "missed": [
+     0,
+     0
+    ],
+    "missed_loss": [
+     0,
+     0
+    ],
+    "false_stop": [
+     164,
+     167
+    ]
+   }
+  },
+  "baseline": {
+   "llm_loss": 10912.27,
+   "naive_loss": 12231.78
+  }
+ },
+ "preregistered": {
+  "name": "C1(£200)",
+  "combo": [
+   "C1:200"
+  ],
+  "fallback": false
+ },
+ "selected": {
+  "name": "C1(£200)+C2",
+  "combo": [
+   "C1:200",
+   "C2"
+  ],
+  "fallback": false
+ },
+ "amendment": "과제 요건(기준 2가지 이상)을 사전 등록 규칙에 빠뜨려, 결과를 본 뒤 '내용 기준 2개 이상인 조합' 조건만 더해 같은 규칙을 다시 적용했다",
+ "tests": [
+  {
+   "week": "2011-09-05",
+   "table": {
+    "rows": [
+     {
+      "name": "기준 없음",
+      "combo": [],
+      "n": 200,
+      "stopped": 0,
+      "rate": 0.0,
+      "missed": 34,
+      "missed_loss": 9230.66,
+      "false_stop": 0,
+      "false_ratio": 0.0
+     },
+     {
+      "name": "C1(£100)",
+      "combo": [
+       "C1:100"
+      ],
+      "n": 200,
+      "stopped": 50,
+      "rate": 0.25,
+      "missed": 13,
+      "missed_loss": 2847.23,
+      "false_stop": 29,
+      "false_ratio": 0.58
+     },
+     {
+      "name": "C1(£200)",
+      "combo": [
+       "C1:200"
+      ],
+      "n": 200,
+      "stopped": 20,
+      "rate": 0.1,
+      "missed": 22,
+      "missed_loss": 4809.95,
+      "false_stop": 8,
+      "false_ratio": 0.4
+     },
+     {
+      "name": "C1(£300)",
+      "combo": [
+       "C1:300"
+      ],
+      "n": 200,
+      "stopped": 14,
+      "rate": 0.07,
+      "missed": 24,
+      "missed_loss": 5201.95,
+      "false_stop": 4,
+      "false_ratio": 0.2857142857142857
+     },
+     {
+      "name": "C1(£200)+C2",
+      "combo": [
+       "C1:200",
+       "C2"
+      ],
+      "n": 200,
+      "stopped": 25,
+      "rate": 0.125,
+      "missed": 22,
+      "missed_loss": 4809.95,
+      "false_stop": 13,
+      "false_ratio": 0.52
+     },
+     {
+      "name": "C1(£200)+C2+C3",
+      "combo": [
+       "C1:200",
+       "C2",
+       "C3"
+      ],
+      "n": 200,
+      "stopped": 61,
+      "rate": 0.305,
+      "missed": 18,
+      "missed_loss": 4196.55,
+      "false_stop": 45,
+      "false_ratio": 0.7377049180327869
+     },
+     {
+      "name": "C1(£200)+C2+C4",
+      "combo": [
+       "C1:200",
+       "C2",
+       "C4"
+      ],
+      "n": 200,
+      "stopped": 72,
+      "rate": 0.36,
+      "missed": 17,
+      "missed_loss": 3794.97,
+      "false_stop": 55,
+      "false_ratio": 0.7638888888888888
+     },
+     {
+      "name": "C1(£200)+C2+C4+C5",
+      "combo": [
+       "C1:200",
+       "C2",
+       "C4",
+       "C5"
+      ],
+      "n": 200,
+      "stopped": 72,
+      "rate": 0.36,
+      "missed": 17,
+      "missed_loss": 3794.97,
+      "false_stop": 55,
+      "false_ratio": 0.7638888888888888
+     },
+     {
+      "name": "전부 멈춤",
+      "combo": [
+       "ALL"
+      ],
+      "n": 200,
+      "stopped": 200,
+      "rate": 1.0,
+      "missed": 0,
+      "missed_loss": 0,
+      "false_stop": 166,
+      "false_ratio": 0.83
+     }
+    ],
+    "failed": 0,
+    "positives": 34
+   },
+   "selected_row": {
+    "name": "C1(£200)+C2",
+    "combo": [
+     "C1:200",
+     "C2"
+    ],
+    "n": 200,
+    "stopped": 25,
+    "rate": 0.125,
+    "missed": 22,
+    "missed_loss": 4809.95,
+    "false_stop": 13,
+    "false_ratio": 0.52
+   },
+   "baseline": {
+    "llm_loss": 13979.68,
+    "naive_loss": 13675.23
+   }
+  },
+  {
+   "week": "2011-10-03",
+   "table": {
+    "rows": [
+     {
+      "name": "기준 없음",
+      "combo": [],
+      "n": 200,
+      "stopped": 0,
+      "rate": 0.0,
+      "missed": 39,
+      "missed_loss": 12771.34,
+      "false_stop": 0,
+      "false_ratio": 0.0
+     },
+     {
+      "name": "C1(£100)",
+      "combo": [
+       "C1:100"
+      ],
+      "n": 200,
+      "stopped": 63,
+      "rate": 0.315,
+      "missed": 5,
+      "missed_loss": 818.47,
+      "false_stop": 29,
+      "false_ratio": 0.4603174603174603
+     },
+     {
+      "name": "C1(£200)",
+      "combo": [
+       "C1:200"
+      ],
+      "n": 200,
+      "stopped": 30,
+      "rate": 0.15,
+      "missed": 20,
+      "missed_loss": 4738.67,
+      "false_stop": 11,
+      "false_ratio": 0.36666666666666664
+     },
+     {
+      "name": "C1(£300)",
+      "combo": [
+       "C1:300"
+      ],
+      "n": 200,
+      "stopped": 16,
+      "rate": 0.08,
+      "missed": 27,
+      "missed_loss": 5912.8,
+      "false_stop": 4,
+      "false_ratio": 0.25
+     },
+     {
+      "name": "C1(£200)+C2",
+      "combo": [
+       "C1:200",
+       "C2"
+      ],
+      "n": 200,
+      "stopped": 38,
+      "rate": 0.19,
+      "missed": 18,
+      "missed_loss": 4262.02,
+      "false_stop": 17,
+      "false_ratio": 0.4473684210526316
+     },
+     {
+      "name": "C1(£200)+C2+C3",
+      "combo": [
+       "C1:200",
+       "C2",
+       "C3"
+      ],
+      "n": 200,
+      "stopped": 74,
+      "rate": 0.37,
+      "missed": 14,
+      "missed_loss": 3726.07,
+      "false_stop": 49,
+      "false_ratio": 0.6621621621621622
+     },
+     {
+      "name": "C1(£200)+C2+C4",
+      "combo": [
+       "C1:200",
+       "C2",
+       "C4"
+      ],
+      "n": 200,
+      "stopped": 63,
+      "rate": 0.315,
+      "missed": 14,
+      "missed_loss": 3266.22,
+      "false_stop": 38,
+      "false_ratio": 0.6031746031746031
+     },
+     {
+      "name": "C1(£200)+C2+C4+C5",
+      "combo": [
+       "C1:200",
+       "C2",
+       "C4",
+       "C5"
+      ],
+      "n": 200,
+      "stopped": 63,
+      "rate": 0.315,
+      "missed": 14,
+      "missed_loss": 3266.22,
+      "false_stop": 38,
+      "false_ratio": 0.6031746031746031
+     },
+     {
+      "name": "전부 멈춤",
+      "combo": [
+       "ALL"
+      ],
+      "n": 200,
+      "stopped": 200,
+      "rate": 1.0,
+      "missed": 0,
+      "missed_loss": 0,
+      "false_stop": 161,
+      "false_ratio": 0.805
+     }
+    ],
+    "failed": 0,
+    "positives": 39
+   },
+   "selected_row": {
+    "name": "C1(£200)+C2",
+    "combo": [
+     "C1:200",
+     "C2"
+    ],
+    "n": 200,
+    "stopped": 38,
+    "rate": 0.19,
+    "missed": 18,
+    "missed_loss": 4262.02,
+    "false_stop": 17,
+    "false_ratio": 0.4473684210526316
+   },
+   "baseline": {
+    "llm_loss": 17486.57,
+    "naive_loss": 17356.82
+   }
+  }
+ ]
+}

@@ -1,0 +1,8 @@
+{
+ "name": "C1(£200)+C2",
+ "combo": [
+  "C1:200",
+  "C2"
+ ],
+ "fallback": false
+}

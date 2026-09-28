@@ -21,7 +21,8 @@ def main():
     d = doc["dev"]
     print(f"## 개발 주 {d['week']} (샘플 1) — 판단 실패 {d['tables'][0]['failed']}건, 멈춰야 할 건 {d['tables'][0]['positives']}건")
     print(fmt(d["tables"][0]["rows"]))
-    print(f"\n선택: {doc['selected']['name']} (fallback={doc['selected']['fallback']})")
+    print(f"\n사전 등록 규칙의 선택: {doc['preregistered']['name']}")
+    print(f"보정 후 선택: {doc['selected']['name']} (fallback={doc['selected']['fallback']}) — {doc['amendment']}")
     for t in doc["tests"]:
         print(f"\n## 검증 주 {t['week']} — 멈춰야 할 건 {t['table']['positives']}건")
         print(fmt(t["table"]["rows"]))

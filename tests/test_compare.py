@@ -69,3 +69,17 @@ def test_c5_selected_without_test_samples_raises(tmp_path, monkeypatch):
     monkeypatch.setattr("eval.compare.COMBOS", [("C5만", ["C5"])])
     with pytest.raises(NeedMoreSamples):
         evaluate_all(tmp_path / "weeks", tmp_path / "runs")
+
+
+def test_amendment_requires_two_content_rules_and_keeps_preregistered(tmp_path, monkeypatch):
+    # 과제 요건(기준 2개 이상)을 사전 등록 규칙에 빠뜨려 결과를 본 뒤 보정했다 — 원래 결과도 남긴다
+    three = {k: v * 3 for k, v in SAMPLES.items()}
+    _write(tmp_path, "dev", ITEMS, ACTUAL, three)
+    _write(tmp_path, "t1", ITEMS, ACTUAL, SAMPLES)
+    monkeypatch.setattr("eval.compare.DEV_WEEK", "dev")
+    monkeypatch.setattr("eval.compare.TEST_WEEKS", ("t1",))
+    monkeypatch.setattr("eval.compare.COMBOS", [("C1만", ["C1:200"]), ("C1+C2", ["C1:200", "C2"]),
+                                                ("전부", ["ALL"])])
+    doc = evaluate_all(tmp_path / "weeks", tmp_path / "runs")
+    assert doc["preregistered"]["name"] == "C1만"
+    assert doc["selected"]["name"] == "C1+C2" and doc["amendment"]

@@ -74,6 +74,10 @@ def create_app(store_url_=None, checkpoint_url_=None, runs_dir=RUNS, weeks_dir=D
         store.create_session(sid)
         return {"session": sid, "weeks": weeks(), "combo": combo}
 
+    @app.get("/api/session-info")
+    def session_info(x_session: str | None = Header(None)):
+        return {"session": need_session(x_session), "weeks": weeks(), "combo": combo}
+
     @app.post("/api/run")
     def run(body: dict = Body(...), x_session: str | None = Header(None),
             x_openai_key: str | None = Header(None)):

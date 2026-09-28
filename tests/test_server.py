@@ -119,3 +119,9 @@ def test_stale_badge_after_72h(client):
 
 def test_static_index_served(client):
     assert "<title>t</title>" in client.get("/").text
+
+
+def test_session_info(client):
+    s = session(client)
+    assert client.get("/api/session-info", headers=h(s)).json()["weeks"] == [W]
+    assert client.get("/api/session-info").status_code == 401

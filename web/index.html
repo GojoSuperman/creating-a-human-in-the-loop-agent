@@ -1,19 +1,90 @@
-<!doctype html><html lang="ko"><head><meta charset="utf-8"><title>재고 발주 결재실</title>
-<style>html,body{margin:0;height:100%;background:#f6f2ea}canvas{width:100vw;height:100vh;display:block}</style></head>
-<body><canvas id="c"></canvas><script type="module">
-import { preload, draw, fitView } from "./src/renderer.js";
-import { Office } from "./src/office.js";
-const c = document.getElementById("c"), office = new Office();
-const r = await preload(); console.log("에셋", r); document.title = `missing=${r.missing}`;
-// 데모: 가짜 이벤트 12건 (이 페이지는 Task 13 에서 실제 SSE 로 바뀐다)
-for (let i = 0; i < 12; i++) {
-  const code = "D" + i;
-  office.push({ type: "judged", code, analyst: i % 3 });
-  office.push(i % 3 === 0 ? { type: "queued", code, flags: ["C1:200"] } : { type: "sent", code, by: "auto" });
-}
-if (location.hash.includes("skip")) office.skip();
-let grid = location.hash.includes("grid");
-addEventListener("keydown", e => { if (e.key === "g" || e.key === "G") grid = !grid; });
-let last = performance.now();
-(function loop(t) { office.tick(t - last); last = t; draw(c, { ...fitView(c), frame: office.frame(), grid, props: !location.hash.includes("empty") }); requestAnimationFrame(loop); })(last);
-</script></body></html>
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>재고 발주 결재실</title>
+<style>
+  :root{--bg:#f6f2ea;--fg:#231f1a;--mut:#6d6559;--line:#ddd5c8;--acc:#8a5a2b;--panel:#fffdf9;
+        --go:#2f9e5b;--no:#d9566c;--blue:#3b7fd9;--purple:#8b5cf6;--warn:#b7791f}
+  @media(prefers-color-scheme:dark){:root:not([data-theme=light]){
+    --bg:#15130e;--fg:#e9e4d8;--mut:#98907f;--line:#332e24;--acc:#d6a75f;--panel:#1d1a13}}
+  *{box-sizing:border-box}
+  [hidden]{display:none!important}   /* #view-office{display:flex} 가 hidden 을 덮지 않게 */
+  html,body{height:100%}
+  body{margin:0;background:var(--bg);color:var(--fg);display:flex;flex-direction:column;
+       font:15px/1.6 -apple-system,"Noto Sans KR","Malgun Gothic",sans-serif}
+  header{display:flex;gap:10px;align-items:center;flex-wrap:wrap;padding:8px 16px;border-bottom:1px solid var(--line)}
+  h1{font-size:1rem;margin:0 8px 0 0}
+  button,select,input{font:inherit;font-size:.85rem;padding:5px 10px;border:1px solid var(--line);
+       background:var(--panel);color:var(--fg);border-radius:6px}
+  button{cursor:pointer} button:disabled{opacity:.45;cursor:default}
+  button.on{background:var(--acc);color:#fff;border-color:var(--acc)}
+  .tabs{display:flex;gap:4px}
+  #combo{color:var(--mut);font-size:.8rem}
+  #summary{display:flex;gap:6px;flex-wrap:wrap;padding:6px 16px;border-bottom:1px solid var(--line)}
+  .chip{border:1px solid var(--line);border-radius:999px;padding:1px 10px;font-size:.85rem;background:var(--panel)}
+  .chip b{font-size:1rem}.chip.auto b{color:var(--go)}.chip.wait b{color:var(--no)}
+  main{flex:1;min-height:0;display:flex}
+  #view-office{flex:1;display:flex;min-width:0}
+  #scene{flex:1;min-width:0;height:100%;display:block}
+  aside{width:340px;max-width:40vw;border-left:1px solid var(--line);overflow:auto;padding:10px}
+  aside h2{font-size:.95rem;margin:4px 0 8px}
+  .doc{display:block;width:100%;text-align:left;margin:0 0 6px;padding:8px 10px;border-left:4px solid var(--no)}
+  .doc.fail{border-left-color:#9aa0a6}.doc .nm{display:block;font-weight:700}
+  .doc .meta{display:block;color:var(--mut);font-size:.8rem}
+  .doc i{font-style:normal;font-size:.72rem;background:#fde2e6;color:#9b2336;border-radius:4px;padding:0 5px;margin-right:4px}
+  .doc i.stale{background:#fff3cd;color:var(--warn)}
+  .empty{color:var(--mut)}
+  .page{flex:1;overflow:auto;padding:16px 20px}
+  table{border-collapse:collapse;width:100%;font-size:.88rem}
+  th,td{border-bottom:1px solid var(--line);padding:6px 8px;text-align:left}
+  tr.sel{background:rgba(47,158,91,.12);font-weight:700}
+  .note{color:var(--warn);font-size:.85rem}
+  dialog{max-width:720px;width:calc(100% - 32px);border:1px solid var(--line);border-radius:12px;background:var(--panel);color:var(--fg)}
+  dialog::backdrop{background:rgba(0,0,0,.35)}
+  dialog section{border-top:1px solid var(--line);padding:6px 0}
+  dialog h3{font-size:.85rem;color:var(--mut);margin:4px 0}
+  dialog .big{font-size:1.2rem;font-weight:700;margin:0}
+  dialog .then{background:rgba(217,86,108,.08);padding:8px;border-radius:8px}
+  .bars{position:relative;display:flex;gap:4px;height:90px;align-items:flex-end}
+  .bars div{flex:1;height:100%;display:flex;flex-direction:column;justify-content:flex-end;align-items:center}
+  .bars span{width:100%;background:var(--blue);border-radius:3px 3px 0 0;min-height:1px}
+  .bars em{font-style:normal;font-size:.7rem;color:var(--mut)}
+  .bars hr{position:absolute;left:0;right:0;border:0;border-top:2px dashed var(--no);margin:0}
+  .actions{display:flex;flex-direction:column;gap:6px;margin-top:10px}
+  .actions span{display:flex;gap:6px}.actions input{flex:1}
+  .go{background:var(--go);color:#fff}.no{background:var(--no);color:#fff}.blue{background:var(--blue);color:#fff}.purple{background:var(--purple);color:#fff}
+  .warn{color:var(--warn);font-weight:700}.err{color:var(--no);min-height:1.2em}
+  .fatal{background:#fde2e6;color:#9b2336;padding:8px 16px;margin:0}
+  @media(max-width:760px){main{flex-direction:column}#view-office{flex-direction:column}#scene{height:50vh;flex:none}aside{width:auto;max-width:none;border-left:0;border-top:1px solid var(--line)}}
+</style>
+</head>
+<body>
+<header>
+  <h1>📦 재고 발주 결재실</h1>
+  <div class="tabs">
+    <button id="tab-office" class="on">🏢 사무실</button>
+    <button id="tab-fax">📠 발송 기록</button>
+    <button id="tab-eval">📊 기준 검증</button>
+  </div>
+  <select id="week" aria-label="주"></select>
+  <button id="run">▶ 이번 주 처리</button>
+  <button data-speed="1" class="on">1×</button><button data-speed="4">4×</button><button data-speed="skip">⏭ 건너뛰기</button>
+  <button id="reset">↺ 처음부터</button>
+  <button id="key">🔑 내 키</button>
+  <span id="combo" title="적용 중인 승인 기준"></span>
+</header>
+<div id="summary"></div>
+<main>
+  <div id="view-office">
+    <canvas id="scene" aria-label="발주 사무실 장면"></canvas>
+    <aside><h2>📥 결재함</h2><div id="inbox"></div></aside>
+  </div>
+  <div id="view-fax" class="page" hidden><div id="fax"></div></div>
+  <div id="view-eval" class="page" hidden><div id="eval"></div></div>
+</main>
+<dialog id="modal"><form method="dialog" style="text-align:right;margin:0"><button aria-label="닫기">✕</button></form><div class="body"></div></dialog>
+<script type="module" src="src/main.js"></script>
+</body>
+</html>

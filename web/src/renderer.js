@@ -167,6 +167,7 @@ export function draw(canvas, view) {
   const { scale = 0.45, pan = { x: 0, y: 0 }, frame, grid = false, props = true } = view;
   const ctx = canvas.getContext("2d"), dpr = window.devicePixelRatio || 1;
   const vw = canvas.clientWidth, vh = canvas.clientHeight;
+  if (!vw || !vh) return { box: sceneBox(), missing: [] };   // 탭이 가려져 크기가 0 — 그리지 않는다
   if (canvas.width !== vw * dpr || canvas.height !== vh * dpr) { canvas.width = vw * dpr; canvas.height = vh * dpr; }
   ctx.setTransform(dpr, 0, 0, dpr, 0, 0); ctx.clearRect(0, 0, vw, vh);
   ctx.save(); ctx.translate(pan.x, pan.y); ctx.scale(scale, scale);
@@ -177,6 +178,6 @@ export function draw(canvas, view) {
 
 export function fitView(canvas) {
   const box = sceneBox(), vw = canvas.clientWidth, vh = canvas.clientHeight;
-  const scale = Math.min(vw / box.width, vh / box.height) * 0.995;
+  const scale = Math.max(Math.min(vw / box.width, vh / box.height) * 0.995, 0.01);
   return { scale, pan: { x: (vw - box.width * scale) / 2, y: (vh - box.height * scale) / 2 } };
 }

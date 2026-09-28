@@ -15,13 +15,15 @@ function renderPanel() {
   $("#wait-n").textContent = pendingItems.length;
   $("#review-n").textContent = pendingItems.length;
   if (!open) return;
-  if (!pendingItems.some(p => p.thread_id === selected)) selected = pendingItems[0]?.thread_id || null;
-  renderInbox($("#inbox"), pendingItems, selected, tid => { selected = tid; renderPanel(); });
-  renderDetail($("#detail"), selected, done => {
-    const i = pendingItems.findIndex(p => p.thread_id === done);
-    selected = pendingItems[i + 1]?.thread_id || pendingItems[i - 1]?.thread_id || null;   // 다음 서류로
-    refresh();
-  });
+  if (!pendingItems.some(p => p.thread_id === selected)) selected = null;
+  renderInbox($("#inbox"), pendingItems, selected, tid => { selected = tid; renderPanel(); openDetail(tid); });
+}
+
+// 가운데 결재 창 — 다섯 칸 + 네 가지 응답. 결재하면 닫히고 팀장이 서류를 나른다.
+function openDetail(tid) {
+  const dlg = $("#modal");
+  renderDetail($("#detail"), tid, () => { dlg.close(); refresh(); });
+  if (!dlg.open) dlg.showModal();
 }
 
 async function refresh() {
@@ -73,7 +75,7 @@ async function main() {
   });
   for (const t of ["office", "fax", "eval"]) $(`#tab-${t}`).onclick = () => tab(t);
   office.onOpen = () => { selected = null; renderPanel(); };
-  office.onClose = () => renderPanel();
+  office.onClose = () => { if ($("#modal").open) $("#modal").close(); renderPanel(); };
   $("#go-review").onclick = () => office.openNow();
   addEventListener("keydown", e => { if ((e.key === "g" || e.key === "G") && e.target === document.body) grid = !grid; });
   evalDoc = await api("/api/eval").catch(() => null);
@@ -90,6 +92,7 @@ async function main() {
   await preload();
   await refresh();
   if (location.hash.includes("skip")) office.skip();
+  if (location.hash.includes("open") && pendingItems[0]) openDetail(pendingItems[0].thread_id);   // 캡처용
   if (location.hash.includes("eval")) tab("eval");
   if (location.hash.includes("fax")) tab("fax");
   let last = performance.now();

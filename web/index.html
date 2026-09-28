@@ -29,18 +29,21 @@
   #view-office{flex:1;display:flex;min-width:0}
   #scene{flex:1;min-width:0;height:100%;display:block}
   aside{width:300px;max-width:40vw;border-left:1px solid var(--line);overflow:auto;padding:10px;transition:width .25s}
-  aside.wide{width:460px;max-width:48vw}
+  aside.wide{width:360px;max-width:44vw}
   aside h2{font-size:.95rem;margin:4px 0 8px;display:flex;justify-content:space-between}
   aside h2 .n{font-weight:400;color:var(--mut);font-size:.85rem}
   #go-review{width:100%;padding:8px}
-  #inbox{max-height:34vh;overflow:auto;margin-bottom:8px}
+  #inbox{margin-bottom:8px}
+  .hint{font-size:.8rem;margin:0 0 6px}
   .doc{display:block;width:100%;text-align:left;margin:0 0 4px;padding:6px 10px;border-left:4px solid var(--no)}
   .doc.sel{outline:2px solid var(--acc)}
   .doc.fail{border-left-color:#9aa0a6}.doc .nm{display:block;font-weight:700;font-size:.9rem}
   .doc .meta{display:block;color:var(--mut);font-size:.78rem}
   .doc i{font-style:normal;font-size:.7rem;background:#fde2e6;color:#9b2336;border-radius:4px;padding:0 5px;margin-left:4px}
   .doc i.stale{background:#fff3cd;color:var(--warn)}
-  #detail{border-top:2px solid var(--line);padding-top:6px}
+  dialog{max-width:720px;width:calc(100% - 32px);border:1px solid var(--line);border-radius:12px;background:var(--panel);color:var(--fg);padding:14px 18px}
+  dialog::backdrop{background:rgba(0,0,0,.35)}
+  dialog .x{text-align:right;margin:0}
   #detail .ttl{margin:4px 0}
   #detail section{border-top:1px solid var(--line);padding:4px 0}
   #detail h4{font-size:.8rem;color:var(--mut);margin:2px 0}
@@ -94,14 +97,15 @@
       </div>
       <div id="panel-open" hidden>
         <h2>📋 결재 중 <span class="n">대기 <b id="review-n">0</b>건</span></h2>
+        <p class="empty hint">서류를 누르면 가운데 결재 창이 열립니다.</p>
         <div id="inbox"></div>
-        <div id="detail"></div>
       </div>
     </aside>
   </div>
   <div id="view-fax" class="page" hidden><div id="fax"></div></div>
   <div id="view-eval" class="page" hidden><div id="eval"></div></div>
 </main>
+<dialog id="modal"><form method="dialog" class="x"><button aria-label="닫기">✕</button></form><div id="detail"></div></dialog>
 <script type="module" src="src/main.js"></script>
 </body>
 </html>

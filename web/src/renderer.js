@@ -1,5 +1,5 @@
 // 렌더러 — 바닥·벽·가구·캐릭터·서류. 스프라이트 로딩·잘라내기·바닥 굽기는 Deep-research-agent 에서 가져왔다.
-import { GRID, PROPS, STATIONS, WALL, ASSETS, ASSET_V, FURN, FACE, LAYER, TONE, TILE } from "./config.js";
+import { GRID, PROPS, STATIONS, WALL, ASSETS, ASSET_V, FURN, FACE, LAYER, TONE, TILE, PROP_SCALE, ACTOR_SCALE } from "./config.js";
 import { foot, spriteTopLeft, depth, sceneBox } from "./iso.js";
 import { allParts, drawActor, CAST } from "./actors.js";
 
@@ -23,7 +23,9 @@ function wallItems() {
   for (let col = 0; col < GRID.cols; col++) out.push({ col, row: -1, layer: LAYER.WALL, sprite: pick(col) });
   return out;
 }
-const propItems = () => PROPS.map(p => ({ ...p, layer: p.layer ?? LAYER.PROP, sprite: p.sprite + (p.face || FACE) }));
+const propItems = () => PROPS.map(p => ({ ...p, layer: p.layer ?? LAYER.PROP, sprite: p.sprite + (p.face || FACE),
+                                         scale: (p.scale ?? 1) * PROP_SCALE,
+                                         dy: (p.dy || 0) * PROP_SCALE, dx: (p.dx || 0) * PROP_SCALE }));
 
 export async function preload() {
   const names = new Set(["floorFull" + FACE, ...propItems().map(i => i.sprite), ...wallItems().map(w => w.sprite)]);
@@ -77,10 +79,17 @@ function drawSprite(ctx, it, origin, lvl, missing) {
   const p = spriteTopLeft(it.col, it.row, origin);
   const t = trimOf(img), bake = spriteOf(img, lvl);
   const x = p.x + (it.dx || 0), y = p.y + (it.dy || 0);
-  if (it.flip) {
-    ctx.save(); ctx.translate(x + img.width, y); ctx.scale(-1, 1);
-    ctx.drawImage(bake, t.x, t.y, t.w, t.h); ctx.restore();
-  } else ctx.drawImage(bake, x + t.x, y + t.y, t.w, t.h);
+  // 키워도 바닥 앵커(스프라이트 가로 중앙 · 타일 중심 높이)는 제자리
+  const k = it.scale || 1, ax = x + img.width / 2, ay = y + img.height - TILE.H / 2;
+  const left = ax - (img.width / 2) * k, top = ay - (img.height - TILE.H / 2) * k;
+  const dx = left + t.x * k, dy = top + t.y * k, w = t.w * k, h = t.h * k;
+  if (it.mirror) {        // 제자리 뒤집기 — 책상 위 모니터처럼 놓인 자리는 그대로 두고 방향만
+    ctx.save(); ctx.translate(dx + w, dy); ctx.scale(-1, 1);
+    ctx.drawImage(bake, 0, 0, w, h); ctx.restore();
+  } else if (it.flip) {   // 캔버스 기준 뒤집기 — 벽처럼 반대편 벽선으로 옮겨 가는 것
+    ctx.save(); ctx.translate(left + img.width * k, top); ctx.scale(-1, 1);
+    ctx.drawImage(bake, t.x * k, t.y * k, w, h); ctx.restore();
+  } else ctx.drawImage(bake, dx, dy, w, h);
 }
 
 function paper(ctx, x, y, tone) {
@@ -125,7 +134,7 @@ function paint(ctx, frame, res, props = true) {
   pile("tray", frame.piles.tray, "stop"); pile("fax", frame.piles.fax, "auto"); pile("trash", frame.piles.trash, "stop");
 
   const cast = [...frame.actors].sort((a, b) => a.col + a.row - (b.col + b.row));
-  for (const a of cast) { const f = foot(a.col, a.row, o); drawActor(ctx, n => got(n, "characters"), a.role, a.state, f.x, f.y); }
+  for (const a of cast) { const f = foot(a.col, a.row, o); drawActor(ctx, n => got(n, "characters"), a.role, a.state, f.x, f.y, ACTOR_SCALE); }
   for (const p of frame.papers) { const f = foot(p.col, p.row, o); paper(ctx, f.x, f.y + p.lift, p.tone); }
 
   for (const s of Object.values(STATIONS)) if (s.name) { const f = foot(s.col, s.row, o); tag(ctx, f.x, f.y - 150, s.name); }

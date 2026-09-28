@@ -176,3 +176,13 @@ print(decide(app, ctx, "{tid}", {{"action": "approve"}}))
     out = subprocess.run([sys.executable, "-c", code], capture_output=True, text=True, check=True)
     assert out.stdout.strip() == "approved"
     assert len(store.fax_list("S")) == 1
+
+
+def test_events_carry_bubble_text(env):
+    # 검사관 말풍선: 걸린 기준 문장 / 팀장 말풍선: 어떤 결재를 했는지
+    app, store, ctx, events, _ = env
+    tid = run(env)
+    decide(app, ctx, tid, {"action": "edit", "qty": 40})
+    q = next(e for e in events if e["type"] == "queued")
+    s = next(e for e in events if e["type"] == "sent")
+    assert "2배" in q["texts"][-1] and s["qty"] == 40 and s["action"] == "edit"

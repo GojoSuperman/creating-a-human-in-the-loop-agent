@@ -69,3 +69,11 @@ def test_bad_key_aborts_batch_and_caches_nothing(tmp_path):
     with pytest.raises(AuthFailed):
         run_batch("w", ITEMS, BatchCtx(judge_fn=live_judge_fn(FakeLLM([bad]), cache, 1)), concurrency=1)
     assert cache.doc["items"] == {} and not (tmp_path / "j.json").exists()
+
+
+def test_judged_event_carries_what_the_analyst_says():
+    # 사무실 말풍선용 — 분석가가 무엇을 판단했는지
+    events = []
+    run_batch("w", ITEMS[:1], BatchCtx(judge_fn=lambda it: [mk_j(30, "급증", "재즈 주소록")], emit=events.append))
+    e = next(e for e in events if e["type"] == "judged")
+    assert e["name"] == "재즈 주소록" and e["qty"] == 30 and e["signal"] == "급증" and e["reason"]

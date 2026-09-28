@@ -112,7 +112,7 @@ def enqueue(state, runtime: Runtime[OrderCtx]):
     status = "failed_to_human" if "error" in state["judgment"] else "pending"
     runtime.context.store.set_status(state["thread_id"], status)
     runtime.context.emit(_ev(state, "queued", flags=[f["rule"] for f in state["flags"]],
-                             failed=status == "failed_to_human"))
+                             texts=[f["text"] for f in state["flags"]], failed=status == "failed_to_human"))
     return {"status": status}
 
 
@@ -139,7 +139,7 @@ def send_po(state, runtime: Runtime[OrderCtx]):
           "redo_count": state.get("redo_count", 0)}
     ctx = runtime.context
     if ctx.store.fax_send(state["thread_id"], state["session"], po):     # 멱등 — 두 번 보내지 않는다
-        ctx.emit(_ev(state, "sent", by=by))
+        ctx.emit(_ev(state, "sent", by=by, qty=qty, action=d.get("action")))
     ctx.store.set_status(state["thread_id"], status)
     return {"po": po, "status": status}
 
@@ -148,7 +148,7 @@ def record_reject(state, runtime: Runtime[OrderCtx]):
     ctx = runtime.context
     ctx.store.add_reject(state["thread_id"], state["session"], state["decision"]["reason"].strip())
     ctx.store.set_status(state["thread_id"], "rejected")
-    ctx.emit(_ev(state, "rejected"))
+    ctx.emit(_ev(state, "rejected", reason=state["decision"]["reason"].strip()[:40]))
     return {"status": "rejected"}
 
 
@@ -163,7 +163,7 @@ def rejudge(state, runtime: Runtime[OrderCtx]):
             j = {"error": "OpenAI 사용 한도 초과"}
         except AuthFailed:
             j = {"error": "OpenAI 키가 올바르지 않습니다"}
-    runtime.context.emit(_ev(state, "rejudged"))
+    runtime.context.emit(_ev(state, "rejudged", instruction=state["decision"]["instruction"][:40], qty=j.get("qty")))
     return {"judgment": j, "samples": [j], "redo_count": state.get("redo_count", 0) + 1, "decision": None}
 
 

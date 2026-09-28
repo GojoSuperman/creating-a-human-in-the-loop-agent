@@ -8,8 +8,9 @@ const r = await preload(); console.log("에셋", r); document.title = `missing=$
 // 데모: 가짜 이벤트 12건 (이 페이지는 Task 13 에서 실제 SSE 로 바뀐다)
 for (let i = 0; i < 12; i++) {
   const code = "D" + i;
-  office.push({ type: "judged", code, analyst: i % 3 });
-  office.push(i % 3 === 0 ? { type: "queued", code, flags: ["C1:200"] } : { type: "sent", code, by: "auto" });
+  office.push({ type: "judged", code, analyst: i % 3, name: ["재즈 하트 주소록", "빈티지 레드 머그", "LED 야간등"][i % 3],
+                qty: [30, 10, 220][i % 3], signal: ["급증", "평소", "증가"][i % 3], reason: "최근 2주 판매가 늘어 다음 주도 수요 증가 예상" });
+  office.push(i % 3 === 0 ? { type: "queued", code, flags: ["C2"], texts: ["발주량 30개 = 8주 평균의 2.1배 > 2배"] } : { type: "sent", code, by: "auto" });
 }
 if (location.hash.includes("skip")) office.skip();
 let grid = location.hash.includes("grid");

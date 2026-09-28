@@ -108,12 +108,18 @@ function tag(ctx, x, y, text, size = 23) {
   ctx.fillStyle = "#1a1a1a"; ctx.fillText(text, x, y);
 }
 
+// 말풍선 — 줄바꿈(\n)을 지키고, 가장 긴 줄에 폭을 맞춘다
 function bubble(ctx, x, y, text) {
-  ctx.save(); ctx.font = "21px sans-serif"; ctx.textAlign = "center";
-  const w = ctx.measureText(text).width + 24, h = 36;
-  ctx.fillStyle = "rgba(255,255,255,.95)"; ctx.strokeStyle = "rgba(0,0,0,.2)"; ctx.lineWidth = 1.5;
-  ctx.beginPath(); ctx.roundRect(x - w / 2, y - h, w, h, 9); ctx.fill(); ctx.stroke();
-  ctx.fillStyle = "#1a1a1a"; ctx.fillText(text, x, y - 11); ctx.restore();
+  ctx.save(); ctx.font = "22px sans-serif"; ctx.textAlign = "center";
+  const lines = String(text).split("\n").slice(0, 4), lh = 28, pad = 12;
+  const w = Math.max(...lines.map(l => ctx.measureText(l).width)) + pad * 2, h = lines.length * lh + 12;
+  const top = y - h - 10;
+  ctx.fillStyle = "rgba(255,255,255,.96)"; ctx.strokeStyle = "rgba(0,0,0,.22)"; ctx.lineWidth = 1.5;
+  ctx.beginPath(); ctx.roundRect(x - w / 2, top, w, h, 10); ctx.fill(); ctx.stroke();
+  ctx.beginPath(); ctx.moveTo(x - 9, top + h); ctx.lineTo(x, top + h + 10); ctx.lineTo(x + 9, top + h); ctx.fill();  // 꼬리
+  ctx.fillStyle = "#1a1a1a";
+  lines.forEach((l, i) => { ctx.font = i === 0 ? "bold 22px sans-serif" : "22px sans-serif"; ctx.fillText(l, x, top + 8 + lh * (i + 0.75)); });
+  ctx.restore();
 }
 
 function paint(ctx, frame, res, props = true) {
@@ -143,7 +149,7 @@ function paint(ctx, frame, res, props = true) {
   for (const a of frame.actors) {
     const f = foot(a.col, a.row, o);
     tag(ctx, f.x, f.y - 122, CAST[a.role]?.label || a.role, 20);
-    if (a.say) bubble(ctx, f.x, f.y - 150, a.say);
+    if (a.say) bubble(ctx, f.x, f.y - 140, a.say);
   }
   return { box, missing: [...missing] };
 }

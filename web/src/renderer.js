@@ -186,22 +186,15 @@ function paint(ctx, frame, res, props = true) {
   for (const s of Object.values(STATIONS)) if (s.name) { const f = foot(s.col, s.row, o); tag(ctx, f.x, f.y - 150, s.name); }
   const cab = STATIONS.cabinet, cf = foot(cab.col, cab.row, o);
   tag(ctx, cf.x, cf.y - 120, `보관 중 ${frame.cabinet}건`, 21);
-  const talk = [], keepOut = [];                        // 말풍선이 피할 곳: 캐릭터 이름표·몸
-  const tagFs = Math.round(20 * ACTOR_TEXT_SCALE);
-  ctx.save(); ctx.font = `bold ${tagFs}px sans-serif`;
-  for (const a of frame.actors) {
-    const f = foot(a.col, a.row, o), tw = ctx.measureText(CAST[a.role]?.label || a.role).width + 12;
-    keepOut.push({ x: f.x - tw / 2, w: tw, top: f.y - 132 - tagFs, h: tagFs + 8 });                          // 이름표
-    keepOut.push({ x: f.x - 55 * ACTOR_SCALE, w: 110 * ACTOR_SCALE, top: f.y - 100 * ACTOR_SCALE, h: 100 * ACTOR_SCALE });   // 몸
-  }
-  ctx.restore();
+  // 말풍선은 캐릭터·이름표 위에 그린다 (겹치면 캐릭터가 말풍선 뒤로) — 피하는 건 다른 말풍선뿐
+  const talk = [], tagFs = Math.round(20 * ACTOR_TEXT_SCALE);
   for (const a of frame.actors) {
     const f = foot(a.col, a.row, o);
     tag(ctx, f.x, f.y - 132, CAST[a.role]?.label || a.role, 20, ACTOR_TEXT_SCALE);
     if (a.say) { const m = measureBubble(ctx, a.say); talk.push({ m, cx: f.x, anchor: f.y - 132 - tagFs, x: f.x - m.w / 2, w: m.w, h: m.h, bottom: f.y - 132 - tagFs - 14 }); }
   }
-  // 겹치면 옆으로 비키고, 안 되면 위로 — 화면(장면) 위쪽 밖으로는 안 나간다
-  layoutBubbles(talk, 10, { blocked: keepOut, minTop: 0 })
+  // 말풍선끼리 겹치면 옆으로 비키고, 안 되면 위로 — 화면(장면) 위쪽 밖으로는 안 나간다
+  layoutBubbles(talk, 10, { minTop: 0 })
     .forEach((b, i) => drawBubble(ctx, talk[i].m, b.x, b.top, talk[i].cx, talk[i].anchor));
   return { box, missing: [...missing] };
 }

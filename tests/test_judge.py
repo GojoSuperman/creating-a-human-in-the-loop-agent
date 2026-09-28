@@ -57,3 +57,12 @@ def test_insufficient_quota_raises_immediately():
     with pytest.raises(QuotaExceeded):
         judge_item(ITEM, llm)
     assert len(llm.calls) == 1
+
+
+def test_project_spend_limit_also_stops_immediately():
+    # 실측(2026-09-28): 지출 한도 초과는 type=insufficient_quota, code=project_spend_limit_exceeded 로 온다
+    body = {"type": "insufficient_quota", "code": "project_spend_limit_exceeded", "message": "spend limit"}
+    llm = FakeLLM([_err(openai.RateLimitError, 429, body)])
+    with pytest.raises(QuotaExceeded):
+        judge_item(ITEM, llm)
+    assert len(llm.calls) == 1

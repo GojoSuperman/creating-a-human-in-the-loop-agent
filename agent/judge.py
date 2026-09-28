@@ -89,7 +89,9 @@ def judge_item(item, llm, instruction=None, prev=None, retries=1):
         except openai.AuthenticationError as e:
             raise AuthFailed(str(e)[:200]) from e
         except openai.RateLimitError as e:
-            if getattr(e, "code", None) == "insufficient_quota":
+            # 잔액 부족(code=insufficient_quota)과 프로젝트 지출 한도(type=insufficient_quota,
+            # code=project_spend_limit_exceeded) 둘 다 — 기다려도 풀리지 않으니 즉시 멈춘다
+            if "insufficient_quota" in (getattr(e, "code", None), getattr(e, "type", None)):
                 raise QuotaExceeded(str(e)) from e
             last = e
         except (openai.OpenAIError, ValidationError, ValueError) as e:

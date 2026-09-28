@@ -6,6 +6,7 @@ def test_spec_constants_are_pinned():
     assert s.N_ITEMS == 200 and s.SEED == 42
     assert s.DEV_WEEK == "2011-06-06"
     assert s.TEST_WEEKS == ("2011-09-05", "2011-10-03")
+    assert not set(s.DEMO_WEEKS) & {s.DEV_WEEK, *s.TEST_WEEKS}      # 재생 전용 주는 검증에 섞이지 않는다
     assert s.LABEL_LOSS_GBP == 100.0
     assert s.GBP_KRW == 1800
     assert s.MAX_RATE == 0.25

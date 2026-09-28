@@ -6,7 +6,7 @@ import zipfile
 
 import pandas as pd
 
-from agent.settings import DATA_WEEKS, DEV_WEEK, N_ITEMS, ROOT, SEED, TEST_WEEKS
+from agent.settings import DATA_WEEKS, DEMO_WEEKS, DEV_WEEK, N_ITEMS, ROOT, SEED, TEST_WEEKS
 
 RAW = ROOT / "data" / "raw"
 URL = "https://archive.ics.uci.edu/static/public/502/online+retail+ii.zip"
@@ -79,7 +79,7 @@ def main():
     df = clean(load_raw(download()))
     w, price, names = weekly(df)
     DATA_WEEKS.mkdir(parents=True, exist_ok=True)
-    for week in (DEV_WEEK, *TEST_WEEKS):
+    for week in (DEV_WEEK, *TEST_WEEKS, *DEMO_WEEKS):
         items, answers = build_week(w, price, names, week)
         (DATA_WEEKS / f"{week}.json").write_text(
             json.dumps(items, ensure_ascii=False, indent=1), encoding="utf-8")

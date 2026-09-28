@@ -3,6 +3,7 @@ services:
     name: reorder-hitl
     runtime: python
     plan: free
+    region: singapore          # Neon(체크포인터) 과 같은 지역 — 오리건이면 쿼리마다 왕복 ~170ms (실측 1건 4.6초)
     buildCommand: pip install -r requirements.txt
     startCommand: uvicorn server.app:create_app --factory --host 0.0.0.0 --port $PORT
     healthCheckPath: /

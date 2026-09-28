@@ -1,0 +1,19 @@
+<!doctype html><html lang="ko"><head><meta charset="utf-8"><title>재고 발주 결재실</title>
+<style>html,body{margin:0;height:100%;background:#f6f2ea}canvas{width:100vw;height:100vh;display:block}</style></head>
+<body><canvas id="c"></canvas><script type="module">
+import { preload, draw, fitView } from "./src/renderer.js";
+import { Office } from "./src/office.js";
+const c = document.getElementById("c"), office = new Office();
+const r = await preload(); console.log("에셋", r); document.title = `missing=${r.missing}`;
+// 데모: 가짜 이벤트 12건 (이 페이지는 Task 13 에서 실제 SSE 로 바뀐다)
+for (let i = 0; i < 12; i++) {
+  const code = "D" + i;
+  office.push({ type: "judged", code, analyst: i % 3 });
+  office.push(i % 3 === 0 ? { type: "queued", code, flags: ["C1:200"] } : { type: "sent", code, by: "auto" });
+}
+if (location.hash.includes("skip")) office.skip();
+let grid = location.hash.includes("grid");
+addEventListener("keydown", e => { if (e.key === "g" || e.key === "G") grid = !grid; });
+let last = performance.now();
+(function loop(t) { office.tick(t - last); last = t; draw(c, { ...fitView(c), frame: office.frame(), grid }); requestAnimationFrame(loop); })(last);
+</script></body></html>

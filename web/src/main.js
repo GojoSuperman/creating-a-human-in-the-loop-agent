@@ -73,11 +73,11 @@ function renderStatus() {
     : lastTotal ? `— 이번 주 처리 완료 (${lastTotal}건)` : "— ▶ 이번 주 처리를 누르세요";
   const row = (k, no, name, desc, n) => `<li class="${on(k)}"><span class="no">${no}</span><b>${name}</b><span>${desc}</span><span class="n">${n}</span></li>`;
   $("#st-body").innerHTML = `<ol>
-    ${row("door", "①", "입고", "문 앞에 이번 묶음 도착", st.stage.door ? `${st.stage.door}건` : "")}
-    ${row("judge", "②", "AI 판단", "분석가(LLM)가 발주량·이유를 정함", st.stage.judge ? `${st.stage.judge}건` : "")}
-    ${row("check", "③", "기준 검사", `검사관이 승인 기준 확인 · ${ruleText}`, st.stage.check ? `${st.stage.check}건` : "")}
-    ${row("auto", "④", "자동 발송", "기준 통과 → 팩스 (사람 없이)", `${st.stage.auto}건`)}
-    ${row("human", "⑤", "사람 결재", "멈춤(interrupt) → 팀장(나)이 결재 → 이어서 실행(resume)", `대기 ${st.stage.human}건`)}
+    ${row("door", "1", "입고", "문 앞에 묶음 도착", st.stage.door ? `${st.stage.door}건` : "")}
+    ${row("judge", "2", "AI 판단", "분석가(LLM)가 발주량·이유 결정", st.stage.judge ? `${st.stage.judge}건` : "")}
+    ${row("check", "3", "기준 검사", ruleText, st.stage.check ? `${st.stage.check}건` : "")}
+    ${row("auto", "4", "자동 발송", "기준 통과 → 팩스 (사람 없이)", `${st.stage.auto}건`)}
+    ${row("human", "5", "사람 결재", "interrupt → 나의 결재 → resume", `대기 ${st.stage.human}건`)}
   </ol>${st.doing.length || st.last ? `<div class="doing">${st.doing.map(d => `<p>▶ ${d}</p>`).join("")}${st.last ? `<p class="last">방금: ${st.last}</p>` : ""}</div>` : ""}`;
 }
 

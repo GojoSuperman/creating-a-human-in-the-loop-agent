@@ -107,14 +107,15 @@ function bubble(ctx, x, y, text) {
   ctx.fillStyle = "#1a1a1a"; ctx.fillText(text, x, y - 11); ctx.restore();
 }
 
-function paint(ctx, frame, res) {
+function paint(ctx, frame, res, props = true) {
   const box = sceneBox(), o = box.origin, lvl = level(res), missing = new Set();
   const floorImg = got("floorFull" + FACE, FURN);
   if (floorImg) { const f = floorLayer(res, o, floorImg); ctx.drawImage(f.canvas, f.x, f.y, f.w, f.h); }
   else missing.add("floorFull" + FACE);
-  const items = propItems().concat(wallItems()).sort((a, b) => depth(a.col, a.row, a.layer) - depth(b.col, b.row, b.layer));
+  const items = (props ? propItems() : []).concat(wallItems()).sort((a, b) => depth(a.col, a.row, a.layer) - depth(b.col, b.row, b.layer));
   for (const it of items) drawSprite(ctx, it, o, lvl, missing);
 
+  if (!props) return { box, missing: [...missing] };   // 빈 방 — 배치 설계용
   // 쌓인 서류 — 결재함·팩스·휴지통
   const pile = (key, n, tone) => {
     const s = STATIONS[key], f = foot(s.col, s.row, o);
@@ -154,13 +155,13 @@ function drawGrid(ctx, origin) {
 }
 
 export function draw(canvas, view) {
-  const { scale = 0.45, pan = { x: 0, y: 0 }, frame, grid = false } = view;
+  const { scale = 0.45, pan = { x: 0, y: 0 }, frame, grid = false, props = true } = view;
   const ctx = canvas.getContext("2d"), dpr = window.devicePixelRatio || 1;
   const vw = canvas.clientWidth, vh = canvas.clientHeight;
   if (canvas.width !== vw * dpr || canvas.height !== vh * dpr) { canvas.width = vw * dpr; canvas.height = vh * dpr; }
   ctx.setTransform(dpr, 0, 0, dpr, 0, 0); ctx.clearRect(0, 0, vw, vh);
   ctx.save(); ctx.translate(pan.x, pan.y); ctx.scale(scale, scale);
-  const r = paint(ctx, frame, scale * dpr);
+  const r = paint(ctx, frame, scale * dpr, props);
   if (grid) drawGrid(ctx, sceneBox().origin);
   ctx.restore(); return r;
 }

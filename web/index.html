@@ -15,5 +15,5 @@ if (location.hash.includes("skip")) office.skip();
 let grid = location.hash.includes("grid");
 addEventListener("keydown", e => { if (e.key === "g" || e.key === "G") grid = !grid; });
 let last = performance.now();
-(function loop(t) { office.tick(t - last); last = t; draw(c, { ...fitView(c), frame: office.frame(), grid }); requestAnimationFrame(loop); })(last);
+(function loop(t) { office.tick(t - last); last = t; draw(c, { ...fitView(c), frame: office.frame(), grid, props: !location.hash.includes("empty") }); requestAnimationFrame(loop); })(last);
 </script></body></html>

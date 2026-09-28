@@ -14,15 +14,15 @@ export function renderSummary(el, sm) {
     + chip("ok", "승인", c.approved) + chip("edit", "수정 승인", c.edited) + chip("no", "반려", c.rejected);
 }
 
-export function renderInbox(el, items, onOpen) {
+export function renderInbox(el, items, selected, onPick) {
   if (!items.length) { el.innerHTML = `<p class="empty">결재할 서류가 없습니다</p>`; return; }
   el.innerHTML = items.map(it => `
-    <button class="doc ${it.error ? "fail" : ""}" data-tid="${esc(it.thread_id)}">
+    <button class="doc ${it.error ? "fail" : ""} ${it.thread_id === selected ? "sel" : ""}" data-tid="${esc(it.thread_id)}">
       <span class="nm">${esc(it.name_ko)}</span>
-      <span class="meta">${it.qty == null ? "수량 없음" : `${it.qty.toLocaleString()}개 · ${won(it.amount_krw)}`}</span>
-      <span class="fl">${it.flags.map(f => `<i>${esc(f)}</i>`).join("")}${it.stale ? `<i class="stale">기한 초과 · 상위 결재자에게 넘김</i>` : ""}</span>
+      <span class="meta">${it.qty == null ? "수량 없음" : `${it.qty.toLocaleString()}개 · ${won(it.amount_krw)}`}
+        ${it.flags.map(f => `<i>${esc(f)}</i>`).join("")}${it.stale ? `<i class="stale">기한 초과</i>` : ""}</span>
     </button>`).join("");
-  el.querySelectorAll(".doc").forEach(b => b.onclick = () => onOpen(b.dataset.tid));
+  el.querySelectorAll(".doc").forEach(b => b.onclick = () => onPick(b.dataset.tid));
 }
 
 function bars(hist, mean) {
@@ -31,46 +31,46 @@ function bars(hist, mean) {
     <hr style="bottom:${(mean / max) * 100}%" title="8주 평균 ${mean}"></div>`;
 }
 
-export async function openModal(tid, onDone) {
-  const dlg = document.getElementById("modal"), body = dlg.querySelector(".body");
+// 결재 상세 — 오른쪽 패널 안에 다섯 칸과 네 가지 응답을 그린다
+export async function renderDetail(el, tid, onDone) {
+  if (!tid) { el.innerHTML = ""; return; }
   const o = await api(`/api/orders/${encodeURIComponent(tid)}`);
   const redoOk = o.options.includes("redo") && !!S.key;
-  body.innerHTML = `
-    <h2>${esc(o.name_ko)} <small>${esc(o.name_en)} · ${esc(o.code)}</small></h2>
-    ${o.stale ? `<p class="warn">72시간 넘게 대기 — 상위 결재자에게 넘겨진 건입니다 (자동 승인하지 않음)</p>` : ""}
-    <section><h3>① 원문</h3><p>${esc(o.name_en)} (단가 ${gbp(o.price_gbp)})</p></section>
-    <section><h3>② 핵심 정보</h3>
+  el.innerHTML = `
+    <h3 class="ttl">${esc(o.name_ko)} <small>${esc(o.code)}</small></h3>
+    ${o.stale ? `<p class="warn">72시간 넘게 대기 — 상위 결재자에게 넘겨진 건 (자동 승인하지 않음)</p>` : ""}
+    <section><h4>① 원문</h4><p>${esc(o.name_en)} (단가 ${gbp(o.price_gbp)})</p></section>
+    <section><h4>② 핵심 정보</h4>
       <p class="big">${o.qty == null ? "수량 없음" : `${o.qty.toLocaleString()}개 · ${gbp(o.amount_gbp)} (${won(o.amount_krw)})`}</p>
-      <p>최근 8주 판매 (평균 ${o.mean8})</p>${bars(o.hist8, o.mean8)}</section>
-    <section><h3>③ AI 판단과 근거</h3>
-      ${o.error ? `<p class="warn">판단 실패: ${esc(o.error)}</p>` : `<p>${esc(o.reason_ko)}</p><p>수요 신호: <b>${esc(o.demand_signal)}</b></p>`}</section>
-    <section><h3>④ 멈춘 이유</h3><ul>${o.flags.map(f => `<li>${esc(f.text)}</li>`).join("")}</ul></section>
-    <section class="then"><h3>⑤ 통과시키면</h3><p><b>${esc(o.if_approved)}</b></p></section>
+      <p class="sub">최근 8주 판매 (평균 ${o.mean8})</p>${bars(o.hist8, o.mean8)}</section>
+    <section><h4>③ AI 판단과 근거</h4>
+      ${o.error ? `<p class="warn">판단 실패: ${esc(o.error)}</p>` : `<p>${esc(o.reason_ko)}</p><p class="sub">수요 신호: <b>${esc(o.demand_signal)}</b></p>`}</section>
+    <section><h4>④ 멈춘 이유</h4><ul>${o.flags.map(f => `<li>${esc(f.text)}</li>`).join("")}</ul></section>
+    <section class="then"><h4>⑤ 통과시키면</h4><p><b>${esc(o.if_approved)}</b></p></section>
     <div class="actions">
       ${o.options.includes("approve") ? `<button data-a="approve" class="go">✅ 승인</button>` : ""}
       <span class="edit"><input type="number" min="0" step="1" value="${o.qty ?? ""}" aria-label="수정 수량">
-        <button data-a="edit" class="blue">✏️ 수량 수정 후 승인</button></span>
+        <button data-a="edit" class="blue">✏️ 수정 후 승인</button></span>
       <span class="rej"><input type="text" placeholder="반려 사유 (필수)" aria-label="반려 사유">
         <button data-a="reject" class="no">🙅 반려</button></span>
       <span class="redo"><input type="text" placeholder="다시 판정 지시" aria-label="다시 판정 지시" ${redoOk ? "" : "disabled"}>
         <button data-a="redo" class="purple" ${redoOk ? "" : "disabled"}
           title="${S.key ? `남은 횟수 ${o.redo_left}` : "OpenAI 키를 넣으면 쓸 수 있습니다"}">🔁 다시 판정 (${o.redo_left})</button></span>
     </div><p class="err" role="alert"></p>`;
-  body.querySelectorAll("[data-a]").forEach(b => b.onclick = async () => {
-    const a = b.dataset.a, err = body.querySelector(".err");
+  el.querySelectorAll("[data-a]").forEach(b => b.onclick = async () => {
+    const a = b.dataset.a, err = el.querySelector(".err");
     const d = { action: a };
     if (a === "edit") {
-      const raw = body.querySelector(".edit input").value.trim();
+      const raw = el.querySelector(".edit input").value.trim();
       const n = raw === "" ? NaN : Number(raw);             // 빈칸이 0개로 바뀌지 않게
       d.qty = Number.isInteger(n) ? n : raw;                // 정수가 아니면 그대로 보내 서버가 사유를 돌려준다
     }
-    if (a === "reject") d.reason = body.querySelector(".rej input").value;
-    if (a === "redo") d.instruction = body.querySelector(".redo input").value;
-    body.querySelectorAll("button").forEach(x => x.disabled = true);
-    try { await api(`/api/orders/${encodeURIComponent(tid)}/decision`, { method: "POST", body: JSON.stringify(d) }); dlg.close(); onDone(); }
-    catch (e) { err.textContent = e.message; body.querySelectorAll("button").forEach(x => x.disabled = false); if (e.status === 409) { dlg.close(); onDone(); } }
+    if (a === "reject") d.reason = el.querySelector(".rej input").value;
+    if (a === "redo") d.instruction = el.querySelector(".redo input").value;
+    el.querySelectorAll("button").forEach(x => x.disabled = true);
+    try { await api(`/api/orders/${encodeURIComponent(tid)}/decision`, { method: "POST", body: JSON.stringify(d) }); onDone(tid); }
+    catch (e) { err.textContent = e.message; el.querySelectorAll("button").forEach(x => x.disabled = false); if (e.status === 409) onDone(tid); }
   });
-  dlg.showModal();
 }
 
 export function renderFax(el, items) {

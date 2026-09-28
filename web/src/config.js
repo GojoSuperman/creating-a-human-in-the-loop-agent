@@ -72,3 +72,4 @@ export const WALK = {
   trash:    { col: 11.6, row: 3.3 },    // 팀장 휴지통 옆
 };
 export const WAVE = 5;                  // 한 번에 들어오는 서류 수
+export const REVIEW_AT = 5;             // 결재함에 이만큼 쌓이면 팀장이 보러 간다

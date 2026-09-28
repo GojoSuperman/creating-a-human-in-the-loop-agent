@@ -1,19 +1,37 @@
 import { preload, draw, fitView } from "./renderer.js";
 import { Office } from "./office.js";
 import { api, ensureSession, openEvents, setKey, S } from "./api.js";
-import { renderSummary, renderInbox, openModal, renderFax, renderEval } from "./panels.js";
+import { renderSummary, renderInbox, renderDetail, renderFax, renderEval } from "./panels.js";
 
 const $ = s => document.querySelector(s);
 const canvas = $("#scene"), office = new Office();
-let week = null, evalDoc = null, grid = false;
+let week = null, evalDoc = null, grid = false, selected = null, pendingItems = [];
+
+// 오른쪽 패널 — 팀장이 결재함 앞에 도착하면 열린다 (office.onOpen), 비면 닫힌다 (office.onClose)
+function renderPanel() {
+  const open = office.reviewing;
+  $("#panel-closed").hidden = open; $("#panel-open").hidden = !open;
+  $("#aside").classList.toggle("wide", open);
+  $("#wait-n").textContent = pendingItems.length;
+  $("#review-n").textContent = pendingItems.length;
+  if (!open) return;
+  if (!pendingItems.some(p => p.thread_id === selected)) selected = pendingItems[0]?.thread_id || null;
+  renderInbox($("#inbox"), pendingItems, selected, tid => { selected = tid; renderPanel(); });
+  renderDetail($("#detail"), selected, done => {
+    const i = pendingItems.findIndex(p => p.thread_id === done);
+    selected = pendingItems[i + 1]?.thread_id || pendingItems[i - 1]?.thread_id || null;   // 다음 서류로
+    refresh();
+  });
+}
 
 async function refresh() {
   if (!week) return;
   const [sm, pend] = await Promise.all([api(`/api/summary?week=${week}`), api(`/api/pending?week=${week}`)]);
   renderSummary($("#summary"), sm);
-  renderInbox($("#inbox"), pend.items, tid => openModal(tid, refresh));
+  pendingItems = pend.items;
   office.setCounts({ pending: sm.pending, sent: (sm.counts.auto_sent || 0) + (sm.counts.approved || 0) + (sm.counts.edited || 0),
                      rejected: sm.counts.rejected || 0 });
+  renderPanel();
   if ($("#tab-fax").classList.contains("on")) renderFax($("#fax"), (await api("/api/faxlog")).items);
 }
 
@@ -54,6 +72,9 @@ async function main() {
     document.querySelectorAll("[data-speed]").forEach(x => x.classList.toggle("on", x === b && v !== "skip"));
   });
   for (const t of ["office", "fax", "eval"]) $(`#tab-${t}`).onclick = () => tab(t);
+  office.onOpen = () => { selected = null; renderPanel(); };
+  office.onClose = () => renderPanel();
+  $("#go-review").onclick = () => office.openNow();
   addEventListener("keydown", e => { if ((e.key === "g" || e.key === "G") && e.target === document.body) grid = !grid; });
   evalDoc = await api("/api/eval").catch(() => null);
 
@@ -69,10 +90,6 @@ async function main() {
   await preload();
   await refresh();
   if (location.hash.includes("skip")) office.skip();
-  if (location.hash.includes("open")) {          // 시연·캡처용: 결재함 첫 서류 열기
-    const first = document.querySelector("#inbox .doc");
-    if (first) first.click();
-  }
   if (location.hash.includes("eval")) tab("eval");
   if (location.hash.includes("fax")) tab("fax");
   let last = performance.now();

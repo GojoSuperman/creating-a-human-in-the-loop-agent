@@ -13,7 +13,9 @@ function run(n, stopEvery, human = []) {
   const origSchedule = o.schedule.bind(o);
   o.schedule = () => { origSchedule(); for (const c of o.order) { const d = o.docs.get(c); if (d.stage !== "door" && !started.includes(c)) started.push(c); } };
   let t = 0;
-  while (!o.idle() && t < 3_600_000) { o.tick(50); t += 50; }
+  // 결재함에 남은 건이 있으면 팀장은 결재함 앞에서 사람을 기다린다 — 흐름이 끝나고 모두 멈추면 종료
+  const settled = () => o.flowDone() && !o.bossJobs.length && Object.values(o.actors).every(a => !a.busy());
+  while (!settled() && t < 3_600_000) { o.tick(50); t += 50; }
   return { o, started, t };
 }
 
@@ -21,7 +23,7 @@ function run(n, stopEvery, human = []) {
 {
   const { o, started, t } = run(12, 3);
   assert.equal(o.counts.pending, 4); assert.equal(o.counts.sent, 8);
-  assert.ok(o.idle(), "끝나야 한다");
+  assert.ok(o.flowDone(), "흐름이 끝나야 한다"); assert.ok(o.reviewing, "결재함에 4건 남음 → 팀장이 열고 기다린다");
   const firstOfWave2 = started.indexOf("D5");
   assert.ok(started.slice(0, firstOfWave2).length >= 5, "두 번째 묶음은 첫 묶음 5건이 모두 시작된 뒤에");
   assert.ok(t < 600_000, `12건이 10분 안에 끝나야 한다 (실제 ${t / 1000}s)`);
@@ -39,4 +41,32 @@ function run(n, stopEvery, human = []) {
   for (let i = 0; i < 20; i++) { o.push({ type: "judged", code: "S" + i, name: "x", qty: 1 }); o.push({ type: "sent", code: "S" + i, by: "auto" }); }
   o.skip(); assert.ok(o.idle()); assert.equal(o.counts.sent, 20);
   console.log("ok 3 — skip");
+}
+// 4) 결재함이 5건 쌓이면 팀장이 가서 연다 → 결재하면 나르고 돌아온다 → 비면 자리로 가며 닫는다
+{
+  const o = new Office(), log = [];
+  o.onOpen = () => log.push("open"); o.onClose = () => log.push("close");
+  for (let i = 0; i < 10; i++) {                  // 10건 중 짝수 5건이 멈춤
+    const code = "B" + i;
+    o.push({ type: "judged", code, name: "x", qty: 1 });
+    o.push(i % 2 === 0 ? { type: "queued", code, flags: ["C2"], texts: ["t"] } : { type: "sent", code, by: "auto" });
+  }
+  let t = 0;
+  while (!o.reviewing && t < 3_600_000) { o.tick(50); t += 50; }
+  assert.equal(log[0], "open", "5건 쌓이면 연다");
+  assert.ok(Math.hypot(o.actors.boss.pos.col - 8.1, o.actors.boss.pos.row - 4.9) < 0.01, "팀장은 결재함 옆에 서 있다");
+  for (let i = 0; i < 10; i += 2) o.push({ type: "sent", code: "B" + i, by: "human", action: "approve" });
+  while (!o.idle() && t < 3_600_000) { o.tick(50); t += 50; }
+  assert.deepEqual(log, ["open", "close"]); assert.equal(o.counts.pending, 0); assert.equal(o.counts.sent, 10);
+  assert.ok(Math.hypot(o.actors.boss.pos.col - 11.2, o.actors.boss.pos.row - 2.65) < 0.01, "다 끝나면 자리로");
+  console.log("ok 4 — 팀장이 5건에서 결재함을 열고, 비면 닫고 돌아감");
+}
+// 5) 5건 미만이어도 '지금 보러 가기'(openNow) 하면 연다
+{
+  const o = new Office(); let opened = false; o.onOpen = () => (opened = true);
+  o.push({ type: "judged", code: "N0", name: "x", qty: 1 }); o.push({ type: "queued", code: "N0", flags: ["C2"], texts: ["t"] });
+  for (let t = 0; t < 120_000 && !o.counts.pending; t += 50) o.tick(50);
+  o.openNow();
+  for (let t = 0; t < 120_000 && !opened; t += 50) o.tick(50);
+  assert.ok(opened); console.log("ok 5 — 지금 보러 가기");
 }

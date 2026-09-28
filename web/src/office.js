@@ -1,6 +1,6 @@
 // 사무실 장면 상태 — 캐릭터가 서류를 들고 걸어가 전달한다. 서류는 5건씩 순서대로 들어온다.
 // SSE 이벤트는 '무엇이 일어났는지'만 알려 주고, 장면은 그 일을 사람 걸음 속도로 재연한다.
-import { STATIONS, ACTORS, WALK, WAVE } from "./config.js";
+import { STATIONS, ACTORS, WALK, WAVE, REVIEW_AT } from "./config.js";
 
 const TILES_PER_S = 2.4;       // 걷는 속도 (1배속, 칸/초)
 const SAY_MS = 1700;           // 말풍선을 보여 주며 서 있는 시간 (1배속)
@@ -22,9 +22,14 @@ export class Office {
     this.wave = 0;                // 지금 들어와 있는 묶음 번호
     this.bossJobs = [];           // 팀장 결재 (승인·수정·반려·다시 판정)
     this.counts = { pending: 0, sent: 0, rejected: 0 };
+    this.reviewing = false;       // 팀장이 결재함 앞에서 결재 중 (오른쪽 패널이 열린 상태)
+    this.wantOpen = false;        // '지금 보러 가기'
+    this.onOpen = () => {}; this.onClose = () => {};
   }
+  openNow() { this.wantOpen = true; }
   setSpeed(n) { this.speed = n; }
-  idle() { return this.order.every(c => this.docs.get(c).stage === "done") && !this.bossJobs.length
+  flowDone() { return this.order.every(c => this.docs.get(c).stage === "done"); }
+  idle() { return this.flowDone() && !this.bossJobs.length && !this.reviewing && !this.wantOpen
                   && Object.values(this.actors).every(a => !a.busy()); }
   setCounts(c) { if (this.idle()) Object.assign(this.counts, c); }   // 재연 중에는 장면 쪽 숫자를 믿는다
 
@@ -75,7 +80,7 @@ export class Office {
     const boss = this.actors.boss;
     if (!boss.busy()) {
       const k = this.bossJobs.findIndex(j => this.docs.get(j.code)?.stage === "done");
-      if (k >= 0) {
+      if (k >= 0) {                  // 결재 하나를 몸으로 옮긴다 — 결재 중이면 결재함으로 돌아온다
         const j = this.bossJobs.splice(k, 1)[0], d = this.docs.get(j.code);
         boss.ops.push({ walk: WALK.tray }, { pick: j.code, state: "reading", fn: () => (this.counts.pending = Math.max(0, this.counts.pending - 1)) },
                       { say: j.say, state: j.to === "trash" ? "waiting" : "done" }, { walk: WALK[j.to] },
@@ -84,8 +89,17 @@ export class Office {
                           else if (j.to === "trash") this.counts.rejected++;
                           else { d.stage = "atInsp"; d.branch = null; }     // 다시 판정 — 검사관이 새 결과로 다시 본다
                         } },
-                      { walk: boss.home });
-      }
+                      { walk: this.reviewing ? WALK.tray : boss.home });
+      } else if (!this.reviewing && this.counts.pending > 0
+                 && (this.counts.pending >= REVIEW_AT || this.wantOpen || this.flowDone())) {
+        this.wantOpen = false;       // 쌓였다 → 결재함으로 가서 연다
+        boss.ops.push({ walk: WALK.tray }, { say: `결재함 확인할게요\n대기 ${this.counts.pending}건`, state: "reading" },
+                      { fn: () => { this.reviewing = true; this.onOpen(); } });
+      } else if (this.reviewing && this.counts.pending === 0 && !this.bossJobs.length) {
+        this.reviewing = false; this.onClose();      // 다 처리했다 → 자리로
+        boss.ops.push({ say: "결재 끝!", state: "done" }, { walk: boss.home });
+      } else if (this.wantOpen && this.counts.pending === 0) this.wantOpen = false;
+      if (this.reviewing && !boss.busy()) boss.state = "reading";
     }
   }
 
@@ -105,9 +119,10 @@ export class Office {
         if (op.left <= 0) { a.ops.shift(); a.say = null; }
       } else if (op.pick) { a.carry = op.pick; if (op.state) a.state = op.state; op.fn?.(); a.ops.shift(); }
       else if (op.drop) { a.carry = null; op.drop(); a.ops.shift(); }
+      else if (op.fn) { op.fn(); a.ops.shift(); }
       else a.ops.shift();
     }
-    if (!a.ops.length) a.state = "idle";
+    if (!a.ops.length && !(a.role === "boss" && this.reviewing)) a.state = "idle";
   }
 
   tick(dt) {
@@ -116,8 +131,11 @@ export class Office {
     for (const a of Object.values(this.actors)) this.step(a, scaled);
   }
 
-  skip() {                          // 남은 재연을 한 번에 끝낸다
-    for (let n = 0; n < 20000 && !this.idle(); n++) { this.schedule(); for (const a of Object.values(this.actors)) this.step(a, 400); }
+  settled() { return this.flowDone() && !this.bossJobs.length && Object.values(this.actors).every(a => !a.busy()); }
+  skip() {                          // 남은 재연을 한 번에 끝낸다 (결재함이 남았으면 팀장은 결재함 앞에서 멈춘다)
+    for (let n = 0; n < 20000 && !(this.settled() && (this.reviewing || this.counts.pending === 0)); n++) {
+      this.schedule(); for (const a of Object.values(this.actors)) this.step(a, 400);
+    }
     for (const a of Object.values(this.actors)) { a.say = null; a.state = "idle"; }
   }
 

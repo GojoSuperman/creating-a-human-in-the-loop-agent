@@ -34,12 +34,13 @@ export const PROPS = [
   ...DESK_X.flatMap(c => [
     // 서랍 면이 캐릭터(오른쪽 아래)를 보게 제자리 뒤집기 — 사용자 배치안과 겹쳐 재서 맞춘 값
     { col: c + 0.57, row: 2.75, sprite: "desk", mirror: true },
-    { col: c + 0.33, row: 2.88, sprite: "computerScreen", layer: 1.2, dy: DESK_TOP - 8, dx: 68, mirror: true },
+    // 모니터는 책상과 **같은 칸**에 둔다 — 칸이 다르면 그리는 순서가 책상보다 앞서 상판에 가려진다
+    { col: c + 0.57, row: 2.75, sprite: "computerScreen", layer: 1.2, dy: -54, dx: 38, mirror: true },
     { col: c + 0.8, row: 3.0, sprite: "trashcan" },
   ]),
   // 팀장 코너책상 + 모니터 + 작은 화분 + 휴지통
   { col: 10.2, row: 2.9, sprite: "deskCorner", flip: true },
-  { col: 10.2, row: 2.0, sprite: "computerScreen", layer: 1.2, dy: DESK_TOP, mirror: true },
+  { col: 10.2, row: 2.9, sprite: "computerScreen", layer: 1.2, dy: -78, dx: 84, mirror: true },   // 코너책상과 같은 칸
   { col: 10.5, row: 2.6, sprite: "plantSmall1", layer: 1.2, dy: DESK_TOP },
   { col: 11.75, row: 2.8, sprite: "trashcan" },
   // 캐비닛 = 세탁기 3대 (왼쪽 벽)

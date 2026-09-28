@@ -18,6 +18,10 @@ class QuotaExceeded(RuntimeError):
     pass
 
 
+class AuthFailed(RuntimeError):
+    """키가 틀림 — 건별 실패가 아니라 실행 전체의 문제라 캐시하지 않고 멈춘다."""
+
+
 SYSTEM = (
     "너는 영국 온라인 선물 도매점의 재고 발주 담당자다. 상품의 최근 8주 주간 판매량을 보고 "
     "다음 주에 들여올 수량 qty 를 정수로 정한다. 과잉 재고와 품절은 둘 다 손해다. "
@@ -82,6 +86,8 @@ def judge_item(item, llm, instruction=None, prev=None, retries=1):
     for _ in range(retries + 1):
         try:
             return validate(llm.judge(SYSTEM, user), item)
+        except openai.AuthenticationError as e:
+            raise AuthFailed(str(e)[:200]) from e
         except openai.RateLimitError as e:
             if getattr(e, "code", None) == "insufficient_quota":
                 raise QuotaExceeded(str(e)) from e

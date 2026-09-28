@@ -2,7 +2,7 @@ import httpx
 import openai
 import pytest
 
-from agent.judge import QuotaExceeded, build_prompt, judge_item, validate
+from agent.judge import AuthFailed, QuotaExceeded, build_prompt, judge_item, validate
 from tests.helpers import FakeLLM, mk_item, mk_j
 
 ITEM = mk_item("30001")      # mean8 = 10
@@ -39,9 +39,17 @@ def test_retry_once_then_success():
 
 
 def test_two_failures_become_error_not_exception():
-    llm = FakeLLM([_err(openai.AuthenticationError, 401, None)])
+    llm = FakeLLM([_err(openai.InternalServerError, 500, None)])
     j = judge_item(ITEM, llm)
-    assert "error" in j and "AuthenticationError" in j["error"] and len(llm.calls) == 2
+    assert "error" in j and "InternalServerError" in j["error"] and len(llm.calls) == 2
+
+
+def test_bad_key_raises_immediately_instead_of_caching_failures():
+    # 키가 틀리면 200건 전부 실패로 캐시돼 다시 돌려도 건너뛰게 된다 — 건별 실패가 아니라 실행 중단
+    llm = FakeLLM([_err(openai.AuthenticationError, 401, None)])
+    with pytest.raises(AuthFailed):
+        judge_item(ITEM, llm)
+    assert len(llm.calls) == 1
 
 
 def test_insufficient_quota_raises_immediately():

@@ -8,7 +8,7 @@ from langgraph.graph import END, START, StateGraph
 from langgraph.runtime import Runtime
 from langgraph.types import Command, interrupt
 
-from agent.judge import QuotaExceeded, judge_item
+from agent.judge import AuthFailed, QuotaExceeded, judge_item
 from agent.rules import evaluate
 from agent.settings import EDIT_MAX_MULT, GBP_KRW, REDO_MAX
 
@@ -161,6 +161,8 @@ def rejudge(state, runtime: Runtime[OrderCtx]):
             j = judge_item(state["item"], llm, state["decision"]["instruction"], state["judgment"])
         except QuotaExceeded:
             j = {"error": "OpenAI 사용 한도 초과"}
+        except AuthFailed:
+            j = {"error": "OpenAI 키가 올바르지 않습니다"}
     runtime.context.emit(_ev(state, "rejudged"))
     return {"judgment": j, "samples": [j], "redo_count": state.get("redo_count", 0) + 1, "decision": None}
 

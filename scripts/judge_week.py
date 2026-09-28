@@ -5,7 +5,7 @@ import os
 import sys
 
 from agent.batch_graph import BatchCtx, JudgmentCache, live_judge_fn, run_batch
-from agent.judge import OpenAILLM, QuotaExceeded
+from agent.judge import AuthFailed, OpenAILLM, QuotaExceeded
 from agent.settings import DATA_WEEKS, DEFAULT_MODEL, EST_IN_TOKENS, EST_OUT_TOKENS, RUNS, load_env
 
 
@@ -38,6 +38,9 @@ def main(argv=None):
     except QuotaExceeded:
         print("⛔ OpenAI 사용 한도 초과 — 중단했습니다. 끝난 건은 캐시에 남았으니 다시 실행하면 이어집니다.")
         code = 3
+    except AuthFailed:
+        print("⛔ OpenAI 키 인증 실패(401) — 중단했습니다. .env 의 OPENAI_API_KEY 를 확인하세요. 저장된 판단은 없습니다.")
+        code = 4
     errors = sum(1 for v in cache.doc["items"].values() for j in v if "error" in j)
     print(f"사용량: {llm.usage} · 판단 실패 {errors}건 · 캐시 {len(cache.doc['items'])}/{len(items)}건")
     return code

@@ -6,7 +6,7 @@ import pytest
 
 from agent.batch_graph import (BatchCtx, JudgmentCache, analyst_of, cached_judge_fn, live_judge_fn,
                                run_batch)
-from agent.judge import QuotaExceeded
+from agent.judge import AuthFailed, QuotaExceeded
 from tests.helpers import FakeLLM, mk_item, mk_j
 
 ITEMS = [mk_item(f"5{i:04d}") for i in range(12)]
@@ -60,3 +60,12 @@ def test_quota_stops_and_keeps_finished(tmp_path):
 def test_cached_judge_fn_replays():
     doc = {"items": {"a": [mk_j(3)]}}
     assert cached_judge_fn(doc)({"code": "a"})[0]["qty"] == 3
+
+
+def test_bad_key_aborts_batch_and_caches_nothing(tmp_path):
+    bad = openai.AuthenticationError("bad", response=httpx.Response(
+        401, request=httpx.Request("POST", "https://x")), body=None)
+    cache = JudgmentCache(tmp_path / "j.json", "w", "m", 1)
+    with pytest.raises(AuthFailed):
+        run_batch("w", ITEMS, BatchCtx(judge_fn=live_judge_fn(FakeLLM([bad]), cache, 1)), concurrency=1)
+    assert cache.doc["items"] == {} and not (tmp_path / "j.json").exists()

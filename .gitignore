@@ -1,0 +1,30 @@
+# 시크릿 — 절대 커밋 금지
+.env
+.env.local
+.env.*.local
+.mcp.json
+.claude/settings.local.json
+.claude/.credentials.json
+*.pem
+*.key
+id_rsa*
+*.p12
+*.pfx
+
+# 파이썬
+.venv/
+__pycache__/
+*.pyc
+.pytest_cache/
+
+# 원본 데이터(용량 큼, 스크립트로 내려받음)
+data/raw/
+
+# 로컬 체크포인터 DB
+*.sqlite
+*.sqlite-*
+*.db
+
+# 도구 상태·검토용 뷰어
+.bkit/
+.superpowers/

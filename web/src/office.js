@@ -1,12 +1,14 @@
 // 사무실 장면 상태 — 캐릭터가 서류를 들고 걸어가 전달한다. 서류는 5건씩 순서대로 들어온다.
 // SSE 이벤트는 '무엇이 일어났는지'만 알려 주고, 장면은 그 일을 사람 걸음 속도로 재연한다.
-import { STATIONS, ACTORS, WALK, WAVE, REVIEW_AT } from "./config.js";
+import { STATIONS, ACTORS, WALK, WAVE, REVIEW_AT, OBSTACLES } from "./config.js";
+import { makeNav } from "./path.js";
 import { CAST } from "./actors.js";
 
 const TILES_PER_S = 2.4;       // 걷는 속도 (1배속, 칸/초)
 const SAY_MS = 1700;           // 말풍선을 보여 주며 서 있는 시간 (1배속)
 const cut = (t, n) => (t && t.length > n ? t.slice(0, n - 1) + "…" : t || "");
 const ANALYSTS = ["a0", "a1", "a2"];
+const NAV = makeNav(OBSTACLES);          // 가구를 피해 걷는다
 
 class Actor {
   constructor(a) { this.role = a.role; this.home = { col: a.col, row: a.row }; this.pos = { ...this.home };
@@ -164,6 +166,11 @@ export class Office {
     let t = dt;
     while (t > 0 && a.ops.length) {
       const op = a.ops[0];
+      if (op.walk && !op.via) {             // 걷기 시작 — 가구를 피하는 경로로 바꾼다
+        const route = NAV.path(a.pos, op.walk);
+        a.ops.splice(0, 1, ...route.map(pt => ({ walk: pt, via: true })));
+        continue;
+      }
       if (op.walk) {
         const dx = op.walk.col - a.pos.col, dy = op.walk.row - a.pos.row, dist = Math.hypot(dx, dy);
         const can = (TILES_PER_S * t) / 1000;

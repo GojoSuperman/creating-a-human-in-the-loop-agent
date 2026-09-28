@@ -126,8 +126,9 @@ function run(n, stopEvery, human = []) {
   const boss = o.actors.boss, atHome = () => Math.hypot(boss.pos.col - 11.2, boss.pos.row - 2.65) < 0.01;
   while (boss.busy()) o.tick(50);
   o.fetch("F0"); o.tick(50);            // 요청은 다음 틱에 움직이기 시작한다
-  let visitedTray = false;
-  while (boss.busy()) { o.tick(50); if (Math.hypot(boss.pos.col - 8.1, boss.pos.row - 4.9) < 0.01) visitedTray = true; }
+  let nearest = Infinity;                // 틱 사이에 지나칠 수 있으니 결재함에 가장 가까이 간 거리로 본다
+  while (boss.busy()) { o.tick(50); nearest = Math.min(nearest, Math.hypot(boss.pos.col - 8.1, boss.pos.row - 4.9)); }
+  const visitedTray = nearest < 0.15;
   assert.ok(visitedTray && atHome() && boss.carry === "F0" && !o.inTray("F0"), "집어서 자리로 돌아와 들고 있다");
   o.cancel("F0"); o.tick(50);
   while (boss.busy()) o.tick(50);

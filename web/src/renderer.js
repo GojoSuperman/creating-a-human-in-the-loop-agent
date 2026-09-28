@@ -1,5 +1,5 @@
 // 렌더러 — 바닥·벽·가구·캐릭터·서류. 스프라이트 로딩·잘라내기·바닥 굽기는 Deep-research-agent 에서 가져왔다.
-import { GRID, PROPS, STATIONS, WALL, ASSETS, ASSET_V, FURN, FACE, LAYER, TONE, TILE, PROP_SCALE, ACTOR_SCALE, TEXT_SCALE, ACTOR_TEXT_SCALE } from "./config.js";
+import { GRID, PROPS, STATIONS, WALL, ASSETS, ASSET_V, FURN, FACE, LAYER, TONE, TILE, PROP_SCALE, ACTOR_SCALE, TEXT_SCALE, ACTOR_TEXT_SCALE, OBSTACLES } from "./config.js";
 import { foot, spriteTopLeft, depth, sceneBox } from "./iso.js";
 import { allParts, drawActor, CAST } from "./actors.js";
 
@@ -196,6 +196,13 @@ function drawGrid(ctx, origin) {
     ctx.strokeStyle = "rgba(200,40,40,.5)"; ctx.lineWidth = 2; ctx.stroke();
     ctx.lineWidth = 4; ctx.strokeStyle = "rgba(255,255,255,.85)"; ctx.strokeText(`${col},${row}`, f.x, f.y + 6);
     ctx.fillStyle = "#b02020"; ctx.fillText(`${col},${row}`, f.x, f.y + 6);
+  }
+  // 가구 발자국 (캐릭터가 못 지나가는 곳) — 빨간 네모
+  ctx.fillStyle = "rgba(220,30,30,.28)"; ctx.strokeStyle = "rgba(200,0,0,.8)"; ctx.lineWidth = 3;
+  for (const o of OBSTACLES) {
+    const P = [[o.c0, o.r0], [o.c1, o.r0], [o.c1, o.r1], [o.c0, o.r1]].map(([c, r]) => {
+      const f = foot(c, r, origin); return [f.x, f.y]; });
+    ctx.beginPath(); P.forEach(([x, y], i) => (i ? ctx.lineTo(x, y) : ctx.moveTo(x, y))); ctx.closePath(); ctx.fill(); ctx.stroke();
   }
   ctx.restore();
 }

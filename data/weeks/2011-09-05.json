@@ -1,0 +1,3805 @@
+{
+ "week": "2011-09-05",
+ "items": [
+  {
+   "code": "72351A",
+   "name_en": "SET/6 TURQUOISE BUTTERFLY T-LIGHTS",
+   "price_gbp": 2.1,
+   "hist8": [
+    3,
+    9,
+    3,
+    45,
+    2,
+    5,
+    0,
+    49
+   ],
+   "mean8": 14.5,
+   "std8": 20.26,
+   "cv8": 1.397,
+   "last_week": 49
+  },
+  {
+   "code": "21447",
+   "name_en": "12 IVORY ROSE PEG PLACE SETTINGS",
+   "price_gbp": 1.25,
+   "hist8": [
+    21,
+    14,
+    10,
+    43,
+    2,
+    23,
+    0,
+    51
+   ],
+   "mean8": 20.5,
+   "std8": 18.35,
+   "cv8": 0.895,
+   "last_week": 51
+  },
+  {
+   "code": "20685",
+   "name_en": "DOORMAT RED RETROSPOT",
+   "price_gbp": 7.95,
+   "hist8": [
+    66,
+    107,
+    22,
+    40,
+    29,
+    38,
+    40,
+    45
+   ],
+   "mean8": 48.38,
+   "std8": 26.93,
+   "cv8": 0.557,
+   "last_week": 45
+  },
+  {
+   "code": "22326",
+   "name_en": "ROUND SNACK BOXES SET OF4 WOODLAND",
+   "price_gbp": 2.95,
+   "hist8": [
+    81,
+    119,
+    116,
+    65,
+    518,
+    217,
+    224,
+    139
+   ],
+   "mean8": 184.88,
+   "std8": 146.33,
+   "cv8": 0.791,
+   "last_week": 139
+  },
+  {
+   "code": "22176",
+   "name_en": "BLUE OWL SOFT TOY",
+   "price_gbp": 2.95,
+   "hist8": [
+    5,
+    10,
+    0,
+    0,
+    1,
+    12,
+    19,
+    9
+   ],
+   "mean8": 7.0,
+   "std8": 6.76,
+   "cv8": 0.966,
+   "last_week": 9
+  },
+  {
+   "code": "22092",
+   "name_en": "BLUE PAISLEY TISSUE BOX",
+   "price_gbp": 0.39,
+   "hist8": [
+    5,
+    7,
+    41,
+    0,
+    3,
+    0,
+    77,
+    72
+   ],
+   "mean8": 25.62,
+   "std8": 33.0,
+   "cv8": 1.288,
+   "last_week": 72
+  },
+  {
+   "code": "21643",
+   "name_en": "ASSORTED TUTTI FRUTTI MIRROR",
+   "price_gbp": 1.25,
+   "hist8": [
+    0,
+    36,
+    4,
+    72,
+    12,
+    0,
+    3,
+    20
+   ],
+   "mean8": 18.38,
+   "std8": 24.92,
+   "cv8": 1.356,
+   "last_week": 20
+  },
+  {
+   "code": "21390",
+   "name_en": "FILIGRIS HEART WITH BUTTERFLY",
+   "price_gbp": 1.25,
+   "hist8": [
+    77,
+    66,
+    36,
+    48,
+    41,
+    4,
+    99,
+    96
+   ],
+   "mean8": 58.38,
+   "std8": 32.38,
+   "cv8": 0.555,
+   "last_week": 96
+  },
+  {
+   "code": "84659A",
+   "name_en": "WHITE TRAVEL ALARM CLOCK",
+   "price_gbp": 2.51,
+   "hist8": [
+    9,
+    14,
+    7,
+    8,
+    3,
+    0,
+    0,
+    13
+   ],
+   "mean8": 6.75,
+   "std8": 5.39,
+   "cv8": 0.799,
+   "last_week": 13
+  },
+  {
+   "code": "23174",
+   "name_en": "REGENCY SUGAR BOWL GREEN",
+   "price_gbp": 4.15,
+   "hist8": [
+    34,
+    84,
+    464,
+    100,
+    16,
+    47,
+    18,
+    45
+   ],
+   "mean8": 101.0,
+   "std8": 149.63,
+   "cv8": 1.481,
+   "last_week": 45
+  },
+  {
+   "code": "21243",
+   "name_en": "PINK  POLKADOT PLATE",
+   "price_gbp": 1.69,
+   "hist8": [
+    17,
+    19,
+    10,
+    34,
+    111,
+    27,
+    38,
+    32
+   ],
+   "mean8": 36.0,
+   "std8": 31.75,
+   "cv8": 0.882,
+   "last_week": 32
+  },
+  {
+   "code": "23297",
+   "name_en": "SET 40 HEART SHAPE PETIT FOUR CASES",
+   "price_gbp": 1.65,
+   "hist8": [
+    538,
+    626,
+    826,
+    477,
+    685,
+    82,
+    152,
+    195
+   ],
+   "mean8": 447.62,
+   "std8": 273.93,
+   "cv8": 0.612,
+   "last_week": 195
+  },
+  {
+   "code": "22780",
+   "name_en": "LIGHT GARLAND BUTTERFILES PINK",
+   "price_gbp": 4.25,
+   "hist8": [
+    12,
+    8,
+    60,
+    1,
+    8,
+    0,
+    4,
+    0
+   ],
+   "mean8": 11.62,
+   "std8": 20.03,
+   "cv8": 1.723,
+   "last_week": 0
+  },
+  {
+   "code": "20727",
+   "name_en": "LUNCH BAG  BLACK SKULL.",
+   "price_gbp": 1.65,
+   "hist8": [
+    235,
+    306,
+    316,
+    369,
+    416,
+    275,
+    417,
+    187
+   ],
+   "mean8": 315.12,
+   "std8": 82.8,
+   "cv8": 0.263,
+   "last_week": 187
+  },
+  {
+   "code": "20723",
+   "name_en": "STRAWBERRY CHARLOTTE BAG",
+   "price_gbp": 0.85,
+   "hist8": [
+    102,
+    272,
+    119,
+    307,
+    472,
+    142,
+    192,
+    172
+   ],
+   "mean8": 222.25,
+   "std8": 123.65,
+   "cv8": 0.556,
+   "last_week": 172
+  },
+  {
+   "code": "21291",
+   "name_en": "SMALL POLKADOT CHOCOLATE GIFT BAG",
+   "price_gbp": 0.85,
+   "hist8": [
+    192,
+    16,
+    16,
+    16,
+    0,
+    0,
+    16,
+    33
+   ],
+   "mean8": 36.12,
+   "std8": 63.85,
+   "cv8": 1.767,
+   "last_week": 33
+  },
+  {
+   "code": "22080",
+   "name_en": "RIBBON REEL SPOTS DESIGN",
+   "price_gbp": 1.65,
+   "hist8": [
+    1,
+    0,
+    0,
+    64,
+    135,
+    44,
+    41,
+    9
+   ],
+   "mean8": 36.75,
+   "std8": 46.62,
+   "cv8": 1.269,
+   "last_week": 9
+  },
+  {
+   "code": "22131",
+   "name_en": "FOOD CONTAINER SET 3 LOVE HEART",
+   "price_gbp": 1.95,
+   "hist8": [
+    2,
+    14,
+    6,
+    21,
+    163,
+    7,
+    22,
+    12
+   ],
+   "mean8": 30.88,
+   "std8": 53.85,
+   "cv8": 1.744,
+   "last_week": 12
+  },
+  {
+   "code": "23065",
+   "name_en": "LARGE DECO JEWELLERY STAND",
+   "price_gbp": 12.5,
+   "hist8": [
+    4,
+    52,
+    4,
+    1,
+    14,
+    5,
+    2,
+    8
+   ],
+   "mean8": 11.25,
+   "std8": 16.96,
+   "cv8": 1.508,
+   "last_week": 8
+  },
+  {
+   "code": "23335",
+   "name_en": "EGG FRYING PAN IVORY",
+   "price_gbp": 2.08,
+   "hist8": [
+    9,
+    2,
+    107,
+    10,
+    0,
+    3,
+    8,
+    21
+   ],
+   "mean8": 20.0,
+   "std8": 35.75,
+   "cv8": 1.788,
+   "last_week": 21
+  },
+  {
+   "code": "20707",
+   "name_en": "CRAZY DAISY HEART DECORATION",
+   "price_gbp": 0.83,
+   "hist8": [
+    8,
+    43,
+    5,
+    1,
+    5,
+    0,
+    12,
+    7
+   ],
+   "mean8": 10.12,
+   "std8": 13.82,
+   "cv8": 1.365,
+   "last_week": 7
+  },
+  {
+   "code": "23212",
+   "name_en": "HEART WREATH DECORATION WITH BELL",
+   "price_gbp": 1.25,
+   "hist8": [
+    12,
+    96,
+    36,
+    28,
+    1,
+    18,
+    198,
+    28
+   ],
+   "mean8": 52.12,
+   "std8": 65.48,
+   "cv8": 1.256,
+   "last_week": 28
+  },
+  {
+   "code": "21984",
+   "name_en": "PACK OF 12 PINK PAISLEY TISSUES",
+   "price_gbp": 0.29,
+   "hist8": [
+    26,
+    127,
+    37,
+    28,
+    60,
+    62,
+    54,
+    63
+   ],
+   "mean8": 57.12,
+   "std8": 32.03,
+   "cv8": 0.561,
+   "last_week": 63
+  },
+  {
+   "code": "85116",
+   "name_en": "BLACK CANDELABRA T-LIGHT HOLDER",
+   "price_gbp": 1.66,
+   "hist8": [
+    2,
+    4,
+    48,
+    20,
+    0,
+    0,
+    5,
+    22
+   ],
+   "mean8": 12.62,
+   "std8": 16.72,
+   "cv8": 1.325,
+   "last_week": 22
+  },
+  {
+   "code": "82482",
+   "name_en": "WOODEN PICTURE FRAME WHITE FINISH",
+   "price_gbp": 2.55,
+   "hist8": [
+    143,
+    370,
+    306,
+    234,
+    187,
+    86,
+    274,
+    390
+   ],
+   "mean8": 248.75,
+   "std8": 107.08,
+   "cv8": 0.43,
+   "last_week": 390
+  },
+  {
+   "code": "85017B",
+   "name_en": "ENVELOPE 50 BLOSSOM IMAGES",
+   "price_gbp": 0.83,
+   "hist8": [
+    4,
+    28,
+    38,
+    9,
+    1,
+    18,
+    24,
+    5
+   ],
+   "mean8": 15.88,
+   "std8": 13.28,
+   "cv8": 0.837,
+   "last_week": 5
+  },
+  {
+   "code": "22773",
+   "name_en": "GREEN DRAWER KNOB ACRYLIC EDWARDIAN",
+   "price_gbp": 1.25,
+   "hist8": [
+    13,
+    62,
+    31,
+    40,
+    30,
+    0,
+    0,
+    18
+   ],
+   "mean8": 24.25,
+   "std8": 21.02,
+   "cv8": 0.867,
+   "last_week": 18
+  },
+  {
+   "code": "22084",
+   "name_en": "PAPER CHAIN KIT EMPIRE",
+   "price_gbp": 2.95,
+   "hist8": [
+    11,
+    1,
+    1,
+    3,
+    0,
+    1,
+    2,
+    0
+   ],
+   "mean8": 2.38,
+   "std8": 3.62,
+   "cv8": 1.525,
+   "last_week": 0
+  },
+  {
+   "code": "22895",
+   "name_en": "SET OF 2 TEA TOWELS APPLE AND PEARS",
+   "price_gbp": 3.25,
+   "hist8": [
+    14,
+    43,
+    18,
+    12,
+    14,
+    2,
+    130,
+    20
+   ],
+   "mean8": 31.62,
+   "std8": 41.42,
+   "cv8": 1.31,
+   "last_week": 20
+  },
+  {
+   "code": "23294",
+   "name_en": "SET OF 6 SNACK LOAF BAKING CASES",
+   "price_gbp": 0.83,
+   "hist8": [
+    728,
+    442,
+    276,
+    55,
+    386,
+    66,
+    115,
+    56
+   ],
+   "mean8": 265.5,
+   "std8": 242.12,
+   "cv8": 0.912,
+   "last_week": 56
+  },
+  {
+   "code": "22333",
+   "name_en": "RETROSPOT PARTY BAG + STICKER SET",
+   "price_gbp": 1.65,
+   "hist8": [
+    138,
+    68,
+    15,
+    61,
+    116,
+    88,
+    25,
+    34
+   ],
+   "mean8": 68.12,
+   "std8": 43.86,
+   "cv8": 0.644,
+   "last_week": 34
+  },
+  {
+   "code": "16008",
+   "name_en": "SMALL FOLDING SCISSOR(POINTED EDGE)",
+   "price_gbp": 0.12,
+   "hist8": [
+    2,
+    39,
+    36,
+    288,
+    12,
+    158,
+    0,
+    48
+   ],
+   "mean8": 72.88,
+   "std8": 100.49,
+   "cv8": 1.379,
+   "last_week": 48
+  },
+  {
+   "code": "21774",
+   "name_en": "DECORATIVE CATS BATHROOM BOTTLE",
+   "price_gbp": 2.46,
+   "hist8": [
+    1,
+    1,
+    1,
+    1,
+    1,
+    0,
+    0,
+    15
+   ],
+   "mean8": 2.5,
+   "std8": 5.07,
+   "cv8": 2.028,
+   "last_week": 15
+  },
+  {
+   "code": "84997A",
+   "name_en": "GREEN 3 PIECE MINI DOTS CUTLERY SET",
+   "price_gbp": 3.75,
+   "hist8": [
+    27,
+    43,
+    8,
+    2,
+    3,
+    6,
+    78,
+    9
+   ],
+   "mean8": 22.0,
+   "std8": 26.68,
+   "cv8": 1.213,
+   "last_week": 9
+  },
+  {
+   "code": "22781",
+   "name_en": "GUMBALL MAGAZINE RACK",
+   "price_gbp": 7.65,
+   "hist8": [
+    11,
+    16,
+    16,
+    6,
+    14,
+    4,
+    10,
+    17
+   ],
+   "mean8": 11.75,
+   "std8": 4.86,
+   "cv8": 0.414,
+   "last_week": 17
+  },
+  {
+   "code": "22554",
+   "name_en": "PLASTERS IN TIN WOODLAND ANIMALS",
+   "price_gbp": 1.65,
+   "hist8": [
+    63,
+    86,
+    245,
+    112,
+    32,
+    53,
+    74,
+    207
+   ],
+   "mean8": 109.0,
+   "std8": 76.57,
+   "cv8": 0.703,
+   "last_week": 207
+  },
+  {
+   "code": "21745",
+   "name_en": "GAOLERS KEYS DECORATIVE GARDEN",
+   "price_gbp": 3.75,
+   "hist8": [
+    6,
+    18,
+    5,
+    19,
+    6,
+    38,
+    14,
+    25
+   ],
+   "mean8": 16.38,
+   "std8": 11.35,
+   "cv8": 0.693,
+   "last_week": 25
+  },
+  {
+   "code": "22067",
+   "name_en": "CHOC TRUFFLE GOLD TRINKET POT",
+   "price_gbp": 1.65,
+   "hist8": [
+    0,
+    1,
+    0,
+    2,
+    38,
+    16,
+    12,
+    1
+   ],
+   "mean8": 8.75,
+   "std8": 13.3,
+   "cv8": 1.52,
+   "last_week": 1
+  },
+  {
+   "code": "22546",
+   "name_en": "MINI JIGSAW PURDEY",
+   "price_gbp": 0.42,
+   "hist8": [
+    3,
+    4,
+    1,
+    0,
+    28,
+    0,
+    48,
+    48
+   ],
+   "mean8": 16.5,
+   "std8": 21.51,
+   "cv8": 1.304,
+   "last_week": 48
+  },
+  {
+   "code": "21288",
+   "name_en": "STRIPEY CHOCOLATE NESTING BOXES",
+   "price_gbp": 2.95,
+   "hist8": [
+    4,
+    4,
+    1,
+    7,
+    0,
+    0,
+    6,
+    37
+   ],
+   "mean8": 7.38,
+   "std8": 12.26,
+   "cv8": 1.662,
+   "last_week": 37
+  },
+  {
+   "code": "22671",
+   "name_en": "FRENCH LAUNDRY SIGN BLUE METAL",
+   "price_gbp": 1.65,
+   "hist8": [
+    8,
+    222,
+    38,
+    29,
+    13,
+    30,
+    27,
+    1
+   ],
+   "mean8": 46.0,
+   "std8": 72.21,
+   "cv8": 1.57,
+   "last_week": 1
+  },
+  {
+   "code": "21327",
+   "name_en": "SKULLS WRITING SET",
+   "price_gbp": 1.65,
+   "hist8": [
+    25,
+    38,
+    3,
+    4,
+    5,
+    12,
+    2,
+    4
+   ],
+   "mean8": 11.62,
+   "std8": 13.1,
+   "cv8": 1.127,
+   "last_week": 4
+  },
+  {
+   "code": "22614",
+   "name_en": "PACK OF 12 SPACEBOY TISSUES",
+   "price_gbp": 0.29,
+   "hist8": [
+    67,
+    98,
+    49,
+    85,
+    25,
+    74,
+    5,
+    87
+   ],
+   "mean8": 61.25,
+   "std8": 32.52,
+   "cv8": 0.531,
+   "last_week": 87
+  },
+  {
+   "code": "22562",
+   "name_en": "MONSTERS STENCIL CRAFT",
+   "price_gbp": 1.25,
+   "hist8": [
+    14,
+    17,
+    13,
+    40,
+    0,
+    5,
+    41,
+    9
+   ],
+   "mean8": 17.38,
+   "std8": 15.24,
+   "cv8": 0.877,
+   "last_week": 9
+  },
+  {
+   "code": "23339",
+   "name_en": "EGG FRYING PAN BLUE",
+   "price_gbp": 2.08,
+   "hist8": [
+    5,
+    1,
+    20,
+    0,
+    0,
+    10,
+    2,
+    2
+   ],
+   "mean8": 5.0,
+   "std8": 6.91,
+   "cv8": 1.382,
+   "last_week": 2
+  },
+  {
+   "code": "22277",
+   "name_en": "COSMETIC BAG VINTAGE ROSE PAISLEY",
+   "price_gbp": 2.1,
+   "hist8": [
+    17,
+    9,
+    1,
+    13,
+    6,
+    10,
+    3,
+    1
+   ],
+   "mean8": 7.5,
+   "std8": 5.81,
+   "cv8": 0.774,
+   "last_week": 1
+  },
+  {
+   "code": "20971",
+   "name_en": "PINK BLUE FELT CRAFT TRINKET BOX",
+   "price_gbp": 1.25,
+   "hist8": [
+    42,
+    49,
+    74,
+    95,
+    345,
+    636,
+    61,
+    41
+   ],
+   "mean8": 167.88,
+   "std8": 214.52,
+   "cv8": 1.278,
+   "last_week": 41
+  },
+  {
+   "code": "22919",
+   "name_en": "HERB MARKER MINT",
+   "price_gbp": 0.65,
+   "hist8": [
+    25,
+    24,
+    2,
+    6,
+    48,
+    13,
+    6,
+    12
+   ],
+   "mean8": 17.0,
+   "std8": 15.03,
+   "cv8": 0.884,
+   "last_week": 12
+  },
+  {
+   "code": "23155",
+   "name_en": "KNICKERBOCKERGLORY MAGNET ASSORTED",
+   "price_gbp": 0.83,
+   "hist8": [
+    54,
+    48,
+    54,
+    24,
+    30,
+    15,
+    37,
+    48
+   ],
+   "mean8": 38.75,
+   "std8": 14.63,
+   "cv8": 0.377,
+   "last_week": 48
+  },
+  {
+   "code": "21519",
+   "name_en": "GIN & TONIC DIET GREETING CARD",
+   "price_gbp": 0.42,
+   "hist8": [
+    64,
+    62,
+    25,
+    176,
+    49,
+    72,
+    60,
+    54
+   ],
+   "mean8": 70.25,
+   "std8": 44.98,
+   "cv8": 0.64,
+   "last_week": 54
+  },
+  {
+   "code": "22668",
+   "name_en": "PINK BABY BUNTING",
+   "price_gbp": 2.95,
+   "hist8": [
+    22,
+    95,
+    8,
+    17,
+    25,
+    37,
+    16,
+    74
+   ],
+   "mean8": 36.75,
+   "std8": 31.13,
+   "cv8": 0.847,
+   "last_week": 74
+  },
+  {
+   "code": "21210",
+   "name_en": "SET OF 72 RETROSPOT PAPER  DOILIES",
+   "price_gbp": 1.45,
+   "hist8": [
+    40,
+    123,
+    195,
+    184,
+    41,
+    77,
+    90,
+    22
+   ],
+   "mean8": 96.5,
+   "std8": 65.8,
+   "cv8": 0.682,
+   "last_week": 22
+  },
+  {
+   "code": "23192",
+   "name_en": "BUNDLE OF 3 ALPHABET EXERCISE BOOKS",
+   "price_gbp": 1.65,
+   "hist8": [
+    64,
+    70,
+    78,
+    101,
+    117,
+    41,
+    108,
+    23
+   ],
+   "mean8": 75.25,
+   "std8": 32.83,
+   "cv8": 0.436,
+   "last_week": 23
+  },
+  {
+   "code": "22380",
+   "name_en": "TOY TIDY SPACEBOY",
+   "price_gbp": 2.1,
+   "hist8": [
+    1,
+    9,
+    20,
+    15,
+    27,
+    18,
+    26,
+    3
+   ],
+   "mean8": 14.88,
+   "std8": 9.82,
+   "cv8": 0.66,
+   "last_week": 3
+  },
+  {
+   "code": "47590B",
+   "name_en": "PINK HAPPY BIRTHDAY BUNTING",
+   "price_gbp": 5.45,
+   "hist8": [
+    78,
+    34,
+    31,
+    116,
+    1,
+    72,
+    29,
+    104
+   ],
+   "mean8": 58.12,
+   "std8": 40.48,
+   "cv8": 0.696,
+   "last_week": 104
+  },
+  {
+   "code": "37448",
+   "name_en": "CERAMIC CAKE DESIGN SPOTTED MUG",
+   "price_gbp": 1.49,
+   "hist8": [
+    22,
+    5,
+    8,
+    1,
+    13,
+    25,
+    18,
+    19
+   ],
+   "mean8": 13.88,
+   "std8": 8.56,
+   "cv8": 0.617,
+   "last_week": 19
+  },
+  {
+   "code": "22620",
+   "name_en": "4 TRADITIONAL SPINNING TOPS",
+   "price_gbp": 1.45,
+   "hist8": [
+    76,
+    67,
+    76,
+    92,
+    27,
+    75,
+    24,
+    13
+   ],
+   "mean8": 56.25,
+   "std8": 29.98,
+   "cv8": 0.533,
+   "last_week": 13
+  },
+  {
+   "code": "23255",
+   "name_en": "CHILDRENS CUTLERY CIRCUS PARADE",
+   "price_gbp": 4.15,
+   "hist8": [
+    17,
+    22,
+    1,
+    14,
+    84,
+    10,
+    40,
+    28
+   ],
+   "mean8": 27.0,
+   "std8": 25.85,
+   "cv8": 0.957,
+   "last_week": 28
+  },
+  {
+   "code": "21936",
+   "name_en": "RED RETROSPOT PICNIC BAG",
+   "price_gbp": 2.95,
+   "hist8": [
+    34,
+    125,
+    45,
+    149,
+    73,
+    66,
+    40,
+    12
+   ],
+   "mean8": 68.0,
+   "std8": 46.97,
+   "cv8": 0.691,
+   "last_week": 12
+  },
+  {
+   "code": "85038",
+   "name_en": "6 CHOCOLATE LOVE HEART T-LIGHTS",
+   "price_gbp": 2.1,
+   "hist8": [
+    2,
+    0,
+    4,
+    21,
+    24,
+    0,
+    6,
+    2
+   ],
+   "mean8": 7.38,
+   "std8": 9.58,
+   "cv8": 1.298,
+   "last_week": 2
+  },
+  {
+   "code": "21156",
+   "name_en": "RETROSPOT CHILDRENS APRON",
+   "price_gbp": 1.95,
+   "hist8": [
+    30,
+    18,
+    19,
+    32,
+    69,
+    20,
+    20,
+    26
+   ],
+   "mean8": 29.25,
+   "std8": 16.91,
+   "cv8": 0.578,
+   "last_week": 26
+  },
+  {
+   "code": "20979",
+   "name_en": "36 PENCILS TUBE RED RETROSPOT",
+   "price_gbp": 1.25,
+   "hist8": [
+    5,
+    84,
+    73,
+    59,
+    41,
+    176,
+    83,
+    71
+   ],
+   "mean8": 74.0,
+   "std8": 48.8,
+   "cv8": 0.659,
+   "last_week": 71
+  },
+  {
+   "code": "84077",
+   "name_en": "WORLD WAR 2 GLIDERS ASSTD DESIGNS",
+   "price_gbp": 0.29,
+   "hist8": [
+    1104,
+    726,
+    823,
+    98,
+    577,
+    528,
+    1056,
+    290
+   ],
+   "mean8": 650.25,
+   "std8": 350.75,
+   "cv8": 0.539,
+   "last_week": 290
+  },
+  {
+   "code": "22110",
+   "name_en": "BIRD HOUSE HOT WATER BOTTLE",
+   "price_gbp": 2.55,
+   "hist8": [
+    1,
+    7,
+    1,
+    1,
+    11,
+    27,
+    18,
+    0
+   ],
+   "mean8": 8.25,
+   "std8": 9.87,
+   "cv8": 1.196,
+   "last_week": 0
+  },
+  {
+   "code": "22371",
+   "name_en": "AIRLINE BAG VINTAGE TOKYO 78",
+   "price_gbp": 4.25,
+   "hist8": [
+    15,
+    14,
+    4,
+    16,
+    19,
+    11,
+    7,
+    36
+   ],
+   "mean8": 15.25,
+   "std8": 9.71,
+   "cv8": 0.636,
+   "last_week": 36
+  },
+  {
+   "code": "21212",
+   "name_en": "PACK OF 72 RETROSPOT CAKE CASES",
+   "price_gbp": 0.55,
+   "hist8": [
+    253,
+    335,
+    1083,
+    445,
+    335,
+    1650,
+    508,
+    459
+   ],
+   "mean8": 633.5,
+   "std8": 484.04,
+   "cv8": 0.764,
+   "last_week": 459
+  },
+  {
+   "code": "21381",
+   "name_en": "MINI WOODEN HAPPY BIRTHDAY GARLAND",
+   "price_gbp": 1.69,
+   "hist8": [
+    75,
+    19,
+    39,
+    26,
+    31,
+    17,
+    5,
+    21
+   ],
+   "mean8": 29.12,
+   "std8": 21.09,
+   "cv8": 0.724,
+   "last_week": 21
+  },
+  {
+   "code": "22906",
+   "name_en": "12 MESSAGE CARDS WITH ENVELOPES",
+   "price_gbp": 1.65,
+   "hist8": [
+    17,
+    36,
+    19,
+    38,
+    20,
+    26,
+    40,
+    3
+   ],
+   "mean8": 24.88,
+   "std8": 12.68,
+   "cv8": 0.51,
+   "last_week": 3
+  },
+  {
+   "code": "48194",
+   "name_en": "DOORMAT HEARTS",
+   "price_gbp": 7.95,
+   "hist8": [
+    38,
+    26,
+    48,
+    14,
+    49,
+    58,
+    30,
+    19
+   ],
+   "mean8": 35.25,
+   "std8": 15.61,
+   "cv8": 0.443,
+   "last_week": 19
+  },
+  {
+   "code": "22627",
+   "name_en": "MINT KITCHEN SCALES",
+   "price_gbp": 8.5,
+   "hist8": [
+    18,
+    6,
+    14,
+    23,
+    21,
+    16,
+    21,
+    27
+   ],
+   "mean8": 18.25,
+   "std8": 6.41,
+   "cv8": 0.351,
+   "last_week": 27
+  },
+  {
+   "code": "21791",
+   "name_en": "VINTAGE HEADS AND TAILS CARD GAME",
+   "price_gbp": 1.25,
+   "hist8": [
+    10,
+    59,
+    59,
+    695,
+    179,
+    127,
+    85,
+    239
+   ],
+   "mean8": 181.62,
+   "std8": 219.97,
+   "cv8": 1.211,
+   "last_week": 239
+  },
+  {
+   "code": "22645",
+   "name_en": "CERAMIC HEART FAIRY CAKE MONEY BANK",
+   "price_gbp": 1.45,
+   "hist8": [
+    14,
+    19,
+    25,
+    8,
+    9,
+    30,
+    26,
+    17
+   ],
+   "mean8": 18.5,
+   "std8": 8.05,
+   "cv8": 0.435,
+   "last_week": 17
+  },
+  {
+   "code": "22602",
+   "name_en": "CHRISTMAS RETROSPOT HEART WOOD",
+   "price_gbp": 0.85,
+   "hist8": [
+    152,
+    13,
+    63,
+    17,
+    4,
+    42,
+    27,
+    47
+   ],
+   "mean8": 45.62,
+   "std8": 47.2,
+   "cv8": 1.035,
+   "last_week": 47
+  },
+  {
+   "code": "22041",
+   "name_en": "RECORD FRAME 7\" SINGLE SIZE",
+   "price_gbp": 2.55,
+   "hist8": [
+    15,
+    99,
+    22,
+    12,
+    60,
+    109,
+    21,
+    96
+   ],
+   "mean8": 54.25,
+   "std8": 41.83,
+   "cv8": 0.771,
+   "last_week": 96
+  },
+  {
+   "code": "84536A",
+   "name_en": "ENGLISH ROSE NOTEBOOK A7 SIZE",
+   "price_gbp": 0.42,
+   "hist8": [
+    116,
+    70,
+    60,
+    110,
+    90,
+    75,
+    37,
+    30
+   ],
+   "mean8": 73.5,
+   "std8": 31.24,
+   "cv8": 0.425,
+   "last_week": 30
+  },
+  {
+   "code": "22286",
+   "name_en": "DECORATION , WOBBLY RABBIT , METAL",
+   "price_gbp": 1.65,
+   "hist8": [
+    6,
+    109,
+    29,
+    24,
+    0,
+    54,
+    105,
+    1
+   ],
+   "mean8": 41.0,
+   "std8": 44.45,
+   "cv8": 1.084,
+   "last_week": 1
+  },
+  {
+   "code": "85025C",
+   "name_en": "PINK HEART SHAPE PHOTO FRAME",
+   "price_gbp": 1.65,
+   "hist8": [
+    13,
+    0,
+    1,
+    12,
+    2,
+    1,
+    155,
+    0
+   ],
+   "mean8": 23.0,
+   "std8": 53.6,
+   "cv8": 2.331,
+   "last_week": 0
+  },
+  {
+   "code": "84836",
+   "name_en": "ZINC METAL HEART DECORATION",
+   "price_gbp": 1.25,
+   "hist8": [
+    101,
+    174,
+    64,
+    140,
+    269,
+    7,
+    103,
+    98
+   ],
+   "mean8": 119.5,
+   "std8": 77.97,
+   "cv8": 0.652,
+   "last_week": 98
+  },
+  {
+   "code": "79302M",
+   "name_en": "ART LIGHTS,FUNK MONKEY",
+   "price_gbp": 2.95,
+   "hist8": [
+    2,
+    12,
+    7,
+    0,
+    1,
+    2,
+    1,
+    13
+   ],
+   "mean8": 4.75,
+   "std8": 5.23,
+   "cv8": 1.101,
+   "last_week": 13
+  },
+  {
+   "code": "21163",
+   "name_en": "DO NOT TOUCH MY STUFF DOOR HANGER",
+   "price_gbp": 1.45,
+   "hist8": [
+    75,
+    129,
+    51,
+    24,
+    36,
+    79,
+    152,
+    1
+   ],
+   "mean8": 68.38,
+   "std8": 51.66,
+   "cv8": 0.756,
+   "last_week": 1
+  },
+  {
+   "code": "23546",
+   "name_en": "WRAP PAISLEY PARK",
+   "price_gbp": 0.42,
+   "hist8": [
+    0,
+    150,
+    200,
+    250,
+    200,
+    75,
+    200,
+    100
+   ],
+   "mean8": 146.88,
+   "std8": 82.85,
+   "cv8": 0.564,
+   "last_week": 100
+  },
+  {
+   "code": "48188",
+   "name_en": "DOORMAT WELCOME PUPPIES",
+   "price_gbp": 7.95,
+   "hist8": [
+    6,
+    41,
+    19,
+    10,
+    20,
+    26,
+    13,
+    7
+   ],
+   "mean8": 17.75,
+   "std8": 11.66,
+   "cv8": 0.657,
+   "last_week": 7
+  },
+  {
+   "code": "21866",
+   "name_en": "UNION JACK FLAG LUGGAGE TAG",
+   "price_gbp": 1.25,
+   "hist8": [
+    7,
+    24,
+    15,
+    4,
+    11,
+    4,
+    0,
+    0
+   ],
+   "mean8": 8.12,
+   "std8": 8.24,
+   "cv8": 1.014,
+   "last_week": 0
+  },
+  {
+   "code": "23147",
+   "name_en": "SINGLE ANTIQUE ROSE HOOK IVORY",
+   "price_gbp": 1.45,
+   "hist8": [
+    63,
+    22,
+    64,
+    69,
+    64,
+    72,
+    59,
+    30
+   ],
+   "mean8": 55.38,
+   "std8": 18.67,
+   "cv8": 0.337,
+   "last_week": 30
+  },
+  {
+   "code": "21793",
+   "name_en": "CLASSIC FRENCH STYLE BASKET BROWN",
+   "price_gbp": 3.95,
+   "hist8": [
+    6,
+    11,
+    2,
+    6,
+    9,
+    18,
+    14,
+    0
+   ],
+   "mean8": 8.25,
+   "std8": 6.02,
+   "cv8": 0.729,
+   "last_week": 0
+  },
+  {
+   "code": "22927",
+   "name_en": "GREEN GIANT GARDEN THERMOMETER",
+   "price_gbp": 5.95,
+   "hist8": [
+    45,
+    24,
+    0,
+    5,
+    12,
+    8,
+    0,
+    1
+   ],
+   "mean8": 11.88,
+   "std8": 15.62,
+   "cv8": 1.315,
+   "last_week": 1
+  },
+  {
+   "code": "22670",
+   "name_en": "FRENCH WC SIGN BLUE METAL",
+   "price_gbp": 1.25,
+   "hist8": [
+    40,
+    52,
+    25,
+    70,
+    83,
+    54,
+    15,
+    18
+   ],
+   "mean8": 44.62,
+   "std8": 24.65,
+   "cv8": 0.552,
+   "last_week": 18
+  },
+  {
+   "code": "22301",
+   "name_en": "COFFEE MUG CAT + BIRD DESIGN",
+   "price_gbp": 2.55,
+   "hist8": [
+    12,
+    0,
+    31,
+    12,
+    58,
+    50,
+    18,
+    30
+   ],
+   "mean8": 26.38,
+   "std8": 19.9,
+   "cv8": 0.754,
+   "last_week": 30
+  },
+  {
+   "code": "72351B",
+   "name_en": "SET/6 PINK  BUTTERFLY T-LIGHTS",
+   "price_gbp": 2.1,
+   "hist8": [
+    22,
+    7,
+    75,
+    24,
+    14,
+    8,
+    116,
+    43
+   ],
+   "mean8": 38.62,
+   "std8": 38.48,
+   "cv8": 0.996,
+   "last_week": 43
+  },
+  {
+   "code": "84927F",
+   "name_en": "PSYCHEDELIC TILE HOOK",
+   "price_gbp": 2.1,
+   "hist8": [
+    1,
+    0,
+    7,
+    48,
+    19,
+    4,
+    7,
+    13
+   ],
+   "mean8": 12.38,
+   "std8": 15.69,
+   "cv8": 1.268,
+   "last_week": 13
+  },
+  {
+   "code": "23203",
+   "name_en": "JUMBO BAG VINTAGE DOILY",
+   "price_gbp": 2.08,
+   "hist8": [
+    441,
+    773,
+    593,
+    1211,
+    1308,
+    726,
+    611,
+    460
+   ],
+   "mean8": 765.38,
+   "std8": 326.59,
+   "cv8": 0.427,
+   "last_week": 460
+  },
+  {
+   "code": "22082",
+   "name_en": "RIBBON REEL STRIPES DESIGN",
+   "price_gbp": 1.65,
+   "hist8": [
+    31,
+    24,
+    40,
+    57,
+    16,
+    43,
+    51,
+    26
+   ],
+   "mean8": 36.0,
+   "std8": 14.14,
+   "cv8": 0.393,
+   "last_week": 26
+  },
+  {
+   "code": "84880",
+   "name_en": "WHITE WIRE EGG HOLDER",
+   "price_gbp": 5.95,
+   "hist8": [
+    12,
+    0,
+    3,
+    9,
+    3,
+    3,
+    3,
+    3
+   ],
+   "mean8": 4.5,
+   "std8": 3.93,
+   "cv8": 0.873,
+   "last_week": 3
+  },
+  {
+   "code": "22493",
+   "name_en": "PAINT YOUR OWN CANVAS SET",
+   "price_gbp": 1.65,
+   "hist8": [
+    40,
+    3,
+    43,
+    412,
+    362,
+    28,
+    33,
+    19
+   ],
+   "mean8": 117.5,
+   "std8": 167.34,
+   "cv8": 1.424,
+   "last_week": 19
+  },
+  {
+   "code": "21063",
+   "name_en": "PARTY INVITES JAZZ HEARTS",
+   "price_gbp": 0.85,
+   "hist8": [
+    6,
+    25,
+    5,
+    2,
+    1,
+    27,
+    18,
+    0
+   ],
+   "mean8": 10.5,
+   "std8": 11.1,
+   "cv8": 1.057,
+   "last_week": 0
+  },
+  {
+   "code": "22113",
+   "name_en": "GREY HEART HOT WATER BOTTLE",
+   "price_gbp": 3.75,
+   "hist8": [
+    2,
+    1,
+    59,
+    13,
+    10,
+    24,
+    40,
+    70
+   ],
+   "mean8": 27.38,
+   "std8": 26.28,
+   "cv8": 0.96,
+   "last_week": 70
+  },
+  {
+   "code": "22465",
+   "name_en": "HANGING METAL STAR LANTERN",
+   "price_gbp": 1.65,
+   "hist8": [
+    0,
+    48,
+    44,
+    3,
+    26,
+    13,
+    12,
+    25
+   ],
+   "mean8": 21.38,
+   "std8": 17.76,
+   "cv8": 0.831,
+   "last_week": 25
+  },
+  {
+   "code": "22723",
+   "name_en": "SET OF 6 HERB TINS SKETCHBOOK",
+   "price_gbp": 3.95,
+   "hist8": [
+    13,
+    49,
+    13,
+    35,
+    9,
+    10,
+    7,
+    53
+   ],
+   "mean8": 23.62,
+   "std8": 19.04,
+   "cv8": 0.806,
+   "last_week": 53
+  },
+  {
+   "code": "22295",
+   "name_en": "HEART FILIGREE DOVE LARGE",
+   "price_gbp": 1.65,
+   "hist8": [
+    12,
+    54,
+    50,
+    2,
+    56,
+    62,
+    15,
+    72
+   ],
+   "mean8": 40.38,
+   "std8": 26.49,
+   "cv8": 0.656,
+   "last_week": 72
+  },
+  {
+   "code": "21125",
+   "name_en": "SET 6 FOOTBALL CELEBRATION CANDLES",
+   "price_gbp": 1.25,
+   "hist8": [
+    12,
+    13,
+    0,
+    0,
+    12,
+    3,
+    12,
+    14
+   ],
+   "mean8": 8.25,
+   "std8": 6.11,
+   "cv8": 0.741,
+   "last_week": 14
+  },
+  {
+   "code": "22047",
+   "name_en": "EMPIRE GIFT WRAP",
+   "price_gbp": 0.42,
+   "hist8": [
+    125,
+    75,
+    100,
+    275,
+    75,
+    0,
+    25,
+    0
+   ],
+   "mean8": 84.38,
+   "std8": 89.58,
+   "cv8": 1.062,
+   "last_week": 0
+  },
+  {
+   "code": "23232",
+   "name_en": "WRAP VINTAGE LEAF DESIGN",
+   "price_gbp": 0.42,
+   "hist8": [
+    475,
+    276,
+    250,
+    225,
+    250,
+    50,
+    150,
+    75
+   ],
+   "mean8": 218.88,
+   "std8": 133.52,
+   "cv8": 0.61,
+   "last_week": 75
+  },
+  {
+   "code": "85130D",
+   "name_en": "BEADED CRYSTAL HEART PINK LARGE",
+   "price_gbp": 1.65,
+   "hist8": [
+    30,
+    168,
+    80,
+    50,
+    51,
+    0,
+    24,
+    0
+   ],
+   "mean8": 50.38,
+   "std8": 54.64,
+   "cv8": 1.085,
+   "last_week": 0
+  },
+  {
+   "code": "22460",
+   "name_en": "EMBOSSED GLASS TEALIGHT HOLDER",
+   "price_gbp": 1.25,
+   "hist8": [
+    23,
+    76,
+    42,
+    35,
+    42,
+    30,
+    24,
+    40
+   ],
+   "mean8": 39.0,
+   "std8": 16.76,
+   "cv8": 0.43,
+   "last_week": 40
+  },
+  {
+   "code": "22062",
+   "name_en": "CERAMIC BOWL WITH LOVE HEART DESIGN",
+   "price_gbp": 2.46,
+   "hist8": [
+    3,
+    1,
+    18,
+    4,
+    2,
+    0,
+    2,
+    4
+   ],
+   "mean8": 4.25,
+   "std8": 5.73,
+   "cv8": 1.347,
+   "last_week": 4
+  },
+  {
+   "code": "82583",
+   "name_en": "HOT BATHS METAL SIGN",
+   "price_gbp": 2.1,
+   "hist8": [
+    103,
+    17,
+    8,
+    23,
+    17,
+    17,
+    54,
+    17
+   ],
+   "mean8": 32.0,
+   "std8": 31.81,
+   "cv8": 0.994,
+   "last_week": 17
+  },
+  {
+   "code": "23032",
+   "name_en": "DRAWER KNOB CRACKLE GLAZE IVORY",
+   "price_gbp": 1.65,
+   "hist8": [
+    134,
+    89,
+    61,
+    68,
+    74,
+    120,
+    126,
+    75
+   ],
+   "mean8": 93.38,
+   "std8": 28.9,
+   "cv8": 0.31,
+   "last_week": 75
+  },
+  {
+   "code": "22710",
+   "name_en": "WRAP I LOVE LONDON",
+   "price_gbp": 0.42,
+   "hist8": [
+    50,
+    25,
+    25,
+    75,
+    100,
+    25,
+    25,
+    25
+   ],
+   "mean8": 43.75,
+   "std8": 29.12,
+   "cv8": 0.666,
+   "last_week": 25
+  },
+  {
+   "code": "72802C",
+   "name_en": "VANILLA SCENT CANDLE JEWELLED BOX",
+   "price_gbp": 4.25,
+   "hist8": [
+    44,
+    9,
+    6,
+    0,
+    1,
+    24,
+    6,
+    7
+   ],
+   "mean8": 12.12,
+   "std8": 14.83,
+   "cv8": 1.223,
+   "last_week": 7
+  },
+  {
+   "code": "22918",
+   "name_en": "HERB MARKER PARSLEY",
+   "price_gbp": 0.65,
+   "hist8": [
+    224,
+    24,
+    3,
+    6,
+    36,
+    13,
+    6,
+    12
+   ],
+   "mean8": 40.5,
+   "std8": 74.95,
+   "cv8": 1.851,
+   "last_week": 12
+  },
+  {
+   "code": "21673",
+   "name_en": "WHITE SPOT BLUE CERAMIC DRAWER KNOB",
+   "price_gbp": 1.25,
+   "hist8": [
+    115,
+    40,
+    14,
+    51,
+    42,
+    39,
+    4,
+    2
+   ],
+   "mean8": 38.38,
+   "std8": 36.15,
+   "cv8": 0.942,
+   "last_week": 2
+  },
+  {
+   "code": "22278",
+   "name_en": "OVERNIGHT BAG VINTAGE ROSE PAISLEY",
+   "price_gbp": 4.95,
+   "hist8": [
+    21,
+    13,
+    2,
+    7,
+    3,
+    9,
+    10,
+    8
+   ],
+   "mean8": 9.12,
+   "std8": 5.99,
+   "cv8": 0.656,
+   "last_week": 8
+  },
+  {
+   "code": "22185",
+   "name_en": "SLATE TILE NATURAL HANGING",
+   "price_gbp": 1.65,
+   "hist8": [
+    17,
+    0,
+    0,
+    57,
+    1,
+    12,
+    40,
+    28
+   ],
+   "mean8": 19.38,
+   "std8": 20.92,
+   "cv8": 1.08,
+   "last_week": 28
+  },
+  {
+   "code": "23161",
+   "name_en": "REGENCY CAKE FORK",
+   "price_gbp": 1.25,
+   "hist8": [
+    96,
+    36,
+    132,
+    182,
+    51,
+    36,
+    0,
+    44
+   ],
+   "mean8": 72.12,
+   "std8": 60.09,
+   "cv8": 0.833,
+   "last_week": 44
+  },
+  {
+   "code": "22271",
+   "name_en": "FELTCRAFT DOLL ROSIE",
+   "price_gbp": 2.95,
+   "hist8": [
+    0,
+    9,
+    20,
+    27,
+    14,
+    8,
+    27,
+    21
+   ],
+   "mean8": 15.75,
+   "std8": 9.68,
+   "cv8": 0.614,
+   "last_week": 21
+  },
+  {
+   "code": "23285",
+   "name_en": "PINK VINTAGE SPOT BEAKER",
+   "price_gbp": 0.85,
+   "hist8": [
+    137,
+    195,
+    126,
+    52,
+    115,
+    647,
+    50,
+    31
+   ],
+   "mean8": 169.12,
+   "std8": 200.66,
+   "cv8": 1.186,
+   "last_week": 31
+  },
+  {
+   "code": "22804",
+   "name_en": "CANDLEHOLDER PINK HANGING HEART",
+   "price_gbp": 2.95,
+   "hist8": [
+    19,
+    49,
+    35,
+    12,
+    44,
+    26,
+    52,
+    45
+   ],
+   "mean8": 35.25,
+   "std8": 14.79,
+   "cv8": 0.42,
+   "last_week": 45
+  },
+  {
+   "code": "23281",
+   "name_en": "FOLDING BUTTERFLY MIRROR RED",
+   "price_gbp": 0.83,
+   "hist8": [
+    15,
+    25,
+    12,
+    0,
+    120,
+    0,
+    201,
+    17
+   ],
+   "mean8": 48.75,
+   "std8": 72.77,
+   "cv8": 1.493,
+   "last_week": 17
+  },
+  {
+   "code": "22717",
+   "name_en": "CARD DOG AND BALL",
+   "price_gbp": 0.42,
+   "hist8": [
+    24,
+    64,
+    36,
+    12,
+    12,
+    48,
+    72,
+    25
+   ],
+   "mean8": 36.62,
+   "std8": 22.8,
+   "cv8": 0.622,
+   "last_week": 25
+  },
+  {
+   "code": "22621",
+   "name_en": "TRADITIONAL KNITTING NANCY",
+   "price_gbp": 1.65,
+   "hist8": [
+    81,
+    19,
+    230,
+    158,
+    169,
+    79,
+    124,
+    80
+   ],
+   "mean8": 117.5,
+   "std8": 66.46,
+   "cv8": 0.566,
+   "last_week": 80
+  },
+  {
+   "code": "21641",
+   "name_en": "ASSORTED TUTTI FRUTTI KEYRING BALL",
+   "price_gbp": 1.63,
+   "hist8": [
+    49,
+    72,
+    144,
+    0,
+    1,
+    0,
+    120,
+    29
+   ],
+   "mean8": 51.88,
+   "std8": 56.11,
+   "cv8": 1.082,
+   "last_week": 29
+  },
+  {
+   "code": "23077",
+   "name_en": "DOUGHNUT LIP GLOSS",
+   "price_gbp": 1.25,
+   "hist8": [
+    193,
+    300,
+    300,
+    340,
+    161,
+    83,
+    140,
+    307
+   ],
+   "mean8": 228.0,
+   "std8": 95.35,
+   "cv8": 0.418,
+   "last_week": 307
+  },
+  {
+   "code": "23013",
+   "name_en": "GLASS APOTHECARY BOTTLE TONIC",
+   "price_gbp": 3.95,
+   "hist8": [
+    19,
+    45,
+    28,
+    32,
+    15,
+    20,
+    4,
+    29
+   ],
+   "mean8": 24.0,
+   "std8": 12.35,
+   "cv8": 0.515,
+   "last_week": 29
+  },
+  {
+   "code": "21259",
+   "name_en": "VICTORIAN SEWING BOX SMALL",
+   "price_gbp": 5.95,
+   "hist8": [
+    4,
+    1,
+    20,
+    7,
+    4,
+    19,
+    2,
+    3
+   ],
+   "mean8": 7.5,
+   "std8": 7.62,
+   "cv8": 1.015,
+   "last_week": 3
+  },
+  {
+   "code": "20983",
+   "name_en": "12 PENCILS TALL TUBE RED RETROSPOT",
+   "price_gbp": 0.85,
+   "hist8": [
+    28,
+    122,
+    67,
+    87,
+    73,
+    28,
+    46,
+    45
+   ],
+   "mean8": 62.0,
+   "std8": 32.13,
+   "cv8": 0.518,
+   "last_week": 45
+  },
+  {
+   "code": "21429",
+   "name_en": "RED GINGHAM ROSE JEWELLERY BOX",
+   "price_gbp": 1.65,
+   "hist8": [
+    35,
+    87,
+    18,
+    2,
+    127,
+    38,
+    9,
+    33
+   ],
+   "mean8": 43.62,
+   "std8": 42.49,
+   "cv8": 0.974,
+   "last_week": 33
+  },
+  {
+   "code": "21731",
+   "name_en": "RED TOADSTOOL LED NIGHT LIGHT",
+   "price_gbp": 1.65,
+   "hist8": [
+    48,
+    144,
+    174,
+    668,
+    960,
+    535,
+    121,
+    108
+   ],
+   "mean8": 344.75,
+   "std8": 334.42,
+   "cv8": 0.97,
+   "last_week": 108
+  },
+  {
+   "code": "47574A",
+   "name_en": "ENGLISH ROSE SCENTED HANGING FLOWER",
+   "price_gbp": 2.46,
+   "hist8": [
+    18,
+    11,
+    12,
+    0,
+    2,
+    9,
+    8,
+    3
+   ],
+   "mean8": 7.88,
+   "std8": 5.99,
+   "cv8": 0.76,
+   "last_week": 3
+  },
+  {
+   "code": "21775",
+   "name_en": "DECORATIVE FLORE BATHROOM BOTTLE",
+   "price_gbp": 2.46,
+   "hist8": [
+    2,
+    2,
+    1,
+    3,
+    2,
+    0,
+    0,
+    6
+   ],
+   "mean8": 2.0,
+   "std8": 1.93,
+   "cv8": 0.964,
+   "last_week": 6
+  },
+  {
+   "code": "84792",
+   "name_en": "ENCHANTED BIRD COATHANGER 5 HOOK",
+   "price_gbp": 4.65,
+   "hist8": [
+    15,
+    6,
+    5,
+    11,
+    17,
+    8,
+    3,
+    2
+   ],
+   "mean8": 8.38,
+   "std8": 5.5,
+   "cv8": 0.657,
+   "last_week": 2
+  },
+  {
+   "code": "23312",
+   "name_en": "VINTAGE CHRISTMAS GIFT SACK",
+   "price_gbp": 4.15,
+   "hist8": [
+    4,
+    40,
+    5,
+    32,
+    18,
+    120,
+    8,
+    32
+   ],
+   "mean8": 32.38,
+   "std8": 37.97,
+   "cv8": 1.173,
+   "last_week": 32
+  },
+  {
+   "code": "21116",
+   "name_en": "OWL DOORSTOP",
+   "price_gbp": 8.29,
+   "hist8": [
+    4,
+    7,
+    9,
+    9,
+    13,
+    5,
+    29,
+    10
+   ],
+   "mean8": 10.75,
+   "std8": 7.91,
+   "cv8": 0.735,
+   "last_week": 10
+  },
+  {
+   "code": "22681",
+   "name_en": "FRENCH BLUE METAL DOOR SIGN 6",
+   "price_gbp": 1.25,
+   "hist8": [
+    12,
+    3,
+    10,
+    9,
+    42,
+    24,
+    0,
+    31
+   ],
+   "mean8": 16.38,
+   "std8": 14.59,
+   "cv8": 0.891,
+   "last_week": 31
+  },
+  {
+   "code": "22674",
+   "name_en": "FRENCH TOILET SIGN BLUE METAL",
+   "price_gbp": 1.25,
+   "hist8": [
+    24,
+    199,
+    1,
+    49,
+    16,
+    70,
+    4,
+    13
+   ],
+   "mean8": 47.0,
+   "std8": 65.74,
+   "cv8": 1.399,
+   "last_week": 13
+  },
+  {
+   "code": "23311",
+   "name_en": "VINTAGE CHRISTMAS STOCKING",
+   "price_gbp": 2.55,
+   "hist8": [
+    13,
+    10,
+    40,
+    36,
+    6,
+    54,
+    12,
+    30
+   ],
+   "mean8": 25.12,
+   "std8": 17.37,
+   "cv8": 0.691,
+   "last_week": 30
+  },
+  {
+   "code": "22950",
+   "name_en": "36 DOILIES VINTAGE CHRISTMAS",
+   "price_gbp": 1.45,
+   "hist8": [
+    109,
+    25,
+    793,
+    300,
+    36,
+    319,
+    79,
+    496
+   ],
+   "mean8": 269.62,
+   "std8": 268.62,
+   "cv8": 0.996,
+   "last_week": 496
+  },
+  {
+   "code": "23131",
+   "name_en": "MISTLETOE HEART WREATH CREAM",
+   "price_gbp": 4.15,
+   "hist8": [
+    1,
+    20,
+    292,
+    48,
+    2,
+    6,
+    10,
+    7
+   ],
+   "mean8": 48.25,
+   "std8": 99.67,
+   "cv8": 2.066,
+   "last_week": 7
+  },
+  {
+   "code": "22199",
+   "name_en": "FRYING PAN RED RETROSPOT",
+   "price_gbp": 4.25,
+   "hist8": [
+    12,
+    8,
+    2,
+    5,
+    2,
+    3,
+    0,
+    9
+   ],
+   "mean8": 5.12,
+   "std8": 4.16,
+   "cv8": 0.811,
+   "last_week": 9
+  },
+  {
+   "code": "23196",
+   "name_en": "VINTAGE LEAF MAGNETIC NOTEPAD",
+   "price_gbp": 1.45,
+   "hist8": [
+    38,
+    118,
+    166,
+    91,
+    73,
+    40,
+    88,
+    35
+   ],
+   "mean8": 81.12,
+   "std8": 45.44,
+   "cv8": 0.56,
+   "last_week": 35
+  },
+  {
+   "code": "16236",
+   "name_en": "KITTY PENCIL ERASERS",
+   "price_gbp": 0.21,
+   "hist8": [
+    45,
+    112,
+    57,
+    29,
+    2,
+    0,
+    28,
+    5
+   ],
+   "mean8": 34.75,
+   "std8": 37.44,
+   "cv8": 1.077,
+   "last_week": 5
+  },
+  {
+   "code": "85170D",
+   "name_en": "SET/6 PINK BIRD T-LIGHT CANDLES",
+   "price_gbp": 2.46,
+   "hist8": [
+    3,
+    1,
+    9,
+    0,
+    6,
+    0,
+    6,
+    1
+   ],
+   "mean8": 3.25,
+   "std8": 3.37,
+   "cv8": 1.037,
+   "last_week": 1
+  },
+  {
+   "code": "21465",
+   "name_en": "PINK FLOWER CROCHET FOOD COVER",
+   "price_gbp": 3.75,
+   "hist8": [
+    17,
+    9,
+    0,
+    6,
+    1,
+    13,
+    0,
+    1
+   ],
+   "mean8": 5.88,
+   "std8": 6.56,
+   "cv8": 1.116,
+   "last_week": 1
+  },
+  {
+   "code": "84818",
+   "name_en": "DANISH ROSE PHOTO FRAME",
+   "price_gbp": 2.51,
+   "hist8": [
+    42,
+    54,
+    127,
+    79,
+    48,
+    76,
+    194,
+    0
+   ],
+   "mean8": 77.5,
+   "std8": 59.42,
+   "cv8": 0.767,
+   "last_week": 0
+  },
+  {
+   "code": "23156",
+   "name_en": "SET OF 5 MINI GROCERY MAGNETS",
+   "price_gbp": 2.08,
+   "hist8": [
+    8,
+    27,
+    27,
+    68,
+    37,
+    12,
+    57,
+    62
+   ],
+   "mean8": 37.25,
+   "std8": 22.84,
+   "cv8": 0.613,
+   "last_week": 62
+  },
+  {
+   "code": "72760B",
+   "name_en": "VINTAGE CREAM 3 BASKET CAKE STAND",
+   "price_gbp": 9.95,
+   "hist8": [
+    3,
+    3,
+    6,
+    3,
+    5,
+    1,
+    22,
+    2
+   ],
+   "mean8": 5.62,
+   "std8": 6.8,
+   "cv8": 1.209,
+   "last_week": 2
+  },
+  {
+   "code": "22381",
+   "name_en": "TOY TIDY PINK POLKADOT",
+   "price_gbp": 2.1,
+   "hist8": [
+    18,
+    60,
+    46,
+    27,
+    117,
+    16,
+    50,
+    11
+   ],
+   "mean8": 43.12,
+   "std8": 34.76,
+   "cv8": 0.806,
+   "last_week": 11
+  },
+  {
+   "code": "22822",
+   "name_en": "CREAM WALL PLANTER HEART SHAPED",
+   "price_gbp": 5.95,
+   "hist8": [
+    1,
+    8,
+    5,
+    4,
+    0,
+    4,
+    5,
+    5
+   ],
+   "mean8": 4.0,
+   "std8": 2.51,
+   "cv8": 0.627,
+   "last_week": 5
+  },
+  {
+   "code": "21756",
+   "name_en": "BATH BUILDING BLOCK WORD",
+   "price_gbp": 5.95,
+   "hist8": [
+    3,
+    11,
+    7,
+    6,
+    8,
+    6,
+    6,
+    13
+   ],
+   "mean8": 7.5,
+   "std8": 3.16,
+   "cv8": 0.422,
+   "last_week": 13
+  },
+  {
+   "code": "22907",
+   "name_en": "PACK OF 20 NAPKINS PANTRY DESIGN",
+   "price_gbp": 0.85,
+   "hist8": [
+    136,
+    131,
+    320,
+    229,
+    169,
+    63,
+    109,
+    96
+   ],
+   "mean8": 156.62,
+   "std8": 82.7,
+   "cv8": 0.528,
+   "last_week": 96
+  },
+  {
+   "code": "15044A",
+   "name_en": "PINK PAPER PARASOL",
+   "price_gbp": 2.95,
+   "hist8": [
+    38,
+    12,
+    1,
+    7,
+    12,
+    0,
+    0,
+    8
+   ],
+   "mean8": 9.75,
+   "std8": 12.45,
+   "cv8": 1.277,
+   "last_week": 8
+  },
+  {
+   "code": "85176",
+   "name_en": "SEWING SUSAN 21 NEEDLE SET",
+   "price_gbp": 0.85,
+   "hist8": [
+    27,
+    9,
+    14,
+    16,
+    22,
+    4,
+    1,
+    4
+   ],
+   "mean8": 12.12,
+   "std8": 9.28,
+   "cv8": 0.765,
+   "last_week": 4
+  },
+  {
+   "code": "85132C",
+   "name_en": "CHARLIE AND LOLA FIGURES TINS",
+   "price_gbp": 5.79,
+   "hist8": [
+    105,
+    22,
+    65,
+    47,
+    87,
+    88,
+    135,
+    12
+   ],
+   "mean8": 70.12,
+   "std8": 41.89,
+   "cv8": 0.597,
+   "last_week": 12
+  },
+  {
+   "code": "22273",
+   "name_en": "FELTCRAFT DOLL MOLLY",
+   "price_gbp": 2.95,
+   "hist8": [
+    6,
+    15,
+    14,
+    40,
+    8,
+    529,
+    12,
+    27
+   ],
+   "mean8": 81.38,
+   "std8": 181.21,
+   "cv8": 2.227,
+   "last_week": 27
+  },
+  {
+   "code": "23035",
+   "name_en": "DRAWER KNOB CERAMIC IVORY",
+   "price_gbp": 1.45,
+   "hist8": [
+    54,
+    236,
+    102,
+    14,
+    86,
+    80,
+    72,
+    55
+   ],
+   "mean8": 87.38,
+   "std8": 65.62,
+   "cv8": 0.751,
+   "last_week": 55
+  },
+  {
+   "code": "21892",
+   "name_en": "TRADITIONAL WOODEN CATCH CUP GAME",
+   "price_gbp": 1.25,
+   "hist8": [
+    86,
+    40,
+    92,
+    20,
+    42,
+    49,
+    24,
+    9
+   ],
+   "mean8": 45.25,
+   "std8": 30.0,
+   "cv8": 0.663,
+   "last_week": 9
+  },
+  {
+   "code": "23070",
+   "name_en": "EDWARDIAN HEART PHOTO FRAME",
+   "price_gbp": 4.15,
+   "hist8": [
+    4,
+    3,
+    8,
+    2,
+    4,
+    4,
+    12,
+    0
+   ],
+   "mean8": 4.62,
+   "std8": 3.74,
+   "cv8": 0.808,
+   "last_week": 0
+  },
+  {
+   "code": "21407",
+   "name_en": "BROWN CHECK CAT DOORSTOP",
+   "price_gbp": 4.25,
+   "hist8": [
+    6,
+    6,
+    3,
+    6,
+    3,
+    3,
+    4,
+    8
+   ],
+   "mean8": 4.88,
+   "std8": 1.89,
+   "cv8": 0.387,
+   "last_week": 8
+  },
+  {
+   "code": "47559B",
+   "name_en": "TEA TIME OVEN GLOVE",
+   "price_gbp": 1.25,
+   "hist8": [
+    27,
+    73,
+    12,
+    30,
+    1,
+    11,
+    45,
+    16
+   ],
+   "mean8": 26.88,
+   "std8": 23.07,
+   "cv8": 0.859,
+   "last_week": 16
+  },
+  {
+   "code": "22403",
+   "name_en": "MAGNETS PACK OF 4 VINTAGE LABELS",
+   "price_gbp": 1.25,
+   "hist8": [
+    168,
+    50,
+    84,
+    49,
+    2,
+    0,
+    98,
+    0
+   ],
+   "mean8": 56.38,
+   "std8": 59.0,
+   "cv8": 1.046,
+   "last_week": 0
+  },
+  {
+   "code": "72349B",
+   "name_en": "SET/6 PURPLE BUTTERFLY T-LIGHTS",
+   "price_gbp": 2.1,
+   "hist8": [
+    4,
+    10,
+    1,
+    6,
+    11,
+    2,
+    7,
+    73
+   ],
+   "mean8": 14.25,
+   "std8": 24.0,
+   "cv8": 1.684,
+   "last_week": 73
+  },
+  {
+   "code": "22654",
+   "name_en": "DELUXE SEWING KIT",
+   "price_gbp": 5.95,
+   "hist8": [
+    6,
+    6,
+    9,
+    18,
+    2,
+    10,
+    6,
+    16
+   ],
+   "mean8": 9.12,
+   "std8": 5.44,
+   "cv8": 0.596,
+   "last_week": 16
+  },
+  {
+   "code": "21788",
+   "name_en": "KIDS RAIN MAC BLUE",
+   "price_gbp": 0.85,
+   "hist8": [
+    3,
+    54,
+    72,
+    48,
+    0,
+    79,
+    30,
+    4
+   ],
+   "mean8": 36.25,
+   "std8": 31.75,
+   "cv8": 0.876,
+   "last_week": 4
+  },
+  {
+   "code": "23162",
+   "name_en": "REGENCY TEA STRAINER",
+   "price_gbp": 3.75,
+   "hist8": [
+    21,
+    76,
+    13,
+    7,
+    39,
+    56,
+    0,
+    11
+   ],
+   "mean8": 27.88,
+   "std8": 26.72,
+   "cv8": 0.958,
+   "last_week": 11
+  },
+  {
+   "code": "23135",
+   "name_en": "SMALL ZINC HEART WALL ORGANISER",
+   "price_gbp": 5.75,
+   "hist8": [
+    0,
+    108,
+    301,
+    51,
+    1,
+    3,
+    2,
+    409
+   ],
+   "mean8": 109.38,
+   "std8": 158.77,
+   "cv8": 1.452,
+   "last_week": 409
+  },
+  {
+   "code": "10135",
+   "name_en": "COLOURING PENCILS BROWN TUBE",
+   "price_gbp": 1.25,
+   "hist8": [
+    45,
+    10,
+    10,
+    102,
+    0,
+    40,
+    10,
+    10
+   ],
+   "mean8": 28.38,
+   "std8": 33.78,
+   "cv8": 1.191,
+   "last_week": 10
+  },
+  {
+   "code": "23318",
+   "name_en": "BOX OF 6 MINI VINTAGE CRACKERS",
+   "price_gbp": 2.49,
+   "hist8": [
+    7,
+    13,
+    97,
+    102,
+    0,
+    41,
+    88,
+    60
+   ],
+   "mean8": 51.0,
+   "std8": 41.83,
+   "cv8": 0.82,
+   "last_week": 60
+  },
+  {
+   "code": "22492",
+   "name_en": "MINI PAINT SET VINTAGE",
+   "price_gbp": 0.65,
+   "hist8": [
+    794,
+    396,
+    252,
+    291,
+    180,
+    792,
+    324,
+    1336
+   ],
+   "mean8": 545.62,
+   "std8": 397.01,
+   "cv8": 0.728,
+   "last_week": 1336
+  },
+  {
+   "code": "23000",
+   "name_en": "TRAVEL CARD WALLET TRANSPORT",
+   "price_gbp": 0.42,
+   "hist8": [
+    79,
+    89,
+    94,
+    31,
+    75,
+    28,
+    82,
+    77
+   ],
+   "mean8": 69.38,
+   "std8": 25.4,
+   "cv8": 0.366,
+   "last_week": 77
+  },
+  {
+   "code": "20661",
+   "name_en": "BLUE SPOTTY PURSE",
+   "price_gbp": 2.51,
+   "hist8": [
+    5,
+    3,
+    4,
+    4,
+    2,
+    0,
+    0,
+    1
+   ],
+   "mean8": 2.38,
+   "std8": 1.92,
+   "cv8": 0.81,
+   "last_week": 1
+  },
+  {
+   "code": "21452",
+   "name_en": "TOADSTOOL MONEY BOX",
+   "price_gbp": 2.95,
+   "hist8": [
+    4,
+    9,
+    10,
+    31,
+    6,
+    28,
+    12,
+    22
+   ],
+   "mean8": 15.25,
+   "std8": 10.32,
+   "cv8": 0.677,
+   "last_week": 22
+  },
+  {
+   "code": "22623",
+   "name_en": "BOX OF VINTAGE JIGSAW BLOCKS",
+   "price_gbp": 4.95,
+   "hist8": [
+    9,
+    3,
+    31,
+    10,
+    74,
+    6,
+    28,
+    6
+   ],
+   "mean8": 20.88,
+   "std8": 23.9,
+   "cv8": 1.145,
+   "last_week": 6
+  },
+  {
+   "code": "22430",
+   "name_en": "ENAMEL WATERING CAN CREAM",
+   "price_gbp": 4.95,
+   "hist8": [
+    14,
+    24,
+    4,
+    15,
+    10,
+    4,
+    6,
+    4
+   ],
+   "mean8": 10.12,
+   "std8": 7.18,
+   "cv8": 0.709,
+   "last_week": 4
+  },
+  {
+   "code": "22151",
+   "name_en": "PLACE SETTING WHITE HEART",
+   "price_gbp": 0.42,
+   "hist8": [
+    666,
+    527,
+    699,
+    936,
+    60,
+    507,
+    96,
+    106
+   ],
+   "mean8": 449.62,
+   "std8": 327.28,
+   "cv8": 0.728,
+   "last_week": 106
+  },
+  {
+   "code": "21071",
+   "name_en": "VINTAGE BILLBOARD DRINK ME MUG",
+   "price_gbp": 1.25,
+   "hist8": [
+    0,
+    8,
+    3,
+    2,
+    15,
+    13,
+    2,
+    1
+   ],
+   "mean8": 5.5,
+   "std8": 5.78,
+   "cv8": 1.051,
+   "last_week": 1
+  },
+  {
+   "code": "22158",
+   "name_en": "3 HEARTS HANGING DECORATION RUSTIC",
+   "price_gbp": 2.95,
+   "hist8": [
+    0,
+    1,
+    20,
+    40,
+    331,
+    18,
+    4,
+    35
+   ],
+   "mean8": 56.12,
+   "std8": 112.08,
+   "cv8": 1.997,
+   "last_week": 35
+  },
+  {
+   "code": "21239",
+   "name_en": "PINK  POLKADOT CUP",
+   "price_gbp": 0.85,
+   "hist8": [
+    42,
+    58,
+    13,
+    39,
+    130,
+    126,
+    32,
+    10
+   ],
+   "mean8": 56.25,
+   "std8": 46.91,
+   "cv8": 0.834,
+   "last_week": 10
+  },
+  {
+   "code": "22995",
+   "name_en": "TRAVEL CARD WALLET SUKI",
+   "price_gbp": 0.42,
+   "hist8": [
+    55,
+    64,
+    35,
+    60,
+    53,
+    33,
+    34,
+    27
+   ],
+   "mean8": 45.12,
+   "std8": 14.34,
+   "cv8": 0.318,
+   "last_week": 27
+  },
+  {
+   "code": "21155",
+   "name_en": "RED RETROSPOT PEG BAG",
+   "price_gbp": 2.55,
+   "hist8": [
+    42,
+    71,
+    31,
+    74,
+    35,
+    64,
+    44,
+    40
+   ],
+   "mean8": 50.12,
+   "std8": 16.9,
+   "cv8": 0.337,
+   "last_week": 40
+  },
+  {
+   "code": "23144",
+   "name_en": "ZINC T-LIGHT HOLDER STARS SMALL",
+   "price_gbp": 0.83,
+   "hist8": [
+    90,
+    220,
+    58,
+    150,
+    58,
+    102,
+    122,
+    144
+   ],
+   "mean8": 118.0,
+   "std8": 53.93,
+   "cv8": 0.457,
+   "last_week": 144
+  },
+  {
+   "code": "21524",
+   "name_en": "DOORMAT SPOTTY HOME SWEET HOME",
+   "price_gbp": 7.95,
+   "hist8": [
+    8,
+    26,
+    10,
+    27,
+    41,
+    44,
+    23,
+    23
+   ],
+   "mean8": 25.25,
+   "std8": 12.78,
+   "cv8": 0.506,
+   "last_week": 23
+  },
+  {
+   "code": "21534",
+   "name_en": "DAIRY MAID LARGE MILK JUG",
+   "price_gbp": 4.95,
+   "hist8": [
+    13,
+    7,
+    4,
+    16,
+    10,
+    2,
+    5,
+    0
+   ],
+   "mean8": 7.12,
+   "std8": 5.51,
+   "cv8": 0.774,
+   "last_week": 0
+  },
+  {
+   "code": "84032A",
+   "name_en": "CHARLIE+LOLA PINK HOT WATER BOTTLE",
+   "price_gbp": 2.95,
+   "hist8": [
+    3,
+    16,
+    1,
+    9,
+    6,
+    3,
+    1,
+    28
+   ],
+   "mean8": 8.38,
+   "std8": 9.38,
+   "cv8": 1.12,
+   "last_week": 28
+  },
+  {
+   "code": "22970",
+   "name_en": "LONDON BUS COFFEE MUG",
+   "price_gbp": 2.55,
+   "hist8": [
+    12,
+    107,
+    88,
+    17,
+    42,
+    63,
+    0,
+    55
+   ],
+   "mean8": 48.0,
+   "std8": 37.71,
+   "cv8": 0.786,
+   "last_week": 55
+  },
+  {
+   "code": "23186",
+   "name_en": "FRENCH STYLE STORAGE JAR CAFE",
+   "price_gbp": 0.29,
+   "hist8": [
+    205,
+    120,
+    318,
+    24,
+    48,
+    0,
+    48,
+    12
+   ],
+   "mean8": 96.88,
+   "std8": 111.99,
+   "cv8": 1.156,
+   "last_week": 12
+  },
+  {
+   "code": "21803",
+   "name_en": "CHRISTMAS TREE STAR DECORATION",
+   "price_gbp": 0.42,
+   "hist8": [
+    1,
+    3,
+    4,
+    0,
+    13,
+    42,
+    37,
+    25
+   ],
+   "mean8": 15.62,
+   "std8": 16.9,
+   "cv8": 1.082,
+   "last_week": 25
+  },
+  {
+   "code": "23128",
+   "name_en": "FELTCRAFT BOY JEAN-PAUL KIT",
+   "price_gbp": 4.95,
+   "hist8": [
+    4,
+    5,
+    14,
+    11,
+    6,
+    4,
+    16,
+    11
+   ],
+   "mean8": 8.88,
+   "std8": 4.73,
+   "cv8": 0.533,
+   "last_week": 11
+  },
+  {
+   "code": "23346",
+   "name_en": "SPACEBOY BEAKER",
+   "price_gbp": 1.25,
+   "hist8": [
+    0,
+    3,
+    66,
+    105,
+    445,
+    282,
+    91,
+    86
+   ],
+   "mean8": 134.75,
+   "std8": 152.76,
+   "cv8": 1.134,
+   "last_week": 86
+  },
+  {
+   "code": "22784",
+   "name_en": "LANTERN CREAM GAZEBO",
+   "price_gbp": 4.95,
+   "hist8": [
+    12,
+    48,
+    6,
+    27,
+    6,
+    11,
+    45,
+    59
+   ],
+   "mean8": 26.75,
+   "std8": 21.22,
+   "cv8": 0.793,
+   "last_week": 59
+  },
+  {
+   "code": "22055",
+   "name_en": "MINI CAKE STAND  HANGING STRAWBERY",
+   "price_gbp": 1.65,
+   "hist8": [
+    2,
+    21,
+    13,
+    2,
+    9,
+    12,
+    0,
+    8
+   ],
+   "mean8": 8.38,
+   "std8": 7.03,
+   "cv8": 0.839,
+   "last_week": 8
+  },
+  {
+   "code": "84946",
+   "name_en": "ANTIQUE SILVER TEA GLASS ETCHED",
+   "price_gbp": 1.25,
+   "hist8": [
+    96,
+    507,
+    159,
+    589,
+    163,
+    540,
+    264,
+    184
+   ],
+   "mean8": 312.75,
+   "std8": 199.17,
+   "cv8": 0.637,
+   "last_week": 184
+  },
+  {
+   "code": "21988",
+   "name_en": "PACK OF 6 SKULL PAPER PLATES",
+   "price_gbp": 0.85,
+   "hist8": [
+    8,
+    24,
+    108,
+    31,
+    7,
+    24,
+    72,
+    12
+   ],
+   "mean8": 35.75,
+   "std8": 35.84,
+   "cv8": 1.003,
+   "last_week": 12
+  },
+  {
+   "code": "85078",
+   "name_en": "SCANDINAVIAN 3 HEARTS NAPKIN RING",
+   "price_gbp": 0.65,
+   "hist8": [
+    12,
+    25,
+    15,
+    73,
+    0,
+    0,
+    72,
+    20
+   ],
+   "mean8": 27.12,
+   "std8": 29.33,
+   "cv8": 1.081,
+   "last_week": 20
+  },
+  {
+   "code": "22440",
+   "name_en": "BALLOON WATER BOMB PACK OF 35",
+   "price_gbp": 0.42,
+   "hist8": [
+    50,
+    53,
+    30,
+    11,
+    23,
+    27,
+    40,
+    0
+   ],
+   "mean8": 29.25,
+   "std8": 18.3,
+   "cv8": 0.626,
+   "last_week": 0
+  },
+  {
+   "code": "84559A",
+   "name_en": "3D SHEET OF DOG STICKERS",
+   "price_gbp": 0.85,
+   "hist8": [
+    5,
+    15,
+    2,
+    4,
+    1,
+    10,
+    8,
+    7
+   ],
+   "mean8": 6.5,
+   "std8": 4.57,
+   "cv8": 0.703,
+   "last_week": 7
+  },
+  {
+   "code": "22653",
+   "name_en": "BUTTON BOX",
+   "price_gbp": 1.95,
+   "hist8": [
+    61,
+    21,
+    2,
+    6,
+    11,
+    4,
+    1,
+    59
+   ],
+   "mean8": 20.62,
+   "std8": 25.12,
+   "cv8": 1.218,
+   "last_week": 59
+  },
+  {
+   "code": "22841",
+   "name_en": "ROUND CAKE TIN VINTAGE GREEN",
+   "price_gbp": 7.95,
+   "hist8": [
+    1,
+    4,
+    2,
+    24,
+    5,
+    10,
+    4,
+    3
+   ],
+   "mean8": 6.62,
+   "std8": 7.52,
+   "cv8": 1.135,
+   "last_week": 3
+  },
+  {
+   "code": "23096",
+   "name_en": "PETIT TRAY CHIC",
+   "price_gbp": 1.65,
+   "hist8": [
+    6,
+    0,
+    21,
+    7,
+    3,
+    25,
+    12,
+    17
+   ],
+   "mean8": 11.38,
+   "std8": 8.93,
+   "cv8": 0.785,
+   "last_week": 17
+  },
+  {
+   "code": "22900",
+   "name_en": "SET 2 TEA TOWELS I LOVE LONDON",
+   "price_gbp": 3.25,
+   "hist8": [
+    24,
+    317,
+    15,
+    147,
+    32,
+    23,
+    30,
+    18
+   ],
+   "mean8": 75.75,
+   "std8": 106.75,
+   "cv8": 1.409,
+   "last_week": 18
+  },
+  {
+   "code": "21498",
+   "name_en": "RED RETROSPOT WRAP",
+   "price_gbp": 0.42,
+   "hist8": [
+    250,
+    300,
+    175,
+    225,
+    175,
+    100,
+    100,
+    50
+   ],
+   "mean8": 171.88,
+   "std8": 84.98,
+   "cv8": 0.494,
+   "last_week": 50
+  },
+  {
+   "code": "22189",
+   "name_en": "CREAM HEART CARD HOLDER",
+   "price_gbp": 3.95,
+   "hist8": [
+    6,
+    176,
+    360,
+    74,
+    62,
+    31,
+    47,
+    382
+   ],
+   "mean8": 142.25,
+   "std8": 149.83,
+   "cv8": 1.053,
+   "last_week": 382
+  }
+ ]
+}

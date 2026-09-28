@@ -25,8 +25,9 @@ class Store:
         self.pg = url.startswith("postgres")
         self.lock = threading.Lock()
         if self.pg:
-            import psycopg
-            self.conn = psycopg.connect(url, autocommit=True)
+            # 연결 하나를 붙잡지 않고 풀에서 빌린다 — Neon(서버리스) 은 유휴 연결을 닫기 때문에
+            # (배포 실측: 닫힌 연결을 계속 써서 모든 요청이 500). 빌릴 때 살아 있는지 확인한다.
+            self.pool = _pool(url, autocommit=True)
         else:
             self.conn = sqlite3.connect(_sqlite_path(url), check_same_thread=False, isolation_level=None)
         for sql in SCHEMA:
@@ -34,13 +35,12 @@ class Store:
 
     def _q(self, sql, args=(), fetch=False):
         if self.pg:
-            sql = sql.replace("?", "%s")
+            with self.pool.connection() as conn:
+                cur = conn.execute(sql.replace("?", "%s"), args)
+                return _rows(cur) if fetch else cur.rowcount
         with self.lock:
             cur = self.conn.execute(sql, args)
-            if fetch:
-                cols = [d[0] for d in cur.description]
-                return [dict(zip(cols, r)) for r in cur.fetchall()]
-            return cur.rowcount
+            return _rows(cur) if fetch else cur.rowcount
 
     # 세션
     def create_session(self, sid, now=None):
@@ -96,13 +96,24 @@ class Store:
                        (session,), fetch=True)
 
 
+def _rows(cur):
+    cols = [d[0] for d in cur.description]
+    return [dict(zip(cols, r)) for r in cur.fetchall()]
+
+
+def _pool(url, **kwargs):
+    from psycopg_pool import ConnectionPool
+    # check: 빌려줄 때마다 연결이 살아 있는지 확인하고 죽었으면 새로 연다
+    # max_idle: Neon 이 닫기 전에 우리가 먼저 오래 쉰 연결을 버린다
+    return ConnectionPool(url, min_size=1, max_size=5, kwargs=kwargs, check=ConnectionPool.check_connection,
+                          max_idle=120, open=True)
+
+
 def make_checkpointer(url):
     if url.startswith("postgres"):
-        import psycopg
         from psycopg.rows import dict_row
         from langgraph.checkpoint.postgres import PostgresSaver
-        conn = psycopg.connect(url, autocommit=True, prepare_threshold=0, row_factory=dict_row)
-        saver = PostgresSaver(conn)
+        saver = PostgresSaver(_pool(url, autocommit=True, prepare_threshold=0, row_factory=dict_row))
         saver.setup()
         return saver
     from langgraph.checkpoint.sqlite import SqliteSaver

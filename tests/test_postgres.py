@@ -23,3 +23,28 @@ def test_pending_roundtrip_on_postgres():
     assert len(store.fax_list(sid)) == 1
     for t in store.delete_session(sid):
         app2.checkpointer.delete_thread(t)
+
+
+def test_survives_closed_connection():
+    # 배포 실측(2026-09-28): Neon(pooler) 이 유휴 연결을 닫자("SSL connection has been closed unexpectedly")
+    # 이후 모든 요청이 "the connection is closed" 로 500. 앱이 들고 있던 연결이 닫혀도 다음 요청은 살아야 한다.
+    # (pooler 주소라 pg_terminate_backend 로는 앱 쪽 연결이 안 끊겨 재현되지 않았다 — 연결을 직접 닫는다)
+    from agent.store import Store, make_checkpointer
+    store = Store(URL)
+    saver = make_checkpointer(URL)
+    for conn in _raw_conns(store) + _raw_conns(saver):
+        conn.close()
+    sid = "pg" + uuid.uuid4().hex[:8]
+    store.create_session(sid)                                    # 닫힌 뒤 첫 요청
+    assert store.session_exists(sid)
+    assert list(saver.list({"configurable": {"thread_id": "none-" + sid}})) == []
+    store.delete_session(sid)
+
+
+def _raw_conns(obj):
+    """Store/Saver 가 들고 있는 psycopg 연결(풀이면 풀 안의 연결)을 꺼낸다."""
+    c = getattr(obj, "conn", None)
+    pool = getattr(obj, "pool", None) or (c if hasattr(c, "_pool") else None)
+    if pool is not None:
+        return list(pool._pool)
+    return [c]

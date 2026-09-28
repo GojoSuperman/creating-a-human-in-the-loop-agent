@@ -106,7 +106,9 @@ psycopg==3.3.6
 psycopg-binary==3.3.6 ; implementation_name != 'pypy'
     # via psycopg
 psycopg-pool==3.3.3
-    # via langgraph-checkpoint-postgres
+    # via
+    #   langgraph-checkpoint-postgres
+    #   reorder-hitl
 pydantic==2.13.5
     # via
     #   fastapi

@@ -56,7 +56,8 @@ async function refresh() {
   if (!week) return;
   const [sm, pend] = await Promise.all([api(`/api/summary?week=${week}`), api(`/api/pending?week=${week}`)]);
   renderSummary($("#summary"), sm); lastTotal = sm.total;
-  pendingItems = pend.items;
+  // 장면의 결재함 탁자에 도착한 서류만 — 서버는 판단을 먼저 끝내므로 장면보다 앞서 있다
+  pendingItems = pend.items.filter(it => office.inTray(it.code));
   office.setCounts({ pending: sm.pending, sent: (sm.counts.auto_sent || 0) + (sm.counts.approved || 0) + (sm.counts.edited || 0),
                      rejected: sm.counts.rejected || 0, auto: sm.counts.auto_sent || 0 });
   renderPanel();
@@ -142,6 +143,8 @@ async function main() {
   if (location.hash.includes("eval")) tab("eval");
   if (location.hash.includes("fax")) tab("fax");
   renderStatus(); setInterval(renderStatus, 250);
+  let trayN = -1;
+  setInterval(() => { const n = office.counts.pending; if (n !== trayN) { trayN = n; soon(); } }, 300);   // 탁자 도착 → 패널 갱신
   let last = performance.now();
   (function loop(t) { office.tick(t - last); last = t; draw(canvas, { ...view(), frame: office.frame(), grid }); requestAnimationFrame(loop); })(last);
 }

@@ -31,6 +31,8 @@ export class Office {
   }
   openNow() { this.wantOpen = true; }
   log(t) { this.last = t; }
+  // 결재함 탁자에 실제로 놓여 있는가 — 재연 기록이 없는 서류(새로고침한 세션)는 있다고 본다
+  inTray(code) { const d = this.docs.get(code); return d ? !!d.inTray : true; }
 
   // 설명란 — 지금 어느 단계가 돌고 있는지 (화면 왼쪽 위)
   status() {
@@ -105,7 +107,7 @@ export class Office {
                       { walk: stop ? WALK.tray : WALK.fax },
                       { drop: () => {
                           d.stage = "done";
-                          if (stop) { this.counts.pending++; this.log(`최 검사관: 「${d.name}」 ${d.branch.failed ? "판단 실패" : d.branch.texts.join(", ")} → 결재함 (멈춤)`); }
+                          if (stop) { this.counts.pending++; d.inTray = true; this.log(`최 검사관: 「${d.name}」 ${d.branch.failed ? "판단 실패" : d.branch.texts.join(", ")} → 결재함 (멈춤)`); }
                           else { this.counts.sent++; this.autoSent++; this.log(`최 검사관: 「${d.name}」 기준 통과 → 팩스 자동 발송`); }
                         } },
                       { walk: insp.home });
@@ -117,7 +119,7 @@ export class Office {
       if (k >= 0) {                  // 결재 하나를 몸으로 옮긴다 — 결재 중이면 결재함으로 돌아온다
         const j = this.bossJobs.splice(k, 1)[0], d = this.docs.get(j.code);
         boss.task = `「${d.name}」 결재 처리`;
-        boss.ops.push({ walk: WALK.tray }, { pick: j.code, state: "reading", fn: () => (this.counts.pending = Math.max(0, this.counts.pending - 1)) },
+        boss.ops.push({ walk: WALK.tray }, { pick: j.code, state: "reading", fn: () => { this.counts.pending = Math.max(0, this.counts.pending - 1); d.inTray = false; } },
                       { say: j.say, state: j.to === "trash" ? "waiting" : "done" }, { walk: WALK[j.to] },
                       { drop: () => {
                           this.log(`팀장(나): 「${d.name}」 ${j.say.split("\n")[0]}`);

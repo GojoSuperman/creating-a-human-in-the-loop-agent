@@ -99,3 +99,18 @@ function run(n, stopEvery, human = []) {
   assert.equal(st.stage.auto, 182); assert.equal(st.stage.human, 15);
   console.log("ok 7 — 서버 집계로 설명란");
 }
+// 8) 패널에는 결재함 탁자에 '실제로 놓인' 서류만 — 서버가 앞서가도 장면 숫자와 같게
+{
+  const o = new Office();
+  for (let i = 0; i < 10; i++) {
+    const code = "T" + i;
+    o.push({ type: "judged", code, name: "x", qty: 1 });
+    o.push({ type: "queued", code, flags: ["C2"], texts: ["t"] });   // 서버는 10건 모두 대기
+  }
+  for (let t = 0; t < 20000; t += 50) o.tick(50);                   // 장면은 아직 일부만 도착
+  const inTray = ["T0","T1","T2","T3","T4","T5","T6","T7","T8","T9"].filter(c => o.inTray(c));
+  assert.equal(inTray.length, o.status().stage.human, "패널 건수 = 설명란 사람 결재 건수");
+  assert.ok(inTray.length < 10, `아직 다 도착하지 않았다 (${inTray.length})`);
+  assert.ok(o.inTray("UNKNOWN"), "재연 기록이 없는 서류(새로고침)는 결재함에 있다고 본다");
+  console.log(`ok 8 — 결재함 ${inTray.length}건 = 설명란`);
+}

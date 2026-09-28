@@ -186,3 +186,34 @@ def test_events_carry_bubble_text(env):
     q = next(e for e in events if e["type"] == "queued")
     s = next(e for e in events if e["type"] == "sent")
     assert "2배" in q["texts"][-1] and s["qty"] == 40 and s["action"] == "edit"
+
+
+@pytest.mark.parametrize("d", [{"action": "reject", "reason": 123}, {"action": "reject", "reason": ["x"]},
+                               {"action": "reject", "reason": None}, {"action": "redo", "instruction": 5}])
+def test_non_string_reason_or_instruction_is_rejected_and_stays_pending(env, d):
+    # 리뷰 발견: 문자열이 아니면 검증은 통과하고 노드에서 .strip() 이 터져 500 — 결재함에서 영구히 사라졌다
+    app, store, ctx, events, _ = env
+    tid = run(env, llm=FakeLLM([mk_j(150)]))
+    with pytest.raises(ValueError):
+        decide(app, ctx, tid, d)
+    assert is_pending(app, tid)
+
+
+def test_crash_mid_thread_is_resumed_by_start_order(env, monkeypatch):
+    # 리뷰 발견: invoke 도중 죽어 next=('enqueue',) 로 남은 건은 다시 불러도 이어지지 않았다
+    app, store, ctx, events, _ = env
+    boom = {"on": True}
+    real = store.set_status
+
+    def flaky(tid, status):
+        if boom["on"] and status == "pending":
+            raise RuntimeError("서버가 죽었다")
+        return real(tid, status)
+    monkeypatch.setattr(store, "set_status", flaky)
+    with pytest.raises(RuntimeError):
+        run(env)
+    tid = f"S:w:{ITEM['code']}"
+    assert app.get_state({"configurable": {"thread_id": tid}}).next == ("enqueue",)
+    boom["on"] = False
+    run(env)                                   # 재시작 뒤 같은 주를 다시 돌린다
+    assert is_pending(app, tid)

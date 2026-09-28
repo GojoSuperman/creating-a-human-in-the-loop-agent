@@ -76,7 +76,7 @@ uv run python -m scripts.graph_mermaid                          # 구조도(Merm
 ## 테스트
 
 ```bash
-uv run pytest -q          # 96 passed, 1 skipped (Postgres 테스트는 TEST_DATABASE_URL 이 있을 때만)
+uv run pytest -q          # 102 passed, 2 skipped (Postgres 테스트는 TEST_DATABASE_URL 이 있을 때만)
 ```
 
 | 파일 | 확인하는 것 |

@@ -144,8 +144,9 @@ async function main() {
   $("#run").onclick = async () => {
     const live = $("#mode").value === "live";
     if (live && !confirm(`🟢 라이브로 ${week} 주 200건을 새로 판단합니다.\n\n· gpt-4.1-mini 약 200회 호출 · 예상 약 $0.05\n· 내 OpenAI 키로 청구됩니다\n· 판단이 녹화본과 다를 수 있습니다 (LLM은 확률적)\n\n진행할까요?`)) return;
+    const btn = $("#run"); btn.disabled = true;                 // 두 번 눌러 배치가 두 번 돌지 않게
     try { await api("/api/run", { method: "POST", body: JSON.stringify({ week, live }) }); liveRun = live; renderMode(); }
-    catch (e) { alert(e.message); }
+    catch (e) { alert(e.message); btn.disabled = false; }
   };
   $("#reset").onclick = async () => { await api("/api/reset", { method: "POST" }); location.reload(); };
   const keyLabel = () => { $("#key").textContent = S.key ? "🔑 키 있음" : "🔑 내 키"; renderMode(); };
@@ -177,6 +178,7 @@ async function main() {
     const es = openEvents(e => {
       if (e.week && e.week !== week) return;
       if (e.type === "batch_error") alert(`실행 오류: ${e.message}`);
+    if (e.type === "batch_done" || e.type === "batch_error") $("#run").disabled = false;
       office.push(e); soon();
     });
     es.onerror = () => soon();          // 재연결되면 서버 상태로 다시 맞춘다

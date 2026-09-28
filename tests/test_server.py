@@ -150,3 +150,33 @@ def test_live_run_judges_with_visitor_key(client, monkeypatch):
     assert "sk-test-visitor" in made
     sm = client.get(f"/api/summary?week={W}", headers=h(s)).json()
     assert sm["total"] == 3 and sm["counts"].get("auto_sent") == 3     # 녹화본(1자동·2대기)과 다른 결과
+
+
+def test_rerun_after_partial_batch_finishes_the_rest(client):
+    # 리뷰 발견: 배치가 중간에 죽으면 같은 주 재실행이 409 — 남은 건은 영원히 처리되지 않았다
+    s = session(client)
+    app = client.app_ref
+    from agent.order_graph import OrderCtx, start_order
+    start_order(app.state.graph, OrderCtx(store=app.state.store), s, W, ITEMS[0], JUDG["70001"], app.state.combo)
+    assert client.post("/api/run", json={"week": W}, headers=h(s)).status_code == 202
+    assert client.get(f"/api/summary?week={W}", headers=h(s)).json()["total"] == 3
+
+
+def test_run_while_running_is_409_and_reset_waits(client):
+    # 리뷰 발견: 두 번 누르면 배치가 두 번 돌았다(라이브면 방문자 키로 LLM 두 배)
+    s = session(client)
+    client.app_ref.state.running.add((s, W))           # 실행 중 표시
+    assert client.post("/api/run", json={"week": W}, headers=h(s)).status_code == 409
+    assert client.post("/api/reset", headers=h(s)).status_code == 409
+    client.app_ref.state.running.discard((s, W))
+    assert client.post("/api/run", json={"week": W}, headers=h(s)).status_code == 202
+    assert (s, W) not in client.app_ref.state.running   # 끝나면 표시가 풀린다
+
+
+def test_rerun_when_index_row_exists_but_no_checkpoint(client):
+    # 색인 행만 남고 체크포인트가 생기기 전에 죽은 건 — 판단부터 다시 해야 한다
+    s = session(client)
+    client.app_ref.state.store.upsert_order(f"{s}:{W}:70002", s, W, "70002", "running")
+    assert client.post("/api/run", json={"week": W}, headers=h(s)).status_code == 202
+    assert client.get(f"/api/summary?week={W}", headers=h(s)).json()["pending"] == 2
+    assert (s, W) not in client.app_ref.state.running

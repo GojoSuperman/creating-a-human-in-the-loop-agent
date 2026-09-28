@@ -88,13 +88,13 @@ def validate_decision(state, d):
         cap = EDIT_MAX_MULT * state["item"]["mean8"]
         if q > cap:
             raise ValueError(f"수량은 8주 평균의 {EDIT_MAX_MULT}배({cap:,.0f}개)를 넘을 수 없습니다")
-    if a == "reject" and not str(d.get("reason", "")).strip():
-        raise ValueError("반려 사유를 적어 주세요")
+    if a == "reject" and not (isinstance(d.get("reason"), str) and d["reason"].strip()):
+        raise ValueError("반려 사유를 글로 적어 주세요")
     if a == "redo":
         if state.get("redo_count", 0) >= REDO_MAX:
             raise ValueError(f"다시 판정은 최대 {REDO_MAX}번입니다")
-        if not str(d.get("instruction", "")).strip():
-            raise ValueError("다시 판정 지시를 적어 주세요")
+        if not (isinstance(d.get("instruction"), str) and d["instruction"].strip()):
+            raise ValueError("다시 판정 지시를 글로 적어 주세요")
     return d
 
 
@@ -195,7 +195,12 @@ def _lock(tid):
 def start_order(app, ctx, session, week, item, samples, combo):
     tid = f"{session}:{week}:{item['code']}"
     with _lock(tid):
-        if app.get_state(_cfg(tid)).values:        # 이미 시작한 건 — 재실행해도 중복 없음
+        st = app.get_state(_cfg(tid))
+        if st.values:                              # 이미 시작한 건 — 재실행해도 중복 없음
+            if st.next and st.next != ("review",):
+                app.invoke(None, _cfg(tid), context=ctx)   # 도중에 죽은 건 — 멈춘 노드부터 이어 간다
+            return tid
+        if not samples:                            # 이어 가기만 부탁받았는데 시작한 적이 없다 — 할 일 없음
             return tid
         ctx.store.upsert_order(tid, session, week, item["code"], "running")
         app.invoke({"thread_id": tid, "session": session, "week": week, "item": item,

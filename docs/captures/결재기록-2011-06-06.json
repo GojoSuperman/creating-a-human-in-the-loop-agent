@@ -1,0 +1,138 @@
+{
+ "week": "2011-06-06",
+ "note": "팀장(사용자)이 로컬 웹 데모에서 직접 결재한 기록. 로컬 서버 DB(state/app.sqlite)에서 추출 — 세션은 24시간 뒤 정리되므로 파일로 보존",
+ "counts": {
+  "auto_sent": 182,
+  "human_sent": 13,
+  "edited_qty_changed": 2,
+  "rejected": 5
+ },
+ "human_sent": [
+  {
+   "code": "20996",
+   "name_ko": "재즈 하트 주소록",
+   "ai_qty": 30,
+   "qty": 30,
+   "amount_gbp": 12.6,
+   "status": "edited"
+  },
+  {
+   "code": "21731",
+   "name_ko": "빨간 독버섯 LED 야간등",
+   "ai_qty": 220,
+   "qty": 220,
+   "amount_gbp": 363.0,
+   "status": "edited"
+  },
+  {
+   "code": "21845",
+   "name_ko": "데어리 메이드 스트라이프 머그컵",
+   "ai_qty": 90,
+   "qty": 90,
+   "amount_gbp": 265.5,
+   "status": "edited"
+  },
+  {
+   "code": "22138",
+   "name_ko": "베이킹 세트 9피스 복고점 무늬",
+   "ai_qty": 60,
+   "qty": 60,
+   "amount_gbp": 297.0,
+   "status": "edited"
+  },
+  {
+   "code": "22326",
+   "name_ko": "원형 간식 상자 세트 4개, 우든",
+   "ai_qty": 140,
+   "qty": 160,
+   "amount_gbp": 472.0,
+   "status": "edited"
+  },
+  {
+   "code": "22427",
+   "name_ko": "에나멜 꽃 화병 크림 색상",
+   "ai_qty": 70,
+   "qty": 70,
+   "amount_gbp": 416.5,
+   "status": "edited"
+  },
+  {
+   "code": "22607",
+   "name_ko": "원목 라운더스 가든 세트",
+   "ai_qty": 70,
+   "qty": 70,
+   "amount_gbp": 595.0,
+   "status": "edited"
+  },
+  {
+   "code": "22659",
+   "name_ko": "점심 도시락 I LOVE LONDON",
+   "ai_qty": 200,
+   "qty": 190,
+   "amount_gbp": 370.5,
+   "status": "edited"
+  },
+  {
+   "code": "22722",
+   "name_ko": "6개 세트 향신료 통",
+   "ai_qty": 60,
+   "qty": 60,
+   "amount_gbp": 237.0,
+   "status": "edited"
+  },
+  {
+   "code": "48184",
+   "name_ko": "영국 장미 현관 매트",
+   "ai_qty": 30,
+   "qty": 30,
+   "amount_gbp": 238.5,
+   "status": "edited"
+  },
+  {
+   "code": "82484",
+   "name_ko": "목재 블랙 보드 흰색 마감",
+   "ai_qty": 70,
+   "qty": 70,
+   "amount_gbp": 472.5,
+   "status": "edited"
+  },
+  {
+   "code": "84077",
+   "name_ko": "제2차 세계대전 글라이더 여러 디자인",
+   "ai_qty": 1500,
+   "qty": 1500,
+   "amount_gbp": 435.0,
+   "status": "edited"
+  },
+  {
+   "code": "84991",
+   "name_ko": "60 티타임 페어리 케이크 케이스",
+   "ai_qty": 420,
+   "qty": 420,
+   "amount_gbp": 231.0,
+   "status": "edited"
+  }
+ ],
+ "rejected": [
+  {
+   "code": "21212",
+   "reason": "너무 많음"
+  },
+  {
+   "code": "22088",
+   "reason": "조금 더 수량 올릴것"
+  },
+  {
+   "code": "22605",
+   "reason": "수량 판단 다시 할것"
+  },
+  {
+   "code": "22698",
+   "reason": "판매량 다시 뽑아볼것"
+  },
+  {
+   "code": "22727",
+   "reason": "평균 발주 수량 다시 확인 필요"
+  }
+ ]
+}

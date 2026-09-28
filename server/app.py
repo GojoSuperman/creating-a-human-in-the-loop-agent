@@ -38,6 +38,8 @@ def create_app(store_url_=None, checkpoint_url_=None, runs_dir=RUNS, weeks_dir=D
 
     app = FastAPI(title="재고 발주 결재")
     app.state.store, app.state.graph, app.state.combo = store, graph, combo
+    running = app.state.running = set()           # (세션, 주) — 같은 주를 동시에 두 번 돌리지 않게
+    run_lock = threading.Lock()
 
     def cfg(tid):
         return {"configurable": {"thread_id": tid}}
@@ -86,9 +88,12 @@ def create_app(store_url_=None, checkpoint_url_=None, runs_dir=RUNS, weeks_dir=D
         path = weeks_dir / f"{week}.json"
         if not path.exists():
             raise HTTPException(404, "없는 주입니다")
-        if store.orders(sid, week):
-            raise HTTPException(409, "이미 처리한 주입니다. '처음부터'를 눌러 초기화하세요")
         items = json.loads(path.read_text(encoding="utf-8"))["items"]
+        # 체크포인트가 있는 건만 "시작한 건" — 색인 행만 남고 죽은 건은 판단부터 다시 한다
+        started = {r["code"] for r in store.orders(sid, week) if graph.get_state(cfg(r["thread_id"])).values}
+        todo = [it for it in items if it["code"] not in started]   # 도중에 멈춘 주는 남은 건만 이어서
+        if not todo:
+            raise HTTPException(409, "이미 처리한 주입니다. '처음부터'를 눌러 초기화하세요")
         if body.get("live"):
             if not x_openai_key:
                 raise HTTPException(400, "라이브 실행에는 OpenAI 키가 필요합니다")
@@ -103,18 +108,28 @@ def create_app(store_url_=None, checkpoint_url_=None, runs_dir=RUNS, weeks_dir=D
         bctx = BatchCtx(judge_fn=judge_fn, emit=octx.emit,
                         on_judged=lambda it, ss: start_order(graph, octx, sid, week, it, ss, combo))
 
+        with run_lock:
+            if (sid, week) in running:
+                raise HTTPException(409, "이 주를 처리하고 있습니다. 끝날 때까지 기다려 주세요")
+            running.add((sid, week))
+
         def job():
             try:
-                run_batch(week, items, bctx)
+                for it in items:             # 이미 시작했다가 도중에 멈춘 건은 이어서 마무리한다
+                    if it["code"] in started:
+                        start_order(graph, octx, sid, week, it, [], combo)
+                run_batch(week, todo, bctx)
                 octx.emit({"type": "batch_done", "week": week})
             except Exception as e:           # 화면에 알리고 서버는 살아 있는다
                 octx.emit({"type": "batch_error", "week": week, "message": str(e)[:200]})
+            finally:
+                running.discard((sid, week))
 
         if sync_runs:
             job()
         else:
             threading.Thread(target=job, daemon=True).start()
-        return JSONResponse({"week": week, "total": len(items)}, status_code=202)
+        return JSONResponse({"week": week, "total": len(items), "todo": len(todo)}, status_code=202)
 
     @app.get("/api/events")
     async def events(request: Request, session: str):
@@ -203,6 +218,8 @@ def create_app(store_url_=None, checkpoint_url_=None, runs_dir=RUNS, weeks_dir=D
     @app.post("/api/reset")
     def reset(x_session: str | None = Header(None)):
         sid = need_session(x_session)
+        if any(r[0] == sid for r in running):          # 도는 중에 지우면 배치가 뒤에서 다시 채운다
+            raise HTTPException(409, "처리 중에는 초기화할 수 없습니다. 끝난 뒤 다시 눌러 주세요")
         for tid in store.delete_session(sid):
             saver.delete_thread(tid)
         store.create_session(sid)

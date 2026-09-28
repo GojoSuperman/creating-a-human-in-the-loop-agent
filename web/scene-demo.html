@@ -14,6 +14,18 @@ for (let i = 0; i < 10; i++) {
   office.push(i % 3 === 0 ? { type: "queued", code, flags: ["C2"], texts: ["발주량 30개 = 8주 평균의 2.1배 > 2배"] } : { type: "sent", code, by: "auto" });
 }
 if (location.hash.includes("skip")) office.skip();
+// #t=8000 — 캡처용: 장면 시계를 미리 돌려 둔다 (헤드리스 크롬은 애니메이션 프레임을 드물게 돌려 시간이 거의 안 흐른다)
+const ff = Number((location.hash.match(/t=(\d+)/) || [])[1] || 0);
+for (let k = 0; k < ff / 50; k++) office.tick(50);
+// #talk — 말풍선 겹침 확인용: 가까이 선 캐릭터 넷이 동시에 말한다
+if (location.hash.includes("talk")) {
+  const long = "최근 8주 평균 판매량이 약 12개이나 지난 2주 동안 판매가 줄어 다음 주에도 감소가 예상된다";
+  office.actors.a0.say = `📦 재즈 하트 주소록\n30개 · 급증\n${long}`;
+  office.actors.a1.say = `📦 빈티지 레드 머그\n10개 · 평소\n${long}`;
+  office.actors.a2.say = `📦 LED 야간등\n220개 · 증가\n${long}`;
+  office.actors.insp.say = "발주량 30개 = 8주 평균의 2.1배 > 2배\n→ 결재함";
+  office.tick = () => {};                       // 멈춘 채로 본다
+}
 let grid = location.hash.includes("grid");
 addEventListener("keydown", e => { if (e.key === "g" || e.key === "G") grid = !grid; });
 let last = performance.now();

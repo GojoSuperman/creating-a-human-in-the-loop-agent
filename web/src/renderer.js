@@ -2,6 +2,7 @@
 import { GRID, PROPS, STATIONS, WALL, ASSETS, ASSET_V, FURN, FACE, LAYER, TONE, TILE, PROP_SCALE, ACTOR_SCALE, TEXT_SCALE, ACTOR_TEXT_SCALE, OBSTACLES } from "./config.js";
 import { foot, spriteTopLeft, depth, sceneBox } from "./iso.js";
 import { allParts, drawActor, CAST } from "./actors.js";
+import { layoutBubbles } from "./bubbles.js";
 
 const cache = new Map();
 function load(name, dir) {
@@ -126,11 +127,10 @@ function wrapLine(ctx, line, maxW) {
   if (cur.trim()) out.push(cur.trimEnd());
   return out.length ? out : [""];
 }
-function bubble(ctx, x, y, text) {
-  const fs = Math.round(22 * ACTOR_TEXT_SCALE);
-  ctx.save(); ctx.font = `${fs}px sans-serif`; ctx.textAlign = "center";
-  const maxW = BUBBLE_MAX_W * ACTOR_TEXT_SCALE / 1.9;
-  const rows = [];
+// 말풍선 한 개의 줄·크기를 잰다 (그리기 전에 전부 재서 겹치지 않게 배치한다)
+function measureBubble(ctx, text) {
+  const fs = Math.round(22 * ACTOR_TEXT_SCALE), maxW = BUBBLE_MAX_W * ACTOR_TEXT_SCALE / 1.9, rows = [];
+  ctx.save();
   String(text).split("\n").forEach((l, i) => {
     ctx.font = i === 0 ? `bold ${fs}px sans-serif` : `${fs}px sans-serif`;
     for (const w of wrapLine(ctx, l, maxW)) rows.push({ t: w, bold: i === 0 });
@@ -138,11 +138,20 @@ function bubble(ctx, x, y, text) {
   if (rows.length > BUBBLE_MAX_LINES) { rows.length = BUBBLE_MAX_LINES; rows[rows.length - 1].t += "…"; }
   const lh = Math.round(fs * 1.3), pad = 14;
   const w = Math.max(...rows.map(r => { ctx.font = `${r.bold ? "bold " : ""}${fs}px sans-serif`; return ctx.measureText(r.t).width; })) + pad * 2;
-  const h = rows.length * lh + 12, top = y - h - 10;
-  ctx.fillStyle = "rgba(255,255,255,.96)"; ctx.strokeStyle = "rgba(0,0,0,.22)"; ctx.lineWidth = 1.5;
-  ctx.beginPath(); ctx.roundRect(x - w / 2, top, w, h, 10); ctx.fill(); ctx.stroke();
+  ctx.restore();
+  return { rows, fs, lh, w, h: rows.length * lh + 12 };
+}
+// (ax, anchorY) = 캐릭터 머리 위 점. 말풍선이 비켜 섰으면(옆·위) 머리까지 꼬리 선을 잇는다.
+function drawBubble(ctx, m, left, top, ax, anchorY) {
+  const { rows, fs, lh, w, h } = m, x = left + w / 2;
+  ctx.save();
+  ctx.fillStyle = "rgba(255,255,255,.96)"; ctx.strokeStyle = "rgba(0,0,0,.35)"; ctx.lineWidth = 2;
+  if (Math.abs(x - ax) > 4 || top + h + 10 < anchorY) {
+    ctx.beginPath(); ctx.moveTo(x, top + h); ctx.lineTo(ax, anchorY); ctx.stroke();
+  }
+  ctx.beginPath(); ctx.roundRect(left, top, w, h, 10); ctx.fill(); ctx.stroke();
   ctx.beginPath(); ctx.moveTo(x - 9, top + h); ctx.lineTo(x, top + h + 10); ctx.lineTo(x + 9, top + h); ctx.fill();  // 꼬리
-  ctx.fillStyle = "#1a1a1a";
+  ctx.fillStyle = "#1a1a1a"; ctx.textAlign = "center";
   rows.forEach((r, i) => { ctx.font = `${r.bold ? "bold " : ""}${fs}px sans-serif`; ctx.fillText(r.t, x, top + 8 + lh * (i + 0.75)); });
   ctx.restore();
 }
@@ -177,11 +186,23 @@ function paint(ctx, frame, res, props = true) {
   for (const s of Object.values(STATIONS)) if (s.name) { const f = foot(s.col, s.row, o); tag(ctx, f.x, f.y - 150, s.name); }
   const cab = STATIONS.cabinet, cf = foot(cab.col, cab.row, o);
   tag(ctx, cf.x, cf.y - 120, `보관 중 ${frame.cabinet}건`, 21);
+  const talk = [], keepOut = [];                        // 말풍선이 피할 곳: 캐릭터 이름표·몸
+  const tagFs = Math.round(20 * ACTOR_TEXT_SCALE);
+  ctx.save(); ctx.font = `bold ${tagFs}px sans-serif`;
+  for (const a of frame.actors) {
+    const f = foot(a.col, a.row, o), tw = ctx.measureText(CAST[a.role]?.label || a.role).width + 12;
+    keepOut.push({ x: f.x - tw / 2, w: tw, top: f.y - 132 - tagFs, h: tagFs + 8 });                          // 이름표
+    keepOut.push({ x: f.x - 55 * ACTOR_SCALE, w: 110 * ACTOR_SCALE, top: f.y - 100 * ACTOR_SCALE, h: 100 * ACTOR_SCALE });   // 몸
+  }
+  ctx.restore();
   for (const a of frame.actors) {
     const f = foot(a.col, a.row, o);
     tag(ctx, f.x, f.y - 132, CAST[a.role]?.label || a.role, 20, ACTOR_TEXT_SCALE);
-    if (a.say) bubble(ctx, f.x, f.y - 175, a.say);
+    if (a.say) { const m = measureBubble(ctx, a.say); talk.push({ m, cx: f.x, anchor: f.y - 132 - tagFs, x: f.x - m.w / 2, w: m.w, h: m.h, bottom: f.y - 132 - tagFs - 14 }); }
   }
+  // 겹치면 옆으로 비키고, 안 되면 위로 — 화면(장면) 위쪽 밖으로는 안 나간다
+  layoutBubbles(talk, 10, { blocked: keepOut, minTop: 0 })
+    .forEach((b, i) => drawBubble(ctx, talk[i].m, b.x, b.top, talk[i].cx, talk[i].anchor));
   return { box, missing: [...missing] };
 }
 

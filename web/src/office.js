@@ -1,7 +1,7 @@
 // 사무실 장면 상태 — 캐릭터가 서류를 들고 걸어가 전달한다. 서류는 5건씩 순서대로 들어온다.
 // SSE 이벤트는 '무엇이 일어났는지'만 알려 주고, 장면은 그 일을 사람 걸음 속도로 재연한다.
-import { STATIONS, ACTORS, WALK, WAVE, REVIEW_AT, OBSTACLES } from "./config.js";
-import { makeNav } from "./path.js";
+import { STATIONS, ACTORS, WALK, WAVE, REVIEW_AT, OBSTACLES, SLOTS } from "./config.js";
+import { makeNav, blockedAt } from "./path.js";
 import { CAST } from "./actors.js";
 
 const TILES_PER_S = 2.4;       // 걷는 속도 (1배속, 칸/초)
@@ -9,6 +9,9 @@ const SAY_MS = 1700;           // 말풍선을 보여 주며 서 있는 시간 (
 const cut = (t, n) => (t && t.length > n ? t.slice(0, n - 1) + "…" : t || "");
 const ANALYSTS = ["a0", "a1", "a2"];
 const NAV = makeNav(OBSTACLES);          // 가구를 피해 걷는다
+const PERSONAL = 0.5;                    // 다른 캐릭터와 이만큼 가까워지면 양보한다 (칸)
+const YIELD_MAX_MS = 1200;               // 최대 이만큼만 기다린다 — 서로 기다리다 멈추지 않게
+const RANK = { boss: 0, insp: 1, a0: 2, a1: 3, a2: 4 };   // 작을수록 먼저 지나간다
 
 class Actor {
   constructor(a) { this.role = a.role; this.home = { col: a.col, row: a.row }; this.pos = { ...this.home };
@@ -87,15 +90,18 @@ export class Office {
     const cur = this.order.filter(c => Math.floor(this.docs.get(c).i / WAVE) === this.wave);
     if (cur.length && cur.every(c => this.docs.get(c).stage === "done") && this.order.length > (this.wave + 1) * WAVE) this.wave++;
 
+    let dispatched = 0;                // 같은 순간에 일을 받은 분석가끼리 시차를 둬 나란히 걷지 않게
     for (const r of ANALYSTS) {
       const a = this.actors[r];
       if (a.busy()) continue;
       const code = this.order.find(c => { const d = this.docs.get(c); return d.stage === "door" && this.inWave(d); });
       if (!code) continue;
       const d = this.docs.get(code); d.stage = "judging"; a.task = `「${d.name}」 발주량 판단`;
-      a.ops.push({ walk: WALK.door }, { pick: code, state: "reading" }, { walk: a.home },
+      if (dispatched) a.ops.push({ wait: 700 * dispatched });
+      dispatched++;
+      a.ops.push({ walk: SLOTS.door[r] }, { pick: code, state: "reading" }, { walk: a.home },
                  { say: `📦 ${d.name}\n${d.qty ?? "?"}개 · ${d.signal ?? "판단 실패"}\n${d.reason || ""}`, state: "done", ms: SAY_MS * 1.6 },
-                 { walk: WALK.inspHand },
+                 { walk: SLOTS.inspHand[r] },
                  { drop: () => { d.stage = "atInsp"; this.log(`${CAST[r].label}: 「${d.name}」 ${d.qty ?? "?"}개로 판단 → 검사관에게`); } },
                  { walk: a.home });
     }
@@ -162,6 +168,11 @@ export class Office {
   cancel(code) { this.fetchQ = this.fetchQ.filter(c => c !== code); this.putBackQ.push(code); }   // 결재 없이 닫았다
 
   // ── 한 걸음씩 진행 ───────────────────────────────────────────
+  headingTo(b, a) {              // b 가 a 쪽으로 걸어오는 중인가 (마주침)
+    const op = b.ops[0];
+    if (!op?.walk) return false;
+    return (a.pos.col - b.pos.col) * (op.walk.col - b.pos.col) + (a.pos.row - b.pos.row) * (op.walk.row - b.pos.row) > 0;
+  }
   step(a, dt) {
     let t = dt;
     while (t > 0 && a.ops.length) {
@@ -174,8 +185,35 @@ export class Office {
       if (op.walk) {
         const dx = op.walk.col - a.pos.col, dy = op.walk.row - a.pos.row, dist = Math.hypot(dx, dy);
         const can = (TILES_PER_S * t) / 1000;
+        // 양보: 움직이는 다른 캐릭터에게 다가가고 있고 그쪽이 우선이면 잠깐 선다
+        const nx = a.pos.col + (dx / dist) * Math.min(can, dist), ny = a.pos.row + (dy / dist) * Math.min(can, dist);
+        // 앞쪽(가는 방향)에 있는 캐릭터만 본다 — 줄지어 걸을 때는 뒷사람이, 마주칠 때는 순위가 낮은 쪽이 선다
+        const ahead = b => (b.pos.col - a.pos.col) * dx + (b.pos.row - a.pos.row) * dy > 0;
+        const mustWait = b => {
+          if (b === a || Math.hypot(b.pos.col - nx, b.pos.row - ny) >= PERSONAL) return false;
+          if (!ahead(b)) return false;
+          if (!b.busy()) return false;                          // 서 있는 사람은 기다려도 안 비킨다 — 지나간다
+          if (!this.headingTo(b, a)) return true;               // 같은 쪽으로 걸어간다 — 뒤따른다
+          return RANK[b.role] < RANK[a.role];                   // 마주친다 — 순위가 낮은 쪽이 선다
+        };
+        const blocker = Object.values(this.actors).find(mustWait);
+        // 마주 오는 캐릭터는 1.4칸 앞에서 미리 알아챈다 (가까워진 뒤엔 비킬 틈이 없다)
+        const oncoming = Object.values(this.actors).find(b => b !== a && b.busy() && ahead(b) && this.headingTo(b, a)
+          && RANK[b.role] < RANK[a.role] && Math.hypot(b.pos.col - a.pos.col, b.pos.row - a.pos.row) < 1.4);
+        if ((oncoming || (blocker && this.headingTo(blocker, a))) && !op.side) {
+          // 마주친다 — 가는 방향의 옆(왼쪽·오른쪽 중 가구 없는 쪽)으로 한 발 비켜선 뒤 다시 간다
+          const ux = dx / dist, uy = dy / dist;
+          const side = [[-uy, ux], [uy, -ux]].map(([sx, sy]) => ({ col: a.pos.col + sx * 0.6, row: a.pos.row + sy * 0.6 }))
+            .find(pt => !blockedAt(OBSTACLES, pt));
+          if (side) { op.side = true; a.ops.unshift({ walk: side, via: true, side: true }, { wait: 500 }); continue; }
+        }
+        if (blocker && (a.waited || 0) < YIELD_MAX_MS) { a.waited = (a.waited || 0) + t; t = 0; break; }
+        a.waited = 0;
         if (dist <= can) { a.pos = { ...op.walk }; t -= (dist / TILES_PER_S) * 1000; a.ops.shift(); }
         else { a.pos.col += (dx / dist) * can; a.pos.row += (dy / dist) * can; t = 0; }
+      } else if (op.wait !== undefined) {   // 비켜선 채 잠깐 기다린다
+        const use = Math.min(op.wait, t); op.wait -= use; t -= use;
+        if (op.wait <= 0) a.ops.shift();
       } else if (op.say !== undefined) {
         if (op.left === undefined) { op.left = op.ms || SAY_MS; a.say = op.say; if (op.state) a.state = op.state; }
         const use = Math.min(op.left, t); op.left -= use; t -= use;

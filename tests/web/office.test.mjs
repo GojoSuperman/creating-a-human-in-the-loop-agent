@@ -150,3 +150,19 @@ function run(n, stopEvery, human = []) {
   assert.ok(o.atFax("UNKNOWN"), "재연 기록이 없는 서류는 도착한 것으로 본다");
   console.log(`ok 10 — 팩스 도착 ${arrived}건`);
 }
+// 11) 캐릭터끼리 거의 겹치지 않는다, 그래도 흐름은 끝난다
+//     실측: 수정 전 4.4% → 수정 후 1.2% (다른 시나리오 30건도 4.4% → 1.2%). 처음 목표 1% 는 못 미쳤다 —
+//     남은 건 좁은 통로에서 마주쳐 비켜설 자리가 없는 경우. 여기서는 되돌아가지 않게 2% 를 선으로 둔다.
+{
+  const o = new Office();
+  for (let i = 0; i < 20; i++) { const c = "O" + i; o.push({ type: "judged", code: c, name: "x", qty: 1 }); o.push(i % 4 === 0 ? { type: "queued", code: c, flags: ["C2"], texts: ["t"] } : { type: "sent", code: c, by: "auto" }); }
+  let ticks = 0, close = 0, t = 0;
+  while (!o.flowDone() && t < 3_600_000) {
+    o.tick(50); t += 50; ticks++;
+    const A = Object.values(o.actors);
+    if (A.some((a, i) => A.slice(i + 1).some(b => Math.hypot(a.pos.col - b.pos.col, a.pos.row - b.pos.row) < 0.45))) close++;
+  }
+  assert.ok(o.flowDone(), "서로 양보하다 멈추지 않는다");
+  assert.ok(close / ticks < 0.02, `겹침 ${(100 * close / ticks).toFixed(1)}% — 2% 미만이어야 (수정 전 4.4%)`);
+  console.log(`ok 11 — 캐릭터 겹침 ${(100 * close / ticks).toFixed(2)}% (${Math.round(t / 1000)}초)`);
+}

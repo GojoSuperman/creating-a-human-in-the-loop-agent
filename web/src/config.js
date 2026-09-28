@@ -73,6 +73,12 @@ export const WALK = {
 };
 export const TEXT_SCALE = 1.4;          // 장면 글자 크기 배율
 export const ACTOR_TEXT_SCALE = 1.9;    // 캐릭터 이름표·말풍선 글자 배율
+// 분석가마다 따로 서는 자리 — 셋이 한 점에 몰려 겹치지 않게
+export const SLOTS = {
+  door:     { a0: { col: 0.6, row: 1.6 }, a1: { col: 0.95, row: 1.15 }, a2: { col: 1.25, row: 1.8 } },
+  // 검사관 책상 왼쪽 앞 — 검사관이 팩스·결재함으로 오가는 길(책상 오른쪽 아래)을 막지 않게
+  inspHand: { a0: { col: 6.95, row: 3.85 }, a1: { col: 7.35, row: 3.95 }, a2: { col: 7.75, row: 4.0 } },
+};
 export const WAVE = 5;                  // 한 번에 들어오는 서류 수
 export const REVIEW_AT = 5;             // 결재함에 이만큼 쌓이면 팀장이 보러 간다
 

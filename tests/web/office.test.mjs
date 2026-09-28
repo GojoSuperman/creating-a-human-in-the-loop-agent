@@ -54,8 +54,10 @@ function run(n, stopEvery, human = []) {
   let t = 0;
   while (!o.reviewing && t < 3_600_000) { o.tick(50); t += 50; }
   assert.equal(log[0], "open", "5건 쌓이면 연다");
-  assert.ok(Math.hypot(o.actors.boss.pos.col - 8.1, o.actors.boss.pos.row - 4.9) < 0.01, "팀장은 결재함 옆에 서 있다");
-  for (let i = 0; i < 10; i += 2) o.push({ type: "sent", code: "B" + i, by: "human", action: "approve" });
+  while (o.actors.boss.busy() && t < 3_600_000) { o.tick(50); t += 50; }
+  const home = p => Math.hypot(o.actors.boss.pos.col - 11.2, o.actors.boss.pos.row - 2.65) < 0.01;
+  assert.ok(home(), "패널을 연 뒤 팀장은 자리로 돌아간다");
+  for (let i = 0; i < 10; i += 2) { o.fetch("B" + i); o.push({ type: "sent", code: "B" + i, by: "human", action: "approve" }); }
   while (!o.idle() && t < 3_600_000) { o.tick(50); t += 50; }
   assert.deepEqual(log, ["open", "close"]); assert.equal(o.counts.pending, 0); assert.equal(o.counts.sent, 10);
   assert.ok(Math.hypot(o.actors.boss.pos.col - 11.2, o.actors.boss.pos.row - 2.65) < 0.01, "다 끝나면 자리로");
@@ -113,4 +115,26 @@ function run(n, stopEvery, human = []) {
   assert.ok(inTray.length < 10, `아직 다 도착하지 않았다 (${inTray.length})`);
   assert.ok(o.inTray("UNKNOWN"), "재연 기록이 없는 서류(새로고침)는 결재함에 있다고 본다");
   console.log(`ok 8 — 결재함 ${inTray.length}건 = 설명란`);
+}
+// 9) 서류를 누르면 팀장이 가서 집어 오고(자리로), 결재 없이 닫으면 도로 갖다 놓는다
+{
+  const o = new Office();
+  o.push({ type: "judged", code: "F0", name: "x", qty: 1 }); o.push({ type: "queued", code: "F0", flags: ["C2"], texts: ["t"] });
+  let t = 0;
+  while (!o.inTray("F0") && t < 600_000) { o.tick(50); t += 50; }
+  while (!o.reviewing && t < 600_000) { o.tick(50); t += 50; }
+  const boss = o.actors.boss, atHome = () => Math.hypot(boss.pos.col - 11.2, boss.pos.row - 2.65) < 0.01;
+  while (boss.busy()) o.tick(50);
+  o.fetch("F0"); o.tick(50);            // 요청은 다음 틱에 움직이기 시작한다
+  let visitedTray = false;
+  while (boss.busy()) { o.tick(50); if (Math.hypot(boss.pos.col - 8.1, boss.pos.row - 4.9) < 0.01) visitedTray = true; }
+  assert.ok(visitedTray && atHome() && boss.carry === "F0" && !o.inTray("F0"), "집어서 자리로 돌아와 들고 있다");
+  o.cancel("F0"); o.tick(50);
+  while (boss.busy()) o.tick(50);
+  assert.ok(o.inTray("F0") && boss.carry === null && atHome(), "도로 갖다 놓고 자리로");
+  o.fetch("F0"); o.tick(50); while (boss.busy()) o.tick(50);
+  o.push({ type: "rejected", code: "F0", reason: "재고 충분" });
+  for (let k = 0; k < 4000 && (boss.busy() || o.bossJobs.length); k++) o.tick(50);
+  assert.equal(o.counts.rejected, 1); assert.ok(atHome());
+  console.log("ok 9 — 누르면 집어 오고, 닫으면 도로 두고, 결재하면 나르고 자리로");
 }

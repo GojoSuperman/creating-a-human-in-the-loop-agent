@@ -42,13 +42,20 @@ function renderPanel() {
   $("#review-n").textContent = pendingItems.length;
   if (!open) return;
   if (!pendingItems.some(p => p.thread_id === selected)) selected = null;
-  renderInbox($("#inbox"), pendingItems, selected, tid => { selected = tid; renderPanel(); openDetail(tid); });
+  renderInbox($("#inbox"), pendingItems, selected, tid => {
+    selected = tid; const it = pendingItems.find(p => p.thread_id === tid);
+    renderPanel(); openDetail(tid, it?.code);
+  });
 }
 
 // 가운데 결재 창 — 다섯 칸 + 네 가지 응답. 결재하면 닫히고 팀장이 서류를 나른다.
-function openDetail(tid) {
+let openCode = null, decided = false;
+function openDetail(tid, code) {
   const dlg = $("#modal");
-  renderDetail($("#detail"), tid, () => { dlg.close(); refresh(); });
+  if (openCode && openCode !== code && !decided) office.cancel(openCode);   // 다른 서류로 바꿨다 → 앞 서류는 도로
+  openCode = code; decided = false;
+  if (code) office.fetch(code);                  // 팀장이 결재함에 가서 이 서류를 집어 자리로
+  renderDetail($("#detail"), tid, () => { decided = true; dlg.close(); refresh(); });
   if (!dlg.open) dlg.showModal();
 }
 
@@ -123,6 +130,10 @@ async function main() {
   setupCamera();
   office.onOpen = () => { selected = null; renderPanel(); };
   office.onClose = () => { if ($("#modal").open) $("#modal").close(); renderPanel(); };
+  $("#modal").addEventListener("close", () => {        // 결재 없이 닫았다 → 팀장이 서류를 도로 결재함에
+    if (openCode && !decided) office.cancel(openCode);
+    openCode = null;
+  });
   $("#go-review").onclick = () => office.openNow();
   addEventListener("keydown", e => { if ((e.key === "g" || e.key === "G") && e.target === document.body) grid = !grid; });
   evalDoc = await api("/api/eval").catch(() => null);
@@ -139,7 +150,7 @@ async function main() {
   await preload();
   await refresh();
   if (location.hash.includes("skip")) office.skip();
-  if (location.hash.includes("open") && pendingItems[0]) openDetail(pendingItems[0].thread_id);   // 캡처용
+  if (location.hash.includes("open") && pendingItems[0]) openDetail(pendingItems[0].thread_id, pendingItems[0].code);   // 캡처용
   if (location.hash.includes("eval")) tab("eval");
   if (location.hash.includes("fax")) tab("fax");
   renderStatus(); setInterval(renderStatus, 250);

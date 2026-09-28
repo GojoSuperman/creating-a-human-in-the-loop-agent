@@ -28,6 +28,7 @@ export class Office {
     this.reviewing = false;       // 팀장이 결재함 앞에서 결재 중 (오른쪽 패널이 열린 상태)
     this.wantOpen = false;        // '지금 보러 가기'
     this.onOpen = () => {}; this.onClose = () => {};
+    this.fetchQ = []; this.putBackQ = [];   // 패널에서 누른 서류 가져오기 · 도로 갖다 놓기
   }
   openNow() { this.wantOpen = true; }
   log(t) { this.last = t; }
@@ -116,32 +117,46 @@ export class Office {
     const boss = this.actors.boss;
     if (!boss.busy()) {
       const k = this.bossJobs.findIndex(j => this.docs.get(j.code)?.stage === "done");
-      if (k >= 0) {                  // 결재 하나를 몸으로 옮긴다 — 결재 중이면 결재함으로 돌아온다
+      if (k >= 0) {                  // 결재 하나를 몸으로 옮긴다
         const j = this.bossJobs.splice(k, 1)[0], d = this.docs.get(j.code);
         boss.task = `「${d.name}」 결재 처리`;
-        boss.ops.push({ walk: WALK.tray }, { pick: j.code, state: "reading", fn: () => { this.counts.pending = Math.max(0, this.counts.pending - 1); d.inTray = false; } },
-                      { say: j.say, state: j.to === "trash" ? "waiting" : "done" }, { walk: WALK[j.to] },
+        if (boss.carry !== j.code)   // 아직 집어 오지 않았으면 결재함에서 집는다
+          boss.ops.push({ walk: WALK.tray }, { pick: j.code, fn: () => this.take(d) });
+        boss.ops.push({ say: j.say, state: j.to === "trash" ? "waiting" : "done" }, { walk: WALK[j.to] },
                       { drop: () => {
                           this.log(`팀장(나): 「${d.name}」 ${j.say.split("\n")[0]}`);
                           if (j.to === "fax") this.counts.sent++;
                           else if (j.to === "trash") this.counts.rejected++;
                           else { d.stage = "atInsp"; d.branch = null; }     // 다시 판정 — 검사관이 새 결과로 다시 본다
                         } },
-                      { walk: this.reviewing ? WALK.tray : boss.home });
+                      { walk: boss.home });
+      } else if (this.fetchQ.length) {   // 서류를 눌렀다 → 결재함에 가서 집어 자리로
+        const code = this.fetchQ.shift(), d = this.docs.get(code);
+        if (d?.inTray && boss.carry !== code) {
+          boss.task = `「${d.name}」 가지러 결재함으로`;
+          boss.ops.push({ walk: WALK.tray }, { pick: code, state: "reading", fn: () => this.take(d) },
+                        { walk: boss.home }, { say: `「${d.name}」\n검토 중…`, state: "reading" });
+        }
+      } else if (this.putBackQ.length) { // 결재하지 않고 닫았다 → 도로 결재함에
+        const code = this.putBackQ.shift(), d = this.docs.get(code);
+        if (boss.carry === code) {
+          boss.ops.push({ walk: WALK.tray }, { drop: () => { d.inTray = true; this.counts.pending++; } }, { walk: boss.home });
+        }
       } else if (!this.reviewing && this.counts.pending > 0
                  && (this.counts.pending >= REVIEW_AT || this.wantOpen || this.flowDone())) {
-        this.wantOpen = false;       // 쌓였다 → 결재함으로 가서 연다
+        this.wantOpen = false;       // 쌓였다 → 결재함을 확인하고 자리로 돌아와 결재한다
         boss.ops.push({ walk: WALK.tray }, { say: `결재함 확인할게요\n대기 ${this.counts.pending}건`, state: "reading" },
-                      { fn: () => { this.reviewing = true; this.onOpen(); } });
-      } else if (this.reviewing && this.counts.pending === 0 && !this.bossJobs.length) {
-        this.autoSent = 0;            // 사람을 거치지 않고 나간 건
-    this.last = "";               // 방금 일어난 일 (설명란)
-    this.reviewing = false; this.onClose();      // 다 처리했다 → 자리로
-        boss.ops.push({ say: "결재 끝!", state: "done" }, { walk: boss.home });
+                      { fn: () => { this.reviewing = true; this.onOpen(); } }, { walk: boss.home });
+      } else if (this.reviewing && this.counts.pending === 0 && !this.bossJobs.length && !boss.carry) {
+        this.reviewing = false; this.onClose();      // 다 처리했다
+        boss.ops.push({ say: "결재 끝!", state: "done" });
       } else if (this.wantOpen && this.counts.pending === 0) this.wantOpen = false;
       if (this.reviewing && !boss.busy()) boss.state = "reading";
     }
   }
+  take(d) { this.counts.pending = Math.max(0, this.counts.pending - 1); d.inTray = false; }
+  fetch(code) { if (this.docs.has(code)) this.fetchQ.push(code); }        // 패널에서 서류를 눌렀다
+  cancel(code) { this.fetchQ = this.fetchQ.filter(c => c !== code); this.putBackQ.push(code); }   // 결재 없이 닫았다
 
   // ── 한 걸음씩 진행 ───────────────────────────────────────────
   step(a, dt) {
@@ -172,7 +187,8 @@ export class Office {
     for (const a of Object.values(this.actors)) this.step(a, scaled);
   }
 
-  settled() { return this.flowDone() && !this.bossJobs.length && Object.values(this.actors).every(a => !a.busy()); }
+  settled() { return this.flowDone() && !this.bossJobs.length && !this.fetchQ.length && !this.putBackQ.length
+                     && Object.values(this.actors).every(a => !a.busy()); }
   skip() {                          // 남은 재연을 한 번에 끝낸다 (결재함이 남았으면 팀장은 결재함 앞에서 멈춘다)
     for (let n = 0; n < 20000 && !(this.settled() && (this.reviewing || this.counts.pending === 0)); n++) {
       this.schedule(); for (const a of Object.values(this.actors)) this.step(a, 400);
